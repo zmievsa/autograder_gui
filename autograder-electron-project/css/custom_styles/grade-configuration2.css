@@ -95,7 +95,7 @@ label{
 
 .header{
     position: relative;
-    height:100px;
+    height:200px;
     width:100%;
     background-color: white;
 }
@@ -127,42 +127,54 @@ label{
     width:100%;
     background-color: white;
     justify-content: center;
-    align-items: center;
 
 }
 
 .homework-container{
     position: relative;
-    width:400px;
-    height:500px;
+    width:440px;
+    height:368px;
     border:3px solid dodgerblue;
     margin-bottom:100px;
     margin-right: 50px;
+    margin-top:75px;
 
 }
 
 .homework-container .scrollbar{
-    height:500px;
+    height:368px;
+}
+
+.homework-container .checkbox-containers{
+    z-index: 100;
+    position: relative;
+    margin-top: 10px;
+    overflow: auto;
+    height:300px;
 }
 
 .main-container{
     position: relative;
-    width:400px;
-    height:500px;
+    width:561px;
+    height:422px;
     border:3px solid dodgerblue;
     margin-bottom:100px;
 
 }
 
-.testcase-container{
-    position: relative;
-    width:600px;
-    border:3px solid dodgerblue;
-    margin-right:50px;
-    height:400px;
-    
-    
+.main-container .scrollbar{
+    height:422px;
 }
+
+.main-container .checkbox-containers{
+    z-index: 100;
+    position: relative;
+    margin-top: 10px;
+    overflow: auto;
+    height:355px;
+}
+
+
 
 .frame-container{
     width:100%;
@@ -212,9 +224,6 @@ label{
     height:400px;
 }
 
-.main-container .scrollbar{
-    height:500px;
-}
 
 #dropdown-container{
     display: flex;

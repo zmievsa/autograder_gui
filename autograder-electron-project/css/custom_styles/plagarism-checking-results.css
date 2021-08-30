@@ -5,11 +5,11 @@ table{
 }
 
 th{
-    padding-right: 50px;
-    padding-left: 5px;
     font-size: 25px;
     background-color: #009de0;
-    color:white;   
+    color:white;
+    text-align: center;
+    padding-right:25px;
 }
 
 td{
@@ -20,7 +20,7 @@ td{
 }
 
 
-/* Plagarism Button */
+/* Grading Configuration Button */
 
 .header{
     position: relative;
@@ -29,13 +29,13 @@ td{
     background-color: white;
 }
 
-.plagarism-button-container{
+.grading-configuration-container{
     position: absolute;
     left:5px;
     top:5px;
 }
 
-.plagarism-button-text {
+.grading-configuration-text {
     color:white;
     font-family: 'humanist';
     font-size: 33px;
@@ -46,14 +46,15 @@ td{
     padding-right:70px;
 }
 
-/* Plagarism Table */
+
+/* Table */
+
 .container{
     display: flex;
     margin-top:50px;
     width:100%;
     background-color: white;
     justify-content: center;
-    
 }
 
 .main-container{
@@ -63,4 +64,8 @@ td{
     border:3px solid dodgerblue;
 }
 
-
+.table-scroll{
+    height:300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
