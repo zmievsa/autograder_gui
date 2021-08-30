@@ -1,0 +1,71 @@
+table{
+    border-collapse: collapse;
+    border:1px solid #009de0;
+    width:100%;
+}
+
+th{
+    font-size: 25px;
+    background-color: #009de0;
+    color:white;
+    text-align: center;
+    padding-right:25px;
+}
+
+td{
+    text-align: center;
+    border:2px solid #009de0;
+    padding:5px 0px;
+    font-size: 18px;
+}
+
+
+/* Grading Configuration Button */
+
+.header{
+    position: relative;
+    height:100px;
+    width:100%;
+    background-color: white;
+}
+
+.grading-configuration-container{
+    position: absolute;
+    left:5px;
+    top:5px;
+}
+
+.grading-configuration-text {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-right:70px;
+}
+
+
+/* Table */
+
+.container{
+    display: flex;
+    margin-top:50px;
+    width:100%;
+    background-color: white;
+    justify-content: center;
+}
+
+.main-container{
+    position: relative;
+    width:800px;
+    margin-top: 20px;
+    border:3px solid dodgerblue;
+}
+
+.table-scroll{
+    height:300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
