@@ -31,79 +31,46 @@
             </thead>
         </table>
         <div class="table-scroll">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>testcase.01</td>
-                        <td>97%</td>
-                    </tr>
-                    <tr>
-                        <td>testcase.02</td>
-                        <td>3%</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                    <tr>
-                        <td>Filler</td>
-                        <td>Filler</td>
-                    </tr>
-                </tbody>
-    
+            <table class="table-content">
+
             </table>
         </div>
     </div>
 </div>
 
+<script>
+    var array = [
+        {testcases:"testcase.01", grade:97},
+        {testcases:"testcase.02", grade:3},
+        {testcases:"testcase.03", grade:20},
+        {testcases:"testcase.04", grade:25},
+        {testcases:"testcase.05", grade:30},
+        {testcases:"testcase.06", grade:40},
+        {testcases:"testcase.07", grade:45},
+        {testcases:"testcase.08", grade:50},
+        {testcases:"testcase.08", grade:50},
+        {testcases:"testcase.08", grade:50},
+        {testcases:"testcase.08", grade:50},
+        {testcases:"testcase.08", grade:50},
+        {testcases:"testcase.08", grade:50},
+
+    ];
+    
+    let table = document.querySelector(".table-content");
+    let tableData = "";
+    
+    array.forEach((data) => {
+        tableData += `<tr>
+                        <td>${data.testcases} </td>
+                        <td>${data.grade}% </td>
+                    </tr>
+                    `
+    })
+    
+    table.innerHTML= tableData;
+    
+    
+    </script>
 
 </body>
 

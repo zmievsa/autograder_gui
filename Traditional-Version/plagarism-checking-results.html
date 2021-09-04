@@ -30,73 +30,49 @@
             </tr>
         </table>
         <div class="table-scroll">
-            <table>
-                <tr>
-                    <td>Stas</td>
-                    <td>Richard</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>Faizer</td>
-                    <td>Daniel</td>
-                    <td>50%</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-                <tr>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                    <td>Filler</td>
-                </tr>
-    
+            <table class="table-content">
+
             </table>
 
         </div>
     </div>
 </div>
+
+
+<script>
+var array = [
+    {name1:"Richard",name2:"Stas", score:100},
+    {name1:"Faizer",name2:"Daniel",score:50},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+    {name1:"Filler",name2:"Filler",score:70},
+];
+
+let table = document.querySelector(".table-content");
+let tableData = "";
+
+array.forEach((data) => {
+    tableData += `<tr>
+                    <td>${data.name1} </td>
+                    <td>${data.name2} </td>
+                    <td>${data.score}%</td>
+                </tr>
+                `
+})
+
+table.innerHTML= tableData;
+
+
+</script>
 
 
 </body>
