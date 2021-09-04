@@ -21,10 +21,11 @@
 
     <!-- Assignment Button -->
     
-        <a class="assignment-container" href="assignment-configuration.html">
+        <div class="assignment-container">
             <img src="images/Assignment_background_small.png" />
             <p>Assignment</p>
-        </a>
+            <input class="drop-zone-input" type="file" />
+        </div>
    
    
     <!-- Create Assignment Button -->
@@ -36,5 +37,39 @@
     </div>
 
 </body>
+
+<script>
+    const dropZoneElement = document.querySelector(".assignment-container");
+    const inputElement = document.querySelector(".drop-zone-input");
+
+    dropZoneElement.addEventListener("click", e => {
+        inputElement.click();
+    });
+
+    inputElement.addEventListener("change", e =>{
+        if(inputElement.files.length){
+            location.href="assignment-configuration.html";
+        }
+    });
+
+    dropZoneElement.addEventListener("dragover", e => {
+        e.preventDefault();
+        dropZoneElement.classList.add("drop-zone--over");
+    });
+
+    ["dragleave","dragend"].forEach((type) =>{
+        dropZoneElement.addEventListener(type,(e) =>{
+            dropZoneElement.classList.remove("drop-zone--over");
+        })
+    })
+
+    dropZoneElement.addEventListener("drop", e =>{
+        e.preventDefault();
+        console.log(e.dataTransfer.files);
+        location.href="assignment-configuration.html";
+    })
+
+
+</script>
 
 </html>
