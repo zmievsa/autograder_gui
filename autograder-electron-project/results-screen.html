@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/general_styles.css" />
+    <link rel="stylesheet" href="css/custom_styles/results-screen-styles.css" />
+    <title>Document</title>
+</head>
+
+<div class="header">
+    <a class="grading-configuration-container" href="#">
+        <img src="images/header-bg-long.png" />
+        <div class="grading-configuration-text">
+            <p>Grading</p>
+            <p>Configuration</p>
+        </div>
+    </a>
+</div>
+
+<div class="container">
+    <div class="main-container">
+        <table class="table-content">
+
+        </table>
+    </div>
+</div>
+
+<script>
+    var array = [
+        {testcases:"testcase.01", grade:97},
+        {testcases:"testcase.02", grade:3},
+        {testcases:"testcase.99", grade:20},
+        {testcases:"testcase.99", grade:25},
+        {testcases:"testcase.99", grade:30},
+        {testcases:"testcase.99", grade:40},
+        {testcases:"testcase.99", grade:45},
+        {testcases:"testcase.99", grade:50},
+
+    ];
+    
+    let table = document.querySelector(".table-content");
+    let tableData = "";
+    
+    array.forEach((data) => {
+        tableData += `<tr>
+                        <td>${data.testcases} </td>
+                        <td>${data.grade} </td>
+                    </tr>
+                    `
+    })
+    
+    table.innerHTML= tableData;
+    
+    
+    </script>
+
+
+</body>
+
+</html>

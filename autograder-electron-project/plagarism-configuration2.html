@@ -22,6 +22,9 @@
                 <p>Homeworks</p>
             </div>
         </a>
+        <div class="file-container">
+            <p id="homework-text">File: test.zip</p>
+        </div>
     </div>
 
     <!-- Homeworks and Grading Configuration Windows -->
@@ -37,81 +40,12 @@
                     </div>
                     <img class="custom-border" src="images/border_small.png" />
                     <div class="content-container">
-                        <div class="checkbox-containers">
+                        <div class="homework-checkbox-containers checkbox-containers">
                             <div class="checkbox-container">
                                 <input type="checkbox" class="check_box" id="checkbox1" />
                                 <label for="checkbox1"></label>
                                 <p class="checkbox_label">Field 1</p>
-                            </div>
-    
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox2" />
-                                <label for="checkbox2"></label>
-                                <p class="checkbox_label">Field 2</p>
-                            </div>
-    
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox3" />
-                                <label for="checkbox3"></label>
-                                <p class="checkbox_label">Field 3</p>
-                            </div>
-    
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox4" />
-                                <label for="checkbox4"></label>
-                                <p class="checkbox_label">Field 4</p>
-                            </div>
-    
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox5" />
-                                <label for="checkbox5"></label>
-                                <p class="checkbox_label">Field 5</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox6" />
-                                <label for="checkbox6"></label>
-                                <p class="checkbox_label">Field 6</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox7" />
-                                <label for="checkbox7"></label>
-                                <p class="checkbox_label">Field 7</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox8" />
-                                <label for="checkbox8"></label>
-                                <p class="checkbox_label">Field 8</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox9" />
-                                <label for="checkbox9"></label>
-                                <p class="checkbox_label">Field 9</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox10" />
-                                <label for="checkbox10"></label>
-                                <p class="checkbox_label">Field 10</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox11" />
-                                <label for="checkbox11"></label>
-                                <p class="checkbox_label">Field 11</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox12" />
-                                <label for="checkbox12"></label>
-                                <p class="checkbox_label">Field 12</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox13" />
-                                <label for="checkbox13"></label>
-                                <p class="checkbox_label">Field 13</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox14" />
-                                <label for="checkbox14"></label>
-                                <p class="checkbox_label">Field 14</p>
-                            </div>                    
+                            </div>                 
                         </div>
                     </div>
                 </div>
@@ -219,6 +153,29 @@
         </a>
     </div>
 
+<script>
+    const {ipcRenderer} = require('electron');
+    document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
+
+    let filesArray = [];
+    let fileZipPath = sessionStorage.getItem("homework-directory");
+    ipcRenderer.send('file-dropDown', fileZipPath);
+
+    ipcRenderer.on('file-dropDown-response', (e,args) =>{
+        let output = "";
+        filesArray = args;
+        filesArray.forEach((file,index) => {
+            output += `<div class="checkbox-container">
+        <input type="checkbox" class="check_box" id="checkbox${index}" />
+        <label for="checkbox${index}"></label>
+        <p class="checkbox_label">${file.name}</p>
+    </div>`;
+        });
+
+        document.querySelector(".homework-checkbox-containers").innerHTML = output;
+    });
+
+</script>
 
 </body>
 

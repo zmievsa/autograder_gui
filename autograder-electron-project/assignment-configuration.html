@@ -16,6 +16,9 @@
         <img src="images/header-bg-short-arrow.png" />
             <p>Index</p>
     </a>
+    <div class="file-container">
+        <p id="assignment-text">Assignment File:test.zip</p>
+    </div>
 </div>
 
 <!-- Windows -->
@@ -24,11 +27,8 @@
     <div class="testcase-container">
 
         <div id="dropdown-container">
-            <select name="cars" id="cars">
-                <option value="testcase1">testcase1.c</option>
-                <option value="testcase2">testcase2.c</option>
-                <option value="testcase3">testcase3.c</option>
-                <option value="testcase4">testcase4.c</option>
+            <select name="testcase-files" id="files">
+                <option value="testcase01.c">testcase01.c</option>
             </select>
         </div>
 
@@ -41,7 +41,7 @@
                 </div>
                 <img class="custom-border" src="images/border_small.png" />
                 <div class="content-container">
-                    <textarea cols="40" rows="20" placeholder="test code here."></textarea>
+                    <textarea id="code-text-field" cols="40" rows="20" placeholder="test code here."></textarea>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@
 
 <!--Footer -->
 <div class="footer">
-        <a class="export-container">
+        <a id="export-container" class="export-container">
             <img src="images/export_bg.png" />
             <p>Export</p>
         </a>
@@ -155,6 +155,52 @@
         <p>Grading</p>
         </a>
 </div>
+
+
+<script>
+    const {ipcRenderer} = require('electron');
+    console.log(sessionStorage.getItem("index-directory"));
+    document.querySelector(".file-container").style = "display:none;";
+
+    if(sessionStorage.getItem("index-directory") != null)
+    {
+        document.querySelector(".file-container").style = "display:block;";
+        document.querySelector("#assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
+    let fileDropDown = document.getElementById("files");
+    let fileZipPath = sessionStorage.getItem("index-directory");
+    let textField = document.getElementById("code-text-field");
+    let exportButton = document.getElementById("export-container");
+    ipcRenderer.send('file-dropDown', fileZipPath);
+
+    let filesArray = [];
+
+    ipcRenderer.on('file-dropDown-response', (e,args) =>{
+        filesArray = args;
+        let output = "";
+        filesArray.forEach(file => {
+            output+= `<option value=${file.name}>${file.name}</option>`;
+        })
+        fileDropDown.innerHTML = output;
+        textField.value = filesArray[0].body;
+    });
+
+    fileDropDown.addEventListener("change", (e) =>{
+        textField.value = filesArray[fileDropDown.selectedIndex].body;
+    });
+
+    exportButton.addEventListener("click",(e)=>{
+        ipcRenderer.send('export-file',filesArray,sessionStorage.getItem("index"));
+    });
+
+    textField.addEventListener("change", (e)=>{
+        filesArray[fileDropDown.selectedIndex].body = textField.value;
+    })
+
+    }
+   
+
+    
+</script>
 
 
 </body>

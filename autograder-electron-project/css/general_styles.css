@@ -3,6 +3,7 @@
 *{
     margin:0;
     padding:0;
+    line-height: 1.0;
 }
 
 html,body{
@@ -62,3 +63,20 @@ label{
     display:inline;
 }
 
+.drop-zone-input{
+    display: none;
+}
+
+.drop-zone--over{
+    border-style: dotted;
+}
+
+.file-container{
+    position:absolute;
+    right:0;
+    padding-right: 10px;
+}
+
+p{
+    margin-bottom: 0;
+}

@@ -20,6 +20,7 @@
     "nodemon": "^2.0.0"
   },
   "dependencies": {
+    "adm-zip": "^0.5.5",
     "electron-window-state": "^5.0.3"
   }
 }

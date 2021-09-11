@@ -174,8 +174,10 @@ label{
     position: relative;
     width:300px;
     height:305px;
-    margin-right: 150px;
+    margin-right: 100px;
     z-index: 100;
+    padding:5px;
+    cursor:pointer;
 }
 
 .homework-container{

@@ -190,6 +190,8 @@ label{
     width:300px;
     height:305px;
     z-index: 100;
+    cursor: pointer;
+    padding:5px;
 }
 
 

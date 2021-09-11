@@ -1,0 +1,111 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+html{
+
+}
+
+body{
+
+}
+
+@font-face {
+    font-family: 'humanist';
+    src: url('../fonts/humanist.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Plagarism Button */
+
+#plagarism-container
+{
+    position: relative;
+    text-align: center;
+    display: inline-flex;
+    background-color: #fff;
+    width:100%;
+    z-index: 5;
+}
+
+#plagarism-secondary-container{
+  
+    position: relative;
+    text-align: center;
+    display: inline-flex;
+}
+
+#plagarism-container img
+{
+    vertical-align: middle;
+}
+
+#plagarism-button-text
+{
+    position: absolute;
+    font-family: 'humanist';
+    font-size: 33px;
+    align-self: center;
+    width:100%;
+    color:white;
+}
+
+/* Assignment Button */
+
+#assignment-container{
+    text-align: center;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top: -150px;
+    margin-left:-152.5px;
+    background-color: #fff;
+}
+
+#assignment-secondaryContainer
+{
+    position: relative;
+    text-align: center;
+    display: inline-flex;
+}
+
+#assignment-button-text{
+
+    position: absolute;
+    font-family: 'humanist';
+    font-size: 33px;
+    align-self: center;
+    width:100%;
+    color:white;
+    margin-bottom: 40px;
+}
+
+
+/* Create Assignement Button */
+
+#createAssignment-container{
+    position:absolute;
+    right:0;
+    bottom:0;
+}
+
+#createAssignment-secondaryContainer{
+    position: relative;
+    text-align: center;
+    display: inline-flex;
+    
+}
+
+#createAssignment-button-text{
+    position: absolute;
+    font-family: 'humanist';
+    font-size: 33px;
+    align-self: center;
+    width:100%;
+    color:white;
+    margin-left: 12px;
+}
+
+

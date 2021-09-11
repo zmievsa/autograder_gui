@@ -26,10 +26,11 @@
     <div class="container">
         
         <div class="uploadButton-container">
-            <a class = "homework-container"href="plagarism-configuration2.html">
+            <div class = "homework-container">
                 <img src="images/Assignment_background_small.png" />
                 <p>Homeworks</p>
-            </a>
+                <input type="file" class="drop-zone-input" />
+            </div>
         </div>
 
         <div class="main-container">
@@ -126,6 +127,48 @@
         </div>
 
     </div>
+
+    <script>
+        sessionStorage.removeItem("homework-directory");
+        sessionStorage.removeItem("homework-baseFile");
+        const dropZoneElement = document.querySelector(".uploadButton-container");
+        const inputElement = document.querySelector(".drop-zone-input");
+    
+        dropZoneElement.addEventListener("click", e => {
+            inputElement.click();
+        });
+    
+        inputElement.addEventListener("change", e =>{
+            if(inputElement.files.length){
+                sessionStorage.setItem('homework-directory',inputElement.files[0].path);
+                sessionStorage.setItem('homework-baseFile',inputElement.files[0].name);
+                location.href="plagarism-configuration2.html";
+
+            }
+        });
+    
+        dropZoneElement.addEventListener("dragover", e => {
+            e.preventDefault();
+            dropZoneElement.classList.add("drop-zone--over");
+        });
+    
+        ["dragleave","dragend"].forEach((type) =>{
+            dropZoneElement.addEventListener(type,(e) =>{
+                dropZoneElement.classList.remove("drop-zone--over");
+            })
+        })
+    
+        dropZoneElement.addEventListener("drop", e =>{
+            e.preventDefault();
+            console.log(e.dataTransfer.files);
+
+            sessionStorage.setItem('homework-directory', e.dataTransfer.files[0].path);
+            sessionStorage.setItem('homework-baseFile',e.dataTransfer.files[0].name);
+            location.href="plagarism-configuration2.html";
+        })
+    
+    
+    </script>
 
 </body>
 

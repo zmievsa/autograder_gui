@@ -92,6 +92,12 @@ label{
     padding-right: 30px;
 }
 
+.file-container{
+    position: absolute;
+    right:0px;
+    padding-right:10px;
+}
+
 /* General Window Section */
 
 .container{
