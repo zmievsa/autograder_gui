@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/general_styles.css"/>
     <link rel="stylesheet" href="css/custom_styles/assignment-configuration.css" />
     <title>Document</title>
@@ -25,7 +27,12 @@
 <div class="container">
 
     <div class="testcase-container">
+        <div class="plusIcon-container">
+            <i class="fas fa-plus-square text-primary fa-lg"></i>
+            <i class="fas fa-minus-square text-danger fa-lg"></i>
+        </div>
 
+        
         <div id="dropdown-container">
             <select name="testcase-files" id="files">
                 <option value="testcase01.c">testcase01.c</option>
@@ -156,6 +163,10 @@
         </a>
 </div>
 
+<script>
+    window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
+</script>
+<script src="js/bootstrap.min.js" ></script>
 
 <script>
     const {ipcRenderer} = require('electron');

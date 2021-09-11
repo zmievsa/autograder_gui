@@ -111,8 +111,8 @@ label{
 
 .main-container{
     position: relative;
-    width:400px;
-    height:500px;
+    width:500px;
+    height:520px;
     border:3px solid dodgerblue;
     margin-bottom:100px;
 
@@ -123,7 +123,7 @@ label{
     width:600px;
     border:3px solid dodgerblue;
     margin-right:50px;
-    height:400px;
+    height:430px;
 }
 
 .frame-container{
@@ -152,6 +152,7 @@ label{
 
 .content-container textarea{
     padding-left: 5px;
+    margin-top:10px;
     width:90%;
     resize: none;
 }
@@ -181,13 +182,19 @@ label{
     display: flex;
     position: absolute;
     right:50px;
-    top:35px;
+    top:40px;
     z-index: 5;
 }
 
 #dropdown-container select{
     border:2px solid dodgerblue;
     border-radius: 3px;
+}
+
+.plusIcon-container{
+    position:absolute;
+    right:165px;
+    top:45px;
 }
 
 /* Footer Button Section */
