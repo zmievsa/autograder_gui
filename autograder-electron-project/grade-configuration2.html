@@ -154,14 +154,18 @@
 
 <script>
     const {ipcRenderer} = require('electron');
-    document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
-    document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
+
+    if(sessionStorage.getItem("assignment-baseFile") != null)
+        document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
+
+    if(sessionStorage.getItem("homework-baseFile"))
+        document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
 
     let filesArray = [];
     let fileZipPath = sessionStorage.getItem("homework-directory");
-    ipcRenderer.send('file-dropDown', fileZipPath);
+    ipcRenderer.send('populate-homework-array', fileZipPath);
 
-    ipcRenderer.on('file-dropDown-response', (e,args) =>{
+    ipcRenderer.on('populate-homework-array-response', (e,args) =>{
         let output = "";
         filesArray = args;
         filesArray.forEach((file,index) => {
@@ -174,6 +178,9 @@
 
         document.querySelector(".homework-checkbox-containers").innerHTML = output;
     });
+
+
+
 
 </script>
 

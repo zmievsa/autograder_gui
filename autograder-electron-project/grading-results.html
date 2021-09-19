@@ -68,10 +68,10 @@
     document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
 
     let filesArray = [];
-    let fileZipPath = sessionStorage.getItem("index-directory");
-    ipcRenderer.send('file-dropDown', fileZipPath);
+    let fileZipPath = sessionStorage.getItem("homework-directory");
+    ipcRenderer.send('populate-homework-array', fileZipPath);
 
-    ipcRenderer.on('file-dropDown-response', (e,args) =>{
+    ipcRenderer.on('populate-homework-array-response', (e,args) =>{
         console.log(args);
         let output = "";
         let filesArray = args;

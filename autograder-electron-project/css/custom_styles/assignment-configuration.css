@@ -1,24 +1,4 @@
 
-table{
-    border-collapse: collapse;
-    border:1px solid #009de0;
-    width:100%;
-}
-
-th{
-    padding-right: 50px;
-    padding-left: 5px;
-    font-size: 25px;
-    background-color: #009de0;
-    color:white;   
-}
-
-td{
-    text-align: center;
-    border:2px solid #009de0;
-    padding:5px 0px;
-    font-size: 18px;
-}
 
 /* Checkbox  Section */ 
 
@@ -100,101 +80,240 @@ label{
 
 /* General Window Section */
 
-.container{
-    display: flex;
-    margin-top:50px;
-    width:100%;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e5f4fa;
+    
 }
 
 .main-container{
-    position: relative;
-    width:500px;
-    height:520px;
-    border:3px solid dodgerblue;
-    margin-bottom:100px;
-
-}
-
-.testcase-container{
-    position: relative;
-    width:600px;
-    border:3px solid dodgerblue;
-    margin-right:50px;
-    height:430px;
-}
-
-.frame-container{
-    width:100%;
-}
-
-.header-container{
-    position: relative;
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
-.header-container p{
-    position: absolute;
-    font-family: 'humanist';
-    font-size: 18px;
-    width:100%;
-    color:white;
-    padding-left: 10px;
-}
+/* Testcase Screen */
 
-.content-container{
-    margin-left: 20px;
-    margin-top: 20px;
-}
-
-.content-container textarea{
-    padding-left: 5px;
-    margin-top:10px;
-    width:90%;
-    resize: none;
-}
-
-.custom-border{
-    position: absolute;
-    top:40px;
-    left:20px;
-    z-index: 0;
-}
-
-.scroll-container{
-    display: flex;
+#testcase-container{
     position: relative;
-
+    width:368px;
+    height:550px;
+    border:1px solid black;
+    margin-right: 50px;
+    padding-right: 5px;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
 }
 
-.scrollbar{
-    height:400px;
+#testcase-container p{
+    text-align: center;
+    font-weight: bold;
 }
 
-.main-container .scrollbar{
-    height:500px;
+#testcase-container img{
+    width:350px;
+    height:46.9px;
 }
 
-#dropdown-container{
-    display: flex;
+.testcase-title{
     position: absolute;
-    right:50px;
-    top:40px;
-    z-index: 5;
+    color:white;
+    left:50%;
+    transform: translateX(-50%);
+    font-size: 30px;
 }
 
-#dropdown-container select{
-    border:2px solid dodgerblue;
-    border-radius: 3px;
+#testcase-container .add-item{
+    position: absolute;
+    bottom:5px;
+    right:7px;
+    color: #00A9E9;
+
 }
 
-.plusIcon-container{
-    position:absolute;
-    right:165px;
-    top:45px;
+#no-items-container{
+    display: none;
+}
+
+.add-item{
+    color:#00A9E9;
+}
+
+#testcase-container .buttons{
+    text-align: right;
+}
+
+
+/* Instructions Screen */
+
+#instructions-container{
+    position: relative;
+    min-width:400px;
+    height:550px;
+    border:1px solid black;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+}
+
+#instructions-secondary-container{
+    display: flex;
+    flex-direction: column;
+}
+
+#instructions-container img{
+    width: 390px;
+}
+
+.instructions-info-container{
+    margin-top: 30px;
+}
+
+#instructions-secondary-container table{
+    width:auto;
+    margin:0 auto;
+}
+
+.instructions-text{
+    margin:0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#instructions-container td{
+    border-top:none;
+    padding-right:10px;
+    padding-left: 0;
+}
+
+#instructions-container p{
+    text-align: center;
+}
+
+.instructions-title{
+    position: absolute;
+    color:white;
+    left:50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+/* Edit Screen */
+
+#edit-container{
+    min-width:400px;
+    height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+
+}
+
+#edit-container img{
+    width:390px;
+}
+
+.edit-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
+    margin-left: 30px;
+}
+
+.form-container{
+    margin-top: 10px;
+    padding:0px 15px;
+}
+
+
+/* Add Screen */
+
+/* Edit Screen */
+
+#add-container{
+    min-width:400px;
+    height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+
+}
+
+#add-container img{
+    width:390px;
+}
+
+.add-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
+    margin-left: 30px;
+}
+
+
+.button-container{
+    padding-top: 5px;
+    padding-right: 5px;
+    display: flex; 
+    justify-content: flex-end;
+}
+
+
+/* Config Screen */
+
+#config-container{
+    min-width:400px;
+    height:550px;
+    max-height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+
+}
+
+#config-container img{
+    width:390px;
+}
+
+.config-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
+    text-align: center;
+    padding-right: 20px;
+}
+
+#config-button{
+}
+
+.show-window{
+    display: block !important;
+}
+
+.table-scroll{
+    height:410px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.table-scroll::-webkit-scrollbar{
+    display: none;
 }
 
 /* Footer Button Section */
@@ -245,6 +364,32 @@ label{
     padding-left:30px;
     
 }
+
+.fa-edit{
+    cursor: pointer;
+}
+
+.fa-cog{
+    cursor: pointer;
+}
+
+.fa-trash{
+    cursor: pointer;
+}
+
+#config-button{
+    cursor:pointer;
+}
+
+#input-button{
+    cursor: pointer;
+}
+
+#output-button{
+    cursor: pointer;
+}
+
+
 
 
 /* Testcase section */

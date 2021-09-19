@@ -159,9 +159,9 @@
 
     let filesArray = [];
     let fileZipPath = sessionStorage.getItem("homework-directory");
-    ipcRenderer.send('file-dropDown', fileZipPath);
+    ipcRenderer.send('populate-homework-array', fileZipPath);
 
-    ipcRenderer.on('file-dropDown-response', (e,args) =>{
+    ipcRenderer.on('populate-homework-array-response', (e,args) =>{
         let output = "";
         filesArray = args;
         filesArray.forEach((file,index) => {

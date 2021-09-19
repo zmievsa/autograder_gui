@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="css/general_styles.css"/>
+    <link rel="stylesheet" href="css/general_styles.css" />
     <link rel="stylesheet" href="css/custom_styles/assignment-configuration.css" />
     <title>Document</title>
 </head>
@@ -16,199 +16,208 @@
 <div class="header">
     <a class="index-container" href="index.html">
         <img src="images/header-bg-short-arrow.png" />
-            <p>Index</p>
+        <p>Index</p>
     </a>
     <div class="file-container">
-        <p id="assignment-text">Assignment File:test.zip</p>
+        <p id="assignment-text"></p>
     </div>
 </div>
 
-<!-- Windows -->
-<div class="container">
-
-    <div class="testcase-container">
-        <div class="plusIcon-container">
-            <i class="fas fa-plus-square text-primary fa-lg"></i>
-            <i class="fas fa-minus-square text-danger fa-lg"></i>
-        </div>
-
-        
-        <div id="dropdown-container">
-            <select name="testcase-files" id="files">
-                <option value="testcase01.c">testcase01.c</option>
-            </select>
-        </div>
-
-        <div class="scroll-container">
-            <img class="scrollbar" src="images/scrollbar.png" />
-            <div class="frame-container">
-                <div class="header-container">
-                    <img src="images/testcase configuration.png" />
-                    <p>Testcase Code</p>
-                </div>
-                <img class="custom-border" src="images/border_small.png" />
-                <div class="content-container">
-                    <textarea id="code-text-field" cols="40" rows="20" placeholder="test code here."></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--Main Container -->
+<div style="display: flex; align-items: center; justify-content: center;">
 
     <div class="main-container">
-        <div class="scroll-container">
-            <img class="scrollbar" src="images/scrollbar.png" />
-            <div class="frame-container">
-                <div class="header-container">
-                    <img src="images/testcase configuration.png" />
-                    <p>Testcase Configuration</p>
-                </div>
-                <img class="custom-border" src="images/border_small.png" />
-                <div class="content-container">
-                    <div>Max runtime: <input type="text" /> seconds</div>
 
-                    <div class="checkbox-containers">
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox1" />
-                            <label for="checkbox1"></label>
-                            <p class="checkbox_label">Field 1</p>
+        <div id="testcase-container">
+            <i class="fas fa-plus-circle add-item fa-4x" data-action="add"></i>
+            <p class="testcase-title">Testcases</p>
+            <img src="images/testcase configuration.png" />
+            <div class="table-scroll">
+                <table id="main-table" class="table table-hover">
+                    <tbody id="testcase-table">
+ 
+                    </tbody>  
+                </table>
+                <div id="no-items-container">
+                    <div style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <img src="images/empty-folder-blue.svg" />
+                        <div style="width:250px; margin-top: 10px;">
+                            <p style="text-align: center; margin-bottom: 5px;">You currently have no testcases. </p>
+                            <p style="text-align: center;">Click the <i style="color:#00A9E9;" class="fas fa-plus-circle"></i> button to create one.</p>
                         </div>
-
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox2" />
-                            <label for="checkbox2"></label>
-                            <p class="checkbox_label">Field 2</p>
-                        </div>
-
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox3" />
-                            <label for="checkbox3"></label>
-                            <p class="checkbox_label">Field 3</p>
-                        </div>
-
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox4" />
-                            <label for="checkbox4"></label>
-                            <p class="checkbox_label">Field 4</p>
-                        </div>
-
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox5" />
-                            <label for="checkbox5"></label>
-                            <p class="checkbox_label">Field 5</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox6" />
-                            <label for="checkbox6"></label>
-                            <p class="checkbox_label">Field 6</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox7" />
-                            <label for="checkbox7"></label>
-                            <p class="checkbox_label">Field 7</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox8" />
-                            <label for="checkbox8"></label>
-                            <p class="checkbox_label">Field 8</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox9" />
-                            <label for="checkbox9"></label>
-                            <p class="checkbox_label">Field 9</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox10" />
-                            <label for="checkbox10"></label>
-                            <p class="checkbox_label">Field 10</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox11" />
-                            <label for="checkbox11"></label>
-                            <p class="checkbox_label">Field 11</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox12" />
-                            <label for="checkbox12"></label>
-                            <p class="checkbox_label">Field 12</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox13" />
-                            <label for="checkbox13"></label>
-                            <p class="checkbox_label">Field 13</p>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" class="check_box" id="checkbox13" />
-                            <label for="checkbox13"></label>
-                            <p class="checkbox_label">Field 13</p>
-                        </div>                    
+    
                     </div>
+
                 </div>
+
+    
+    
+            </div>
+           
+        </div>
+    
+        <div id="instructions-container">
+            <div id="instructions-secondary-container">
+                <p class="instructions-title">Instructions</p>
+                <img src="images/testcase configuration.png" />
+                <div class="instructions-info-container">
+                    <p class="instructions-text">Select Option From Testcases</p>
+                    
+                    <table class="table">
+                        <tr>
+                            <td><i class="fas fa-edit buttons fa-lg text-primary"></i></td>
+                            <td>Edit and View code</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-cog buttons fa-lg text-primary"></i></td>
+                            <td>Edit Config File</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-trash buttons fa-lg text-primary"></i></td>
+                            <td>Delete Testcase </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-plus-circle add-item fa-lg text-primary"></i></td>
+                            <td>Add Testcase </td>
+                        </tr>
+                    </table>
+    
+                </div>
+                
             </div>
         </div>
+    
+        <div id="edit-container">
+            
+            <p class="edit-title">Edit and View Code </p>
+            <img src="images/testcase configuration.png" />
+            <div class="form-container">
+                <form>
+                    <div class="form-group">
+                        <label for="file-name">File Name: </label>
+                        <input id="file-name" type="text" spellcheck="false" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="language-select">Programming Language: </label>
+                        <select id="language-select" class="form-control">
+                            <option>C</option>
+                            <option>C++</option>
+                            <option>Java</option>
+                            <option>Python</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">Code: </label>
+                        <textarea id="edit-code" rows="10" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+    
+        </div>
+        <div id="config-container">
+            <p class="config-title"> Configuration </p>
+            <img src="images/testcase configuration.png" />
+            <div id="config-content">
+                <p class="leade font-italic">This is the content for our configuration file.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; position:absolute; top:20px; right:-51px;">
+                <img id="config-button" style="height:50px; width:50px; border:3px solid dodgerblue; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/gear.svg" />
+                <img id="input-button" style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px; margin-bottom: 7px;" src="images/keyboard.png" />
+                <img id ="output-button" style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px;" src="images/monitor.png" />
+            </div>
+        </div>
+    
+        <div id="add-container">
+            
+            <p class="add-title">New Testcase </p>
+            <img src="images/testcase configuration.png" />
+            <div class="form-container">
+                <form>
+                    <div class="form-group">
+                        <label for="add-filename">File Name: </label>
+                        <input id="add-filename" type="text" spellcheck="false" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="add-language-select">Programming Language: </label>
+                        <select id="add-language-select" class="form-control">
+                            <option>C</option>
+                            <option>C++</option>
+                            <option>Java</option>
+                            <option>Python</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-code">Code: </label>
+                        <textarea id="add-code" rows="8" class="form-control"></textarea>
+                    </div>
+                    <div class="button-container">
+                        <button id="submit-button" class="btn" style="background-color:#00A9E9; color:white; font-weight: bold;">Submit</button>
+                    </div>
+                    
+                </form>
+            </div>
+    
+        </div>
+    
     </div>
+
 </div>
+
+
+
+
 
 
 
 <!--Footer -->
 <div class="footer">
-        <a id="export-container" class="export-container">
-            <img src="images/export_bg.png" />
-            <p>Export</p>
-        </a>
+    <a id="export-container" class="export-container">
+        <img src="images/export_bg.png" />
+        <p>Export</p>
+    </a>
 
-        <a class="grading-container" href="grade-configuration1.html">
+    <a class="grading-container" href="grade-configuration1.html">
         <img src="images/Grading_bg.png" />
         <p>Grading</p>
-        </a>
+    </a>
 </div>
 
 <script>
     window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
 </script>
-<script src="js/bootstrap.min.js" ></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/assignment-configuration.js"></script>
 
 <script>
-    const {ipcRenderer} = require('electron');
-    console.log(sessionStorage.getItem("index-directory"));
-    document.querySelector(".file-container").style = "display:none;";
 
-    if(sessionStorage.getItem("index-directory") != null)
-    {
-        document.querySelector(".file-container").style = "display:block;";
-        document.querySelector("#assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
-    let fileDropDown = document.getElementById("files");
-    let fileZipPath = sessionStorage.getItem("index-directory");
-    let textField = document.getElementById("code-text-field");
-    let exportButton = document.getElementById("export-container");
-    ipcRenderer.send('file-dropDown', fileZipPath);
+    
+    // const { ipcRenderer } = require('electron');
+    
+    // if(sessionStorage.getItem("assignment-baseFile") != null)
+    // {
+    //     document.querySelector("#assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("assignment-baseFile");
+    // }
 
-    let filesArray = [];
+    // let fileDropDown = document.getElementById("files");
+    // let fileZipPath = './temp/testcases';
+    // let textField = document.getElementById("code-text-field");
+    // let exportButton = document.getElementById("export-container");
+    // let confirmButton = document.getElementById("confirmButton");
+    // let deleteButton = document.getElementById("delete-button");
 
-    ipcRenderer.on('file-dropDown-response', (e,args) =>{
-        filesArray = args;
-        let output = "";
-        filesArray.forEach(file => {
-            output+= `<option value=${file.name}>${file.name}</option>`;
-        })
-        fileDropDown.innerHTML = output;
-        textField.value = filesArray[0].body;
-    });
+    // ipcRenderer.send('populate-array', fileZipPath);
 
-    fileDropDown.addEventListener("change", (e) =>{
-        textField.value = filesArray[fileDropDown.selectedIndex].body;
-    });
+    // let filesArray = [];
 
-    exportButton.addEventListener("click",(e)=>{
-        ipcRenderer.send('export-file',filesArray,sessionStorage.getItem("index"));
-    });
 
-    textField.addEventListener("change", (e)=>{
-        filesArray[fileDropDown.selectedIndex].body = textField.value;
-    })
+    // exportButton.addEventListener("click", (e) => {
+    //     ipcRenderer.send('export-file', filesArray, sessionStorage.getItem("index"));
+    // });
 
-    }
-   
+
+
+
 
     
 </script>

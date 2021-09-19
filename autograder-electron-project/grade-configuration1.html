@@ -139,7 +139,8 @@
         sessionStorage.removeItem("homework-baseFile");
         sessionStorage.removeItem("homework-directory");
 
-        document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
+        if(sessionStorage.getItem("assignment-baseFile") != null)
+            document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("assignment-baseFile");
 
         const dropZoneElement = document.querySelector(".uploadButton-container");
         const inputElement = document.querySelector(".drop-zone-input");
