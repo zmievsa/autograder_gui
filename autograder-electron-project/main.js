@@ -30,7 +30,7 @@ ipcMain.on('populate-array', (e, args) => {
 
   const zip = AdmZip(args);
   
-  const data = zip.getEntries().filter(file => (file.entryName.startsWith('autograder_demo/tests/testcases/') && file.name.length > 0)).map((data) =>{
+  const data = zip.getEntries().filter(file => (file.entryName.startsWith('tests/testcases/') && file.name.length > 0)).map((data) =>{
       const container = {};
       container["name"] = data.name;
       container["body"] = data.getData().toString();
@@ -41,7 +41,6 @@ ipcMain.on('populate-array', (e, args) => {
 
     e.sender.send('populate-array-response', data);
 });
-
 
 ipcMain.on('populate-homework-array',(e,args) =>{
   const zip = AdmZip(args);
