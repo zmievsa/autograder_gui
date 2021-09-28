@@ -21,9 +21,15 @@
     <div class="file-container">
         <p id="assignment-text"></p>
     </div>
+
+    <div class="global-icons">
+        <img id="zip-button" style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/zip4.png" />
+        <img id="global-settings-button" style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/global-settings.png" />
+    </div>
+    
 </div>
 
-<!--Main Container -->
+<!--Main Container (windows) -->
 <div style="display: flex; align-items: center; justify-content: center;">
 
     <div class="main-container">
@@ -45,15 +51,9 @@
                             <p style="text-align: center; margin-bottom: 5px;">You currently have no testcases. </p>
                             <p style="text-align: center;">Click the <i style="color:#00A9E9;" class="fas fa-plus-circle"></i> button to create one.</p>
                         </div>
-    
                     </div>
-
                 </div>
-
-    
-    
             </div>
-           
         </div>
     
         <div id="instructions-container">
@@ -92,14 +92,14 @@
             <p class="edit-title">Edit and View Code </p>
             <img src="images/testcase configuration.png" />
             <div class="form-container">
-                <form>
+                <form id="edit-form">
                     <div class="form-group">
                         <label for="file-name">File Name: </label>
-                        <input id="file-name" type="text" spellcheck="false" class="form-control" />
+                        <input id="file-name" type="text" spellcheck="false" class="form-control" data-name="name" />
                     </div>
                     <div class="form-group">
                         <label for="language-select">Programming Language: </label>
-                        <select id="language-select" class="form-control">
+                        <select id="language-select" class="form-control" data-name="language">
                             <option>C</option>
                             <option>C++</option>
                             <option>Java</option>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <label for="code">Code: </label>
-                        <textarea id="edit-code" rows="10" class="form-control"></textarea>
+                        <textarea id="edit-code" rows="10" class="form-control" spellcheck="false" data-name="code"></textarea>
                     </div>
                 </form>
             </div>
@@ -118,13 +118,107 @@
             <p class="config-title"> Configuration </p>
             <img src="images/testcase configuration.png" />
             <div id="config-content">
-                <p class="leade font-italic">This is the content for our configuration file.</p>
+
+                <div class="form-container" id="config-individual-container">
+
+                    <form id="config-form" class="form-scroll">
+                        <div class="form-group">
+                            <label for="time-out">Timeout: </label>
+                            <input id="time-out" type="text" spellcheck="false" class="form-control" data-name="individualTimeout" />
+                        </div>
+                        <div class="form-group">
+                            <label for="testcase-weights">Testcase Weight: </label>
+                            <input id="testcase-weights" type="text" spellcheck="false" class="form-control" data-name="testcaseWeights" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-container" id="input-container">
+                    <form id="input-form">
+                    <div class="custom-control custom-switch d-inline">
+                        <input type="checkbox" class="custom-control-input" id="input-toggle" data-name="inputToggle">
+                        <label class="custom-control-label" for="input-toggle"></label>
+                      </div>
+                      <span class="pr-2">Include Input File</span>
+                   
+                        <div class="form-group pt-3">
+                            <textarea id="input-code" rows="17" class="form-control"></textarea data-name="inputText">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-container" id="output-container">
+                    <form id="output-form">
+                    <div class="custom-control custom-switch d-inline">
+                        <input type="checkbox" class="custom-control-input" id="output-toggle" data-name="outputToggle">
+                        <label class="custom-control-label" for="output-toggle"></label>
+                      </div>
+                      <span class="pr-2">Include Output File</span>
+                    
+                        <div class="form-group pt-3">
+                            <textarea id="output-code" rows="17" class="form-control" data-name="outputText"></textarea>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div style="display: flex; flex-direction: column; position:absolute; top:20px; right:-51px;">
                 <img id="config-button" style="height:50px; width:50px; border:3px solid dodgerblue; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/gear.svg" />
                 <img id="input-button" style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px; margin-bottom: 7px;" src="images/keyboard.png" />
                 <img id ="output-button" style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px;" src="images/monitor.png" />
             </div>
+        </div>
+
+        <div id="global-settings-container">
+            <p class="global-settings-title"> Global Settings </p>
+            <img src="images/testcase configuration.png" />
+
+            <div class="form-container">
+
+                <form id="global-settings-form" class="form-scroll">
+                    <div class="form-group">
+                        <label for="assignment-name">Assignment Name:</label>
+                        <input id="assignment-name" type="text" spellcheck="false" class="form-control" data-name="assignmentName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="source-files">Possible Source File Stems: </label>
+                        <input id="source-files" type="text" spellcheck="false" class="form-control" data-name="sourceFiles" />
+                    </div>
+                    <div class="form-group">
+                        <label for="global-timeout">Timeout: </label>
+                        <input id="global-timeout" type="text" spellcheck="false" class="form-control" data-name="timeout"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="testcase-weights">Testcase Weights: </label>
+                        <input id="testcase-weights" type="text" spellcheck="false" class="form-control" data-name="testcaseWeight" />
+                    </div>
+                    <div class="form-group">
+                        <label for="total-points">Total Points: </label>
+                        <input id="total-points" type="text" spellcheck="false" class="form-control" data-name="totalPoints"/>
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Generate Results</span> 
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="generate-results" data-name="generateResults">
+                            <label class="custom-control-label" for="generate-results"></label>
+                          </div>  
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Parallel Grading</span> 
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="parallel-grading" data-name="parallelGrading">
+                            <label class="custom-control-label" for="parallel-grading"></label>
+                          </div>  
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Stdout only grading</span> 
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="stdout-grading" data-name="stdoutGrading">
+                            <label class="custom-control-label" for="stdout-grading"></label>
+                          </div>  
+                    </div>
+                </form>
+            </div>
+
         </div>
     
         <div id="add-container">
@@ -158,6 +252,7 @@
             </div>
     
         </div>
+        
     
     </div>
 
