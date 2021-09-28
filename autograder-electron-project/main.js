@@ -52,7 +52,7 @@ ipcMain.on('populate-homework-array',(e,args) =>{
     return container;
   })
   
-  e.sender.send('populate-homework-array-response', data);
+  e.sender.send('populate-homeworkArray-response', data);
 
 });
 
