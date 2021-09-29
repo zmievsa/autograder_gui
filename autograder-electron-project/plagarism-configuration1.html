@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/general_styles.css" />
     <link rel="stylesheet" href="css/custom_styles/plagarism-configuration1.css" />
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
+    
 
 </head>
 
@@ -14,161 +17,66 @@
 
     <!-- Assignment Configuration Button -->
     <div class="header">
-        <a class="assignment-configuration-container" href="index.html">
+        <a class="assignment-configuration-container" href="Index.html">
             <img src="images/header-bg-long.png" />
             <div class="assignment-configuration-text">
                 <p>Index</p>
             </div>
         </a>
+
     </div>
 
     <!-- Homeworks Upload Button -->
     <div class="container">
         
-        <div class="uploadButton-container">
-            <div class = "homework-container">
-                <img src="images/Assignment_background_small.png" />
-                <p>Homeworks</p>
-                <input type="file" class="drop-zone-input" />
-            </div>
+    <div class="main-container">
+
+        <div class = "upload-container">
+            <img src="images/Assignment_background_small.png" />
+            <p>Homework</p>
+            <input type="file" class="drop-zone-input"/>
         </div>
 
-        <div class="main-container">
-            <div class="scroll-container">
-                <img class="scrollbar" src="images/scrollbar.png" />
-                <div class="frame-container">
-                    <div class="header-container">
-                        <img src="images/testcase configuration.png" />
-                        <p>Plagarism Checking Configuration</p>
-                    </div>
-                    <img class="custom-border" src="images/border_small.png" />
-                    <div class="content-container">
-
-                        <div class="checkbox-containers">
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox1" />
-                                <label for="checkbox1"></label>
-                                <p class="checkbox_label">Field 1</p>
-                            </div>
-
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox2" />
-                                <label for="checkbox2"></label>
-                                <p class="checkbox_label">Field 2</p>
-                            </div>
-
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox3" />
-                                <label for="checkbox3"></label>
-                                <p class="checkbox_label">Field 3</p>
-                            </div>
-
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox4" />
-                                <label for="checkbox4"></label>
-                                <p class="checkbox_label">Field 4</p>
-                            </div>
-
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox5" />
-                                <label for="checkbox5"></label>
-                                <p class="checkbox_label">Field 5</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox6" />
-                                <label for="checkbox6"></label>
-                                <p class="checkbox_label">Field 6</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox7" />
-                                <label for="checkbox7"></label>
-                                <p class="checkbox_label">Field 7</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox8" />
-                                <label for="checkbox8"></label>
-                                <p class="checkbox_label">Field 8</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox9" />
-                                <label for="checkbox9"></label>
-                                <p class="checkbox_label">Field 9</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox10" />
-                                <label for="checkbox10"></label>
-                                <p class="checkbox_label">Field 10</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox11" />
-                                <label for="checkbox11"></label>
-                                <p class="checkbox_label">Field 11</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox12" />
-                                <label for="checkbox12"></label>
-                                <p class="checkbox_label">Field 12</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox13" />
-                                <label for="checkbox13"></label>
-                                <p class="checkbox_label">Field 13</p>
-                            </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" class="check_box" id="checkbox13" />
-                                <label for="checkbox13"></label>
-                                <p class="checkbox_label">Field 13</p>
-                            </div> 
+        <div id="homework-container">
+            <p class="homework-title">Homework</p>
+            <img src="images/testcase configuration.png" />
+            <div class="table-scroll">
+                <table id="main-table" class="table table-hover">
+                    <tbody id="homework-table">
+ 
+                    </tbody>  
+                </table>
+                <div id="no-items-container">
+                    <div style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <img style="height:50px; width:50px;"src="images/upload.png" />
+                        <div style="width:250px; margin-top: 10px;">
+                            <p style="text-align: center; margin-bottom: 5px; line-height: 1.4;">To upload homework, drag and drop homework files onto homework button. </p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
 
     </div>
+           
+        
+
+    </div>
+
+    <div class="footer">
+        <a class="right-button-container" href="plagarism-checking-results.html">
+            <img src="images/create_assignment_bg_orig.png" />
+            <p>Check</p>
+        </a>
+    </div>
+
+
 
     <script>
-        sessionStorage.removeItem("homework-directory");
-        sessionStorage.removeItem("homework-baseFile");
-        const dropZoneElement = document.querySelector(".uploadButton-container");
-        const inputElement = document.querySelector(".drop-zone-input");
-    
-        dropZoneElement.addEventListener("click", e => {
-            inputElement.click();
-        });
-    
-        inputElement.addEventListener("change", e =>{
-            if(inputElement.files.length){
-                sessionStorage.setItem('homework-directory',inputElement.files[0].path);
-                sessionStorage.setItem('homework-baseFile',inputElement.files[0].name);
-                location.href="plagarism-configuration2.html";
-
-            }
-        });
-    
-        dropZoneElement.addEventListener("dragover", e => {
-            e.preventDefault();
-            dropZoneElement.classList.add("drop-zone--over");
-        });
-    
-        ["dragleave","dragend"].forEach((type) =>{
-            dropZoneElement.addEventListener(type,(e) =>{
-                dropZoneElement.classList.remove("drop-zone--over");
-            })
-        })
-    
-        dropZoneElement.addEventListener("drop", e =>{
-            e.preventDefault();
-            console.log(e.dataTransfer.files);
-
-            sessionStorage.setItem('homework-directory', e.dataTransfer.files[0].path);
-            sessionStorage.setItem('homework-baseFile',e.dataTransfer.files[0].name);
-            location.href="plagarism-configuration2.html";
-        })
-    
-    
+        window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
     </script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plagarism.js"></script>
 
 </body>
 

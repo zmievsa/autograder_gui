@@ -11,11 +11,10 @@
 </head>
 
 <div class="header">
-    <a class="grading-configuration-container" href="grade-configuration2.html">
+    <a class="grading-configuration-container" href="homework.html">
         <img src="images/header-bg-long.png" />
         <div class="grading-configuration-text">
-            <p>Grading</p>
-            <p>Configuration</p>
+            <p>Homework</p>
         </div>
     </a>
     <div class="file-container">
@@ -64,29 +63,39 @@
     
     let table = document.querySelector(".table-content");
     
-    document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
-    document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
+    let output = "";
 
-    let filesArray = [];
-    let fileZipPath = sessionStorage.getItem("homework-directory");
-    ipcRenderer.send('populate-homework-array', fileZipPath);
-
-    ipcRenderer.on('populate-homework-array-response', (e,args) =>{
-        console.log(args);
-        let output = "";
-        let filesArray = args;
-
-        filesArray.forEach((file,index) => {
+    array.forEach((file,index) => {
             output += `<tr>
-                        <td>${file.name} </td>
+                        <td>${file.testcases} </td>
                         <td>${index}% </td>
                     </tr>`;
-        });
-
-        console.log(output);
-
-        table.innerHTML = output;
     });
+
+    table.innerHTML = output;
+
+    // document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
+    // document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
+    // let filesArray = [];
+    // let fileZipPath = sessionStorage.getItem("homework-directory");
+    // ipcRenderer.send('populate-homework-array', fileZipPath);
+
+    // ipcRenderer.on('populate-homework-array-response', (e,args) =>{
+    //     console.log(args);
+    //     let output = "";
+    //     let filesArray = args;
+
+    //     filesArray.forEach((file,index) => {
+    //         output += `<tr>
+    //                     <td>${file.name} </td>
+    //                     <td>${index}% </td>
+    //                 </tr>`;
+    //     });
+
+    //     console.log(output);
+
+    //     table.innerHTML = output;
+    // });
     
     </script>
 

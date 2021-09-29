@@ -271,7 +271,7 @@ for(let input of editFormFields)
         });
     }
     else if(input.type == "textarea"){
-        input.addEventListener("change", (e) =>{
+        input.addEventListener("keyup", (e) =>{
             let value = e.target.value;
             globalData.testcases[currentIndex][input.dataset.name] = value;
         });
