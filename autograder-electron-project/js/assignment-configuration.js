@@ -578,6 +578,30 @@ globalSettingsButton.addEventListener("click", (e) =>{
     currentContainer.classList.add("show-window");
 });
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+$(function () {
+$('[data-toggle="popover"]').popover();
+});
+
+
+document.getElementById("confirmButton").addEventListener("click",(e)=>{
+    let name = globalData.testcases[currentIndex].name;
+    globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+    currentRow.remove();
+    currentContainer.classList.remove("show-window");
+    currentContainer = instructionsContainer;
+    currentContainer.classList.add("show-window");
+    if(globalData.testcases.length == 0)
+        noItemsContainer.classList.add("show-window");
+    else
+        noItemsContainer.classList.remove("show-window");
+
+    $('#exampleModalCenter').modal('hide');
+})
+
 
 /* Backend Code */
 // File I/O Scripts
@@ -616,26 +640,6 @@ exportButton.addEventListener("click", (e) => {
     ipcRenderer.send('export-file', globalData.testcases, sessionStorage.getItem("index"));
 });
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  });
-
-$(function () {
-$('[data-toggle="popover"]').popover();
-});
-
-
-document.getElementById("confirmButton").addEventListener("click",(e)=>{
-    let name = globalData.testcases[currentIndex].name;
-    globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
-    currentRow.remove();
-    currentContainer.classList.remove("show-window");
-    currentContainer = instructionsContainer;
-    currentContainer.classList.add("show-window");
-    if(globalData.testcases.length == 0)
-        noItemsContainer.classList.add("show-window");
-    else
-        noItemsContainer.classList.remove("show-window");
-
-    $('#exampleModalCenter').modal('hide');
-})
+if(sessionStorage.getItem("assignment-baseFile") != null){
+    zipButton.setAttribute("data-content", `<p>${sessionStorage.getItem("assignment-baseFile")}</p>`);
+}
