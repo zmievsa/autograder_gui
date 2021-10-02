@@ -110,19 +110,32 @@ function insertRow(item){
 
     if (item.language == "c"){
         image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
-        fileName = item.name+"."+"c";
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"c";
     }
     else if (item.language == "java"){
         image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
-        fileName = item.name+"."+"java"
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"java"
     }
     else if (item.language == "c++"){
         image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
-        fileName = item.name+"."+"c++";
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+         else 
+            fileName = item.name+"."+"c++";
     }
     else{
         image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
-        fileName = item.name+"."+"py";
+        
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"py";
     }
 
     let output = `
@@ -311,26 +324,45 @@ for(let input of editFormFields)
         input.addEventListener("keyup", (e) =>{
             let value = e.target.value;
 
+            console.log(value.length);
+
             let image = "";
             let fileName = "";
 
             globalData.testcases[currentIndex][input.dataset.name] = value;
+
+            if(value.length >= 28)
+                value = value.substring(0,25) + "...";
         
             if (globalData.testcases[currentIndex].language == "c"){
                 image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"c";
+                if(value.length >= 28)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c";
             }
             else if (globalData.testcases[currentIndex].language == "java"){
                 image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"java"
+
+                if(value.length >= 28)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"java"
             }
             else if (globalData.testcases[currentIndex].language == "c++"){
                 image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"c++";
+                
+                if(value.length >= 28)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c++";
             }
             else{
                 image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"py";
+                if(value.length >= 28)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"py";
             }
 
             let td = table.rows[currentIndex].getElementsByTagName("td");
@@ -362,19 +394,33 @@ for(let input of editFormFields)
 
             if (globalData.testcases[currentIndex].language == "c"){
                 image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
+
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
                 fileName = globalData.testcases[currentIndex].name+"."+"c";
             }
             else if (globalData.testcases[currentIndex].language == "java"){
                 image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"java"
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"java"
             }
             else if (globalData.testcases[currentIndex].language == "c++"){
                 image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"c++";
+
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c++";
             }
             else{
                 image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
-                fileName = globalData.testcases[currentIndex].name+"."+"py";
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                 else
+                    fileName = globalData.testcases[currentIndex].name+"."+"py";
             }
 
             let td = table.rows[currentIndex].getElementsByTagName("td");
