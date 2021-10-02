@@ -59,9 +59,9 @@
         </div>
 
     </div>
-           
-        
 
+
+       
     </div>
 
     <div class="footer">
@@ -76,9 +76,24 @@
     <script>
         window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
     </script>
+    <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/homework.js"></script>
+    <script>
+                $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+          })
 
+//           $("[title]").tooltip({
+// 			  placement: 'top',
+//   delay: { "show": 500, "hide": 100 },
+//   offset: '0 10',
+//   template: '<div class="tooltip" role="tooltip"><div class="arrow custom-class"></div><div class="tooltip-inner rounded-pill shadow"></div></div>'
+// });
+        
+
+
+    </script>
 </body>
 
 </html>

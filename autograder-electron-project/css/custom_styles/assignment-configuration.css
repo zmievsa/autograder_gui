@@ -106,7 +106,7 @@ label{
 }
 
 #testcase-container p{
-    text-align: center;
+    /* text-align: center; */
     font-weight: bold;
 }
 
@@ -227,6 +227,7 @@ label{
     font-weight: bold;
     width:400px;
     margin-left: 30px;
+    margin-top:5px;
 }
 
 .form-container{
@@ -298,6 +299,7 @@ label{
     width:400px;
     text-align: center;
     padding-right: 20px;
+    margin-top:2px;
 }
 
 #config-button{
@@ -440,6 +442,7 @@ label{
     font-weight: bold;
     width:400px;
     margin-left: 30px;
+    margin-top:2px;
 }
 
 /* Testcase section */

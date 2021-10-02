@@ -23,7 +23,7 @@
     </div>
 
     <div class="global-icons">
-        <img id="zip-button" style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/zip4.png" />
+        <img id="zip-button" style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/zip4.png" data-action="zip-files"  title="Files" data-toggle="popover" data-html="true" data-content="<p>File1: Content</p><p>File2: Content</p>" data-state="false" />
         <img id="global-settings-button" style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;" src="images/global-settings.png" />
     </div>
     
@@ -123,11 +123,11 @@
 
                     <form id="config-form" class="form-scroll">
                         <div class="form-group">
-                            <label for="time-out">Timeout: </label>
+                            <label>Timeout <i id="individualTimeoutInfo" class="fas fa-info-circle text-primary" title="Timeout"  data-toggle="popover" data-html="true" data-content="<p>Student's program is terminated if it takes more than this time in seconds</p>" data-placement="top" data-action="individualTimeoutInfo"></i> : </label>
                             <input id="time-out" type="text" spellcheck="false" class="form-control" data-name="individualTimeout" />
                         </div>
                         <div class="form-group">
-                            <label for="testcase-weights">Testcase Weight: </label>
+                            <label>Testcase Weight <i id="individualTestcaseWeightInfo" class="fas fa-info-circle text-primary" title="Testcase Weight"  data-toggle="popover" data-html="true" data-content="<p>A comma separated list of testcase_filename</p>" data-placement="top" data-action="individualTestcaseWeightInfo"></i> : </label>
                             <input id="testcase-weights" type="text" spellcheck="false" class="form-control" data-name="testcaseWeights" />
                         </div>
                     </form>
@@ -176,23 +176,24 @@
 
                 <form id="global-settings-form" class="form-scroll">
                     <div class="form-group">
-                        <label for="assignment-name">Assignment Name:</label>
+                        <label>Assignment Name <i id="assignmentNameInfo" class="fas fa-info-circle text-primary" title="Assignment Name"  data-toggle="popover" data-html="true" data-content="<p>For display in the output for the student</p>" data-placement="top" data-action="assignmentNameInfo"></i> : </label>
+                        
                         <input id="assignment-name" type="text" spellcheck="false" class="form-control" data-name="assignmentName" />
                     </div>
                     <div class="form-group">
-                        <label for="source-files">Possible Source File Stems: </label>
+                        <label>Possible Source File Stems <i id="possibleSourceFileInfo" class="fas fa-info-circle text-primary" title="Possible Source File Stems"  data-toggle="popover" data-html="true" data-content="<p>A list of strings separated by a comma. </p>" data-placement="top" data-action="possibleSourceFileInfo"></i> : </label>
                         <input id="source-files" type="text" spellcheck="false" class="form-control" data-name="sourceFiles" />
                     </div>
                     <div class="form-group">
-                        <label for="global-timeout">Timeout: </label>
-                        <input id="global-timeout" type="text" spellcheck="false" class="form-control" data-name="timeout"/>
+                        <label>Timeout <i id="globalTimeoutInfo" class="fas fa-info-circle text-primary" title="Timeout"  data-toggle="popover" data-html="true" data-content="<p>Student's program is terminated if it takes more than this time in seconds</p>" data-placement="top" data-action="globalTimeoutInfo"></i> : </label>
+                        <input id="global-timeout" type="text" spellcheck="false" class="form-control" data-name="timeout" />
                     </div>
                     <div class="form-group">
-                        <label for="testcase-weights">Testcase Weights: </label>
+                        <label>Testcase Weights <i id="testcaseWeightInfo" class="fas fa-info-circle text-primary" title="Testcase Weight"  data-toggle="popover" data-html="true" data-content="<p>A comma separated list of testcase_filename</p>" data-placement="top" data-action="testcaseWeightInfo"></i> : </label>
                         <input id="testcase-weights" type="text" spellcheck="false" class="form-control" data-name="testcaseWeight" />
                     </div>
                     <div class="form-group">
-                        <label for="total-points">Total Points: </label>
+                        <label>Total Points <i id="totalPointsInfo" class="fas fa-info-circle text-primary" title="Total Points"  data-toggle="popover" data-html="true" data-content="<p>Total points given for tests.</p>" data-placement="top" data-action="totalPointsInfo"></i> : </label>
                         <input id="total-points" type="text" spellcheck="false" class="form-control" data-name="totalPoints"/>
                     </div>
                     <div class="form-group">
@@ -256,6 +257,30 @@
     
     </div>
 
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete Testcase</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p class="text-center">Would you like to delete this testcase?</p>
+            <form>         
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirmButton" class="btn btn-danger">Delete</button>
+                </div>
+
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
@@ -280,6 +305,7 @@
 <script>
     window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
 </script>
+<script src="js/popper.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
 <script src="js/assignment-configuration.js"></script>

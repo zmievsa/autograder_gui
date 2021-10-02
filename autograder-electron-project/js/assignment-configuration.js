@@ -2,11 +2,20 @@ const { ipcRenderer, session } = require('electron');
 
 // Globals
 let currentIndex = 0;
+let currentRow = null;
 
-let globalData = {assignmentName:'', sourceFiles:'', timeout:'', testcaseWeight:'', totalPoints:'', generateResults:false, parallelGrading:false, stdoutGrading:false,
-testcases:[],
-
+let globalData = {
+                    assignmentName:'',
+                    sourceFiles:'', 
+                    timeout:'', 
+                    testcaseWeight:'', 
+                    totalPoints:'', 
+                    generateResults:false, 
+                    parallelGrading:false, 
+                    stdoutGrading:false,
+                    testcases:[],
 };
+
 
 // Containers
 let mainContainer = document.querySelector(".main-container");
@@ -40,6 +49,9 @@ let submitButton = document.getElementById("submit-button");
 let globalIcons = document.querySelector(".global-icons");
 let zipButton = document.getElementById("zip-button");
 let globalSettingsButton = document.getElementById("global-settings-button");
+
+// Popover 
+let currentPopOver = $("#zip-button");
 
 currentContainer.classList.add("show-window");
 
@@ -80,7 +92,7 @@ function createTable(items) {
                         <td data-action="row" class="buttons">
                             <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
                             <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-                            <i class="fas fa-trash fa-lg text-primary" data-action="delete"></i>
+                            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
                         </td>
                     </tr>
                 `;
@@ -118,7 +130,7 @@ function insertRow(item){
         <td data-action="row" class="buttons">
             <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
             <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-            <i class="fas fa-trash fa-lg text-primary" data-action="delete"></i>
+            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
         </td>`;
 
     tr.innerHTML = output;
@@ -152,10 +164,11 @@ function populateEditScreen(testcases, index){
 
 function handleClick(evt) {
     var { action } = evt.target.dataset;
-    // console.log(action);
+    console.log(evt.target.id);
+    console.log(currentPopOver.attr('id'));
     
     if (action) {
-    
+        currentPopOver.popover('hide');
         if (action == "edit") {
             let rowIndex = evt.target.closest("tr").rowIndex;
             currentIndex = rowIndex;
@@ -169,17 +182,18 @@ function handleClick(evt) {
         else if (action == "delete") {
             let rowIndex = evt.target.closest("tr").rowIndex;
             currentIndex = rowIndex;
-            let name = globalData.testcases[rowIndex].name;
-            console.log(evt.target.closest("tr").rowIndex);
-            globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
-            evt.target.closest("tr").remove();
-            currentContainer.classList.remove("show-window");
-            currentContainer = instructionsContainer;
-            currentContainer.classList.add("show-window");
-            if(globalData.testcases.length == 0)
-                noItemsContainer.classList.add("show-window");
-            else
-                noItemsContainer.classList.remove("show-window");
+            currentRow = evt.target.closest("tr");
+            // let name = globalData.testcases[rowIndex].name;
+            // console.log(evt.target.closest("tr").rowIndex);
+            // globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+            // evt.target.closest("tr").remove();
+            // currentContainer.classList.remove("show-window");
+            // currentContainer = instructionsContainer;
+            // currentContainer.classList.add("show-window");
+            // if(globalData.testcases.length == 0)
+            //     noItemsContainer.classList.add("show-window");
+            // else
+            //     noItemsContainer.classList.remove("show-window");
         } 
         else if (action == "config") {
             let titleText = document.querySelector(".config-title");
@@ -208,11 +222,65 @@ function handleClick(evt) {
             currentContainer.classList.add("show-window");
             populateEditScreen(globalData.testcases,rowIndex);
         }
-
+        else if(action == "globalTimeoutInfo"){
+            currentPopOver = $("#globalTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "zip-files"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#zip-button");
+            currentPopOver.popover('show');
+        }
+        else if(action == "testcaseWeightInfo")
+        {
+            currentPopOver.popover('hide');
+            currentPopOver = $("#testcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "assignmentNameInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#assignmentNameInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "possibleSourceFileInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#possibleSourceFileInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "globalTimeoutInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#globalTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "testcaseWeightInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#testcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "totalPointsInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#totalPointsInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "individualTimeoutInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#individualTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "individualTestcaseWeightInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#individualTestcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
     }
+    else
+        currentPopOver.popover('hide');
 }
 
+
+
 document.addEventListener("click", handleClick);
+
 
 // Global Settings Form
 let globalSettingsForm = document.querySelectorAll("#global-settings-form input");
@@ -501,3 +569,27 @@ ipcRenderer.on('populate-array-response', (e, args) => {
 exportButton.addEventListener("click", (e) => {
     ipcRenderer.send('export-file', globalData.testcases, sessionStorage.getItem("index"));
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+$(function () {
+$('[data-toggle="popover"]').popover();
+});
+
+
+document.getElementById("confirmButton").addEventListener("click",(e)=>{
+    let name = globalData.testcases[currentIndex].name;
+    globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+    currentRow.remove();
+    currentContainer.classList.remove("show-window");
+    currentContainer = instructionsContainer;
+    currentContainer.classList.add("show-window");
+    if(globalData.testcases.length == 0)
+        noItemsContainer.classList.add("show-window");
+    else
+        noItemsContainer.classList.remove("show-window");
+
+    $('#exampleModalCenter').modal('hide');
+})
