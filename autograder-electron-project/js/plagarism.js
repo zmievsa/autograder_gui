@@ -132,6 +132,8 @@ ipcRenderer.on('populate-homeworkArray-response',(e,args)=>{
 
     let files = args;
 
+    homeworkData = [];
+
     for(let file of files)
     {
         let obj = {};

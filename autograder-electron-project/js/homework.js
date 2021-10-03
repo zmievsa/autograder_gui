@@ -131,6 +131,7 @@ dropZoneElement.addEventListener("drop", e =>{
 ipcRenderer.on('populate-homeworkArray-response',(e,args)=>{
 
     let files = args;
+    homeworkData = [];
 
     for(let file of files)
     {
