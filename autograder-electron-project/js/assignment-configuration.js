@@ -221,6 +221,7 @@ function handleClick(evt) {
             currentConfigContainer.classList.remove("show-window");
             currentConfigContainer = configIndividualContainer;
             currentConfigContainer.classList.add("show-window");
+            populateIndividualConfig();
         }
         else if(action == "add"){
             currentContainer.classList.remove("show-window");
@@ -598,11 +599,19 @@ function populateGlobalSettings(){
 
     stdoutField.checked = globalData.stdoutGrading;
 
-
-
-
 }
 
+
+function populateIndividualConfig()
+{
+    let individualConfigField = document.getElementById("time-out");
+
+    individualConfigField.value = globalData.testcases[currentIndex].config.timeout;
+
+    let testcaseWeights = document.getElementById("testcase-weights");
+
+    testcaseWeights.value = globalData.testcases[currentIndex].config.testcaseWeight;
+}
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
@@ -650,7 +659,10 @@ ipcRenderer.on('populate-array-response', (e, args) => {
         obj.name = fullFileName[0];
         obj.language = fullFileName[1];
         obj.code = file.body;
-        obj.config = {};
+        obj.config = {
+            timeout:"1",
+            testcaseWeight:"test"
+        };
         obj.input = "";
         obj.output= "";
         globalData.testcases.push(obj);
@@ -669,3 +681,13 @@ exportButton.addEventListener("click", (e) => {
 if(sessionStorage.getItem("assignment-baseFile") != null){
     zipButton.setAttribute("data-content", `<p>${sessionStorage.getItem("assignment-baseFile")}</p>`);
 }
+
+inputButton.addEventListener("click",(e)=>{
+    let inputField = document.getElementById("input-code");
+    inputField.value = globalData.testcases[currentIndex].input;
+})
+
+outputButton.addEventListener("click",(e)=>{
+    let outputField = document.getElementById("input-code");
+    outputField.value = globalData.testcases[currentIndex].output;
+})
