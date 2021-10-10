@@ -576,7 +576,69 @@ globalSettingsButton.addEventListener("click", (e) =>{
     currentContainer.classList.remove("show-window");
     currentContainer = globalSettingsContainer;
     currentContainer.classList.add("show-window");
+    populateGlobalSettings();
 });
+
+function populateGlobalSettings(){
+    let assignmentNameField = document.getElementById("assignment-name");
+    assignmentNameField.value = globalData.assignmentName;
+
+    let sourceFilesField = document.getElementById("source-files");
+
+    sourceFilesField.value = globalData.sourceFiles;
+
+    let timeoutField = document.getElementById("global-timeout");
+
+    timeoutField.value = globalData.timeout;
+
+    let testcaseWeights = document.getElementById("testcase-weights");
+
+    testcaseWeights.value = globalData.testcaseWeight;
+
+    let totalPoints = document.getElementById("total-points");
+
+    testcaseWeights.value = globalData.totalPoints;
+
+    let generateResultsField = document.getElementById("generate-results");
+
+    generateResultsField.checked = globalData.generateResults;
+
+    let parallelGradingField = document.getElementById("parallel-grading");
+
+    parallelGradingField.checked = globalData.parallelGrading;
+
+    let stdoutField = document.getElementById("stdout-grading");
+
+    stdoutField.checked = globalData.stdoutGrading;
+
+
+
+
+}
+
+// Function that populates the edit screen window
+function populateEditScreen(testcases, index){
+    let nameField = document.getElementById("file-name");
+    nameField.value = testcases[index].name;
+
+    let selectField = document.getElementById("language-select");
+    
+    selectField.selectedIndex = 1;
+
+    if(testcases[index].language == 'c')
+        selectField.selectedIndex = 0;
+    else if(testcases[index].language == 'c++')
+        selectField.selectedIndex = 1;
+    else if(testcases[index].language == 'java')
+        selectField.selectedIndex = 2;
+    else if(testcases[index].language == 'py')
+        selectField.selectedIndex = 3;
+    
+
+    let editCode = document.getElementById("edit-code");
+    editCode.value = testcases[index].code;
+}
+
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
