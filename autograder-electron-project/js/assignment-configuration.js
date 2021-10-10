@@ -637,6 +637,16 @@ document.getElementById("confirmButton").addEventListener("click",(e)=>{
     $('#exampleModalCenter').modal('hide');
 })
 
+inputButton.addEventListener("click",(e)=>{
+    let inputField = document.getElementById("input-code");
+    inputField.value = globalData.testcases[currentIndex].input;
+})
+
+outputButton.addEventListener("click",(e)=>{
+    let outputField = document.getElementById("input-code");
+    outputField.value = globalData.testcases[currentIndex].output;
+})
+
 
 /* Backend Code */
 // File I/O Scripts
@@ -682,12 +692,3 @@ if(sessionStorage.getItem("assignment-baseFile") != null){
     zipButton.setAttribute("data-content", `<p>${sessionStorage.getItem("assignment-baseFile")}</p>`);
 }
 
-inputButton.addEventListener("click",(e)=>{
-    let inputField = document.getElementById("input-code");
-    inputField.value = globalData.testcases[currentIndex].input;
-})
-
-outputButton.addEventListener("click",(e)=>{
-    let outputField = document.getElementById("input-code");
-    outputField.value = globalData.testcases[currentIndex].output;
-})
