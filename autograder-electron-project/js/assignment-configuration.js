@@ -455,13 +455,6 @@ let inputFormFields = document.querySelectorAll("#input-form input");
 
 for(let input of inputFormFields)
 {
-    if(input.dataset.name == "inputToggle"){
-        input.addEventListener("change",(e)=>{
-            console.log(e.target);
-            globalData.testcases[currentIndex].input.state = e.target.checked;
-        })
-    }
-
     if(input.dataset.name == "inputText")
     {
         input.addEventListener("change",(e)=>{
@@ -475,12 +468,6 @@ let outputFormFields = document.querySelectorAll("#output-form input");
 
 for(let input of outputFormFields)
 {
-    if(input.dataset.name == "outputToggle"){
-        input.addEventListener("change",(e)=>{
-            globalData.testcases[currentIndex].input.state = e.target.checked;
-        })
-    }
-
     if(input.dataset.name == "outputText")
     {
         input.addEventListener("change",(e)=>{
@@ -616,29 +603,6 @@ function populateGlobalSettings(){
 
 }
 
-// Function that populates the edit screen window
-function populateEditScreen(testcases, index){
-    let nameField = document.getElementById("file-name");
-    nameField.value = testcases[index].name;
-
-    let selectField = document.getElementById("language-select");
-    
-    selectField.selectedIndex = 1;
-
-    if(testcases[index].language == 'c')
-        selectField.selectedIndex = 0;
-    else if(testcases[index].language == 'c++')
-        selectField.selectedIndex = 1;
-    else if(testcases[index].language == 'java')
-        selectField.selectedIndex = 2;
-    else if(testcases[index].language == 'py')
-        selectField.selectedIndex = 3;
-    
-
-    let editCode = document.getElementById("edit-code");
-    editCode.value = testcases[index].code;
-}
-
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
@@ -687,8 +651,8 @@ ipcRenderer.on('populate-array-response', (e, args) => {
         obj.language = fullFileName[1];
         obj.code = file.body;
         obj.config = {};
-        obj.input ={};
-        obj.output={};
+        obj.input = "";
+        obj.output= "";
         globalData.testcases.push(obj);
     }
 
