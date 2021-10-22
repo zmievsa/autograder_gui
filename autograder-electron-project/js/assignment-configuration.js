@@ -5,7 +5,7 @@ let currentIndex = 0;
 let currentRow = null;
 
 let globalData = {
-                    assignmentName:'',
+                    assignmentName:'Hello',
                     sourceFiles:'', 
                     timeout:'', 
                     testcaseWeight:'', 

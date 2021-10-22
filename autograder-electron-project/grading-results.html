@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/general_styles.css" />
     <link rel="stylesheet" href="css/custom_styles/grading-results.css" />
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/general_styles.css" />
     <title>Document</title>
 </head>
 
@@ -19,9 +22,9 @@
     </a>
 </div>
 
-<div class="container">
+<div style="display:flex; align-items: center; justify-content: center;">
     <div class="main-container">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Testcases</th>
@@ -29,7 +32,7 @@
                 </tr>
             </thead>
         </table>
-        <div class="table-scroll">
+        <div class="table-scroll table table-hover">
             <table class="table-content">
 
             </table>
@@ -49,61 +52,89 @@
 
 <script>
     const {ipcRenderer} = require('electron');
+    let array = 
+        {
+            average_score:58,
+            total_points_possible:100,
+            
+            submissions:[
+                {
+                    submission: "/home/ovsyanka/code/autograder-test/autograder/examples/fibonacci_c/average_student_homework.c",
+                    final_grade: 75,
+                    testcase_scores: [
+                        {
+                            "name": "Test output",
+                            "message": "50/50"
+                        },
+                        {
+                            "name": "Test result",
+                            "message": "100.0/100"
+                        },
+                        {
+                            "name": "Test time",
+                            "message": "Exceeded Time Limit"
+                        }
+                    ],
+                    precompilation_error: ""
+                },
+                {
+                    submission: "/home/ovsyanka/code/autograder-test/autograder/examples/fibonacci_c/failing_student_homework.c",
+                    final_grade: 0,
+                    testcase_scores: [],
+                    precompilation_error: "Failed to precompile:\n/.../failing_student_homework.c: In function ‘fibonacci’:\n.../failing_student_homework.c:2:15: error: ‘P’ undeclared (first use in this function)\n    2 |    if (n <= 1)P\n      |               ^\n.../failing_student_homework.c:2:15: note: each undeclared identifier is reported only once for each function it appears in\n.../failing_student_homework.c:2:16: error: expected ‘;’ before ‘return’\n    2 |    if (n <= 1)P\n      |                ^\n      |                ;\n    3 |       return n;\n      |       ~~~~~~    \n.../failing_student_homework.c:4:11: warning: implicit declaration of function ‘fib’ [-Wimplicit-function-declaration]\n    4 |    return fib(n-1) + fib(n-2);\n      |           ^~~"
+                },
+                {
+                    submission: "/home/ovsyanka/code/autograder-test/autograder/examples/fibonacci_c/perfect_student_homework.c",
+                    final_grade: 100,
+                    testcase_scores: [
+                        {
+                            "name": "Test output",
+                            "message": "50/50"
+                        },
+                        {
+                            "name": "Test result",
+                            "message": "100.0/100"
+                        },
+                        {
+                            "name": "Test time",
+                            "message": "Exceeded Time Limit"
+                        }
+                    ],
+                    precompilation_error: ""
+                }
 
-    var array = [
-        {testcases:"testcase.01", grade:97},
-        {testcases:"testcase.02", grade:3},
-        {testcases:"testcase.03", grade:20},
-        {testcases:"testcase.04", grade:25},
-        {testcases:"testcase.05", grade:30},
-        {testcases:"testcase.06", grade:40},
-        {testcases:"testcase.07", grade:45},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
+            ]};
 
-    ];
     
     let table = document.querySelector(".table-content");
     
     let output = "";
 
-    array.forEach((file,index) => {
-            output += `<tr>
-                        <td>${file.testcases} </td>
-                        <td>${index}% </td>
-                    </tr>`;
-    });
+    
+    for(let file of array.submissions)
+    {
+        let filename = file.submission.split("/");
+        filename = filename[filename.length-1];
 
+
+            output += `<tr>
+                        <td>${filename} </td>
+                        <td>${file.final_grade}% </td>
+                    </tr>`;
+    
+    }
     table.innerHTML = output;
 
-    // document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
-    // document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
-    // let filesArray = [];
-    // let fileZipPath = sessionStorage.getItem("homework-directory");
-    // ipcRenderer.send('populate-homework-array', fileZipPath);
+    function populateArray(){
 
-    // ipcRenderer.on('populate-homework-array-response', (e,args) =>{
-    //     console.log(args);
-    //     let output = "";
-    //     let filesArray = args;
-
-    //     filesArray.forEach((file,index) => {
-    //         output += `<tr>
-    //                     <td>${file.name} </td>
-    //                     <td>${index}% </td>
-    //                 </tr>`;
-    //     });
-
-    //     console.log(output);
-
-    //     table.innerHTML = output;
-    // });
+    }
     
     </script>
+    <script>
+        window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
+    </script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
