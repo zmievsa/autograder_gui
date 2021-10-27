@@ -4,6 +4,9 @@ console.log("hello world");
 const dropZoneElement = document.querySelector(".upload-container");
 const inputElement = document.querySelector(".drop-zone-input");
 
+// Grade Button
+let gradeButton = document.querySelector(".right-button-container");
+
 // Global
 let homeworkData = [];
 
@@ -126,7 +129,16 @@ dropZoneElement.addEventListener("drop", e =>{
 
 // Backend
 
+gradeButton.addEventListener("click", (e) =>{
+    alert("hello world");
 
+    // Your logic here - daniel
+
+
+
+    location.href="grading-results.html";
+
+})
 
 ipcRenderer.on('populate-homeworkArray-response',(e,args)=>{
 
