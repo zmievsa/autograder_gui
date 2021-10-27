@@ -5,7 +5,7 @@ let currentIndex = 0;
 let currentRow = null;
 
 let globalData = {
-                    assignmentName:'Hello',
+                    assignmentName:'Daniel',
                     sourceFiles:'', 
                     timeout:'', 
                     testcaseWeight:'', 
@@ -52,6 +52,8 @@ let globalSettingsButton = document.getElementById("global-settings-button");
 
 // Popover 
 let currentPopOver = $("#zip-button");
+
+let gradingButton = document.querySelector(".grading-container");
 
 currentContainer.classList.add("show-window");
 
@@ -648,8 +650,22 @@ outputButton.addEventListener("click",(e)=>{
 })
 
 
+
 /* Backend Code */
 // File I/O Scripts
+
+gradingButton.addEventListener("click",(e)=>{
+    alert("hello world");
+
+    // Your logic here - daniel
+
+
+
+    location.href="homework.html";
+
+})
+
+
 let exportButton = document.getElementById("export-container");
 
 if(sessionStorage.getItem("assignment-directory") != null)
