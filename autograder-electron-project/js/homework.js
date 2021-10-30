@@ -130,7 +130,7 @@ dropZoneElement.addEventListener("drop", e =>{
 // Backend
 
 gradeButton.addEventListener("click", (e) =>{
-    alert("hello world");
+    alert("Make call to backend code here.");
 
     // Your logic here - daniel
 

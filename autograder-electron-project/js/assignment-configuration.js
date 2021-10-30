@@ -686,7 +686,7 @@ outputButton.addEventListener("click",(e)=>{
 // File I/O Scripts
 
 gradingButton.addEventListener("click",(e)=>{
-    alert("hello world");
+    alert("Make call to backend code here");
 
     // Your logic here - daniel
 
