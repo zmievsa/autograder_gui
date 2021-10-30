@@ -42,7 +42,8 @@ let configButton = document.getElementById("config-button");
 let inputButton = document.getElementById("input-button");
 let outputButton = document.getElementById("output-button");
 
-// Add Screen Submit Button
+// Add Screen references
+let addFileName = document.getElementById("add-filename");
 let submitButton = document.getElementById("submit-button");
 
 // Right Header Buttons
@@ -538,6 +539,19 @@ outputButton.addEventListener("click", (e) =>{
     currentConfigContainer = outputContainer;
     currentConfigContainer.classList.add("show-window");
 })
+
+addFileName.addEventListener("keydown", (e)=>{
+
+    let key = e.key.toLowerCase().charCodeAt(0);
+
+    if(!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8))
+    {
+        e.preventDefault();
+        return;
+    }
+
+})
+
 
 submitButton.addEventListener("click", (e) =>{
     e.preventDefault();
