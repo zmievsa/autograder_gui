@@ -1,0 +1,265 @@
+/* Generals and Fonts */
+
+*{
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    height: 100%;
+
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+p{
+    margin:0;
+}
+
+@font-face {
+    font-family: 'humanist';
+    src: url('../../fonts/humanist.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+table{
+    border-collapse: collapse;
+    border:1px solid #009de0;
+    width:100%;
+}
+
+th{
+    padding-right: 50px;
+    padding-left: 5px;
+    font-size: 25px;
+    background-color: #009de0;
+    color:white;   
+}
+
+td{
+    text-align: center;
+    border:2px solid #009de0;
+    padding:5px 0px;
+    font-size: 18px;
+}
+
+
+
+/* Checkbox  Section */ 
+
+.check_box {
+    display:none;
+}
+
+label{
+    vertical-align: middle;
+}
+
+.checkbox-containers{
+    z-index: 100;
+    position: relative;
+    margin-top: 10px;
+}
+
+.checkbox-container{
+    margin-bottom: 5px;
+}
+
+.check_box + label{
+    background:url('../../images/checkbox-unchecked.png') no-repeat;
+    height: 32px;
+    width: 32px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+
+.check_box:checked + label{
+    background:url('../../images/checkbox-checked.png') no-repeat;
+    height: 32px;
+    width: 32px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+
+.checkbox_label{
+    display:inline;
+}
+
+
+/* Header Section */
+
+#topLeft-button-container{
+    position: relative;
+    z-index: 1000;
+    background-color:white;
+    height:150px;
+}
+
+.link-container{
+    position: absolute;
+    display: inline-flex;
+    left:10px;
+}
+
+#topLeft-button-container img{
+    vertical-align: middle; 
+}
+
+#topLeft-button-container p{
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+}
+
+#topLeft-button-container .headerButtonText-withArrow{
+    position: absolute;
+    align-self: center;
+    margin-left:70px;
+}
+
+#topLeft-button-container .headerButtonText-withArrowLong{
+    position: absolute;
+    align-self: center;
+    margin-left:10px;
+}
+
+/* General Window Section */
+
+.container{
+    display: flex;
+    margin-top:50px;
+    width:100%;
+    background-color: white;
+    justify-content: center;
+}
+
+.main-container{
+    position: relative;
+    width:400px;
+    margin-top: 20px;
+    border:3px solid dodgerblue;
+}
+
+.frame-container{
+    width:100%;
+}
+
+.header-container{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.header-container p{
+    position: absolute;
+    font-family: 'humanist';
+    font-size: 18px;
+    width:100%;
+    color:white;
+    padding-left: 10px;
+}
+
+.content-container{
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.content-container textarea{
+    padding-left: 5px;
+    width:90%;
+    resize: none;
+}
+
+.custom-border{
+    position: absolute;
+    top:40px;
+    left:20px;
+    z-index: 0;
+}
+
+.scroll-container{
+    display: flex;
+    position: relative;
+}
+
+.scrollbar{
+    height:380px;
+}
+
+#dropdown-container{
+    display: flex;
+    position: absolute;
+    right:50px;
+    top:35px;
+    z-index: 5;
+}
+
+#dropdown-container select{
+    border:2px solid dodgerblue;
+    border-radius: 3px;
+}
+
+/* Footer Button Section */
+
+#footer{
+    margin-top: auto;
+    justify-content: space-between;
+    position: relative;
+    border:1px solid black;
+    height:100px;
+}
+
+#bottomLeft-button-container{
+
+    border:1px solid green;
+}
+
+#bottomLeft-button-container p{
+    position: absolute;
+    font-family: 'humanist';
+    font-size: 33px;
+    color:white;
+    right:105px;
+}
+
+#bottomRight-button-container{
+    
+
+ 
+    border:2px solid red;
+}
+
+#bottomRight-button-container p{
+    font-family: 'humanist';
+    font-size: 33px;
+    color:white;
+}
+
+
+/* Testcase section */
+
+.testcase-container{
+    margin-right:20px;
+    width:500px;
+}
+
+@media screen and (max-width:1037px){
+    #container{
+        flex-direction:column;
+        margin-bottom: 20px;
+        align-items: center;
+        margin-top:0;
+    }
+}
+
+@media screen and (max-width: 650px)
+{
+    #testcase-container{
+        width:450px;
+    }
+}
+

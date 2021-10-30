@@ -106,7 +106,7 @@ label{
 }
 
 #testcase-container p{
-    text-align: center;
+    /* text-align: center; */
     font-weight: bold;
 }
 
@@ -137,6 +137,7 @@ label{
 
 .add-item{
     color:#00A9E9;
+    cursor: pointer;
 }
 
 #testcase-container .buttons{
@@ -226,6 +227,7 @@ label{
     font-weight: bold;
     width:400px;
     margin-left: 30px;
+    margin-top:5px;
 }
 
 .form-container{
@@ -297,6 +299,7 @@ label{
     width:400px;
     text-align: center;
     padding-right: 20px;
+    margin-top:2px;
 }
 
 #config-button{
@@ -345,12 +348,14 @@ label{
     padding-right:20px;
 }
 
+
 /* Grading Button */
 
 .grading-container{
     position: absolute;
     bottom:5px;
     right:5px;
+    cursor: pointer;
 }
 
 .grading-container p {
@@ -389,8 +394,68 @@ label{
     cursor: pointer;
 }
 
+.global-icons{
+    position:absolute;
+    right:5px;
+}
 
+#zip-button{
+    cursor: pointer;
+}
 
+#global-settings-button{
+    cursor: pointer;
+}
+
+#config-global-container{
+    display: none;
+}
+
+#config-individual-container{
+    display: none;
+}
+
+#input-container{
+    display: none;
+}
+
+#output-container{
+    display: none;
+}
+
+#global-settings-container{
+    min-width:400px;
+    height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+}
+
+#global-settings-container .form-container{
+    height:480px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#global-settings-container .form-container::-webkit-scrollbar{
+    display: none;
+}
+
+#global-settings-container img{
+    width:390px;
+}
+
+.global-settings-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
+    margin-left: 30px;
+    margin-top:2px;
+}
 
 /* Testcase section */
 

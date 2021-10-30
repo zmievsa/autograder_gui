@@ -7,26 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/general_styles.css" />
     <link rel="stylesheet" href="css/custom_styles/grading-results.css" />
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/general_styles.css" />
     <title>Document</title>
 </head>
 
 <div class="header">
-    <a class="grading-configuration-container" href="grade-configuration2.html">
+    <a class="grading-configuration-container" href="homework.html">
         <img src="images/header-bg-long.png" />
         <div class="grading-configuration-text">
-            <p>Grading</p>
-            <p>Configuration</p>
+            <p>Homework</p>
         </div>
     </a>
-    <div class="file-container">
-        <p id="assignment-text">File: test.zip</p>
-        <p id="homework-text">File: test2.zip</p>
-    </div>
 </div>
 
-<div class="container">
+<div style="display:flex; align-items: center; justify-content: center;">
     <div class="main-container">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Testcases</th>
@@ -34,7 +32,7 @@
                 </tr>
             </thead>
         </table>
-        <div class="table-scroll">
+        <div class="table-scroll table table-hover">
             <table class="table-content">
 
             </table>
@@ -42,53 +40,22 @@
     </div>
 </div>
 
-<script>
-    const {ipcRenderer} = require('electron');
+<!--Footer -->
+<div class="footer">
+  
 
-    var array = [
-        {testcases:"testcase.01", grade:97},
-        {testcases:"testcase.02", grade:3},
-        {testcases:"testcase.03", grade:20},
-        {testcases:"testcase.04", grade:25},
-        {testcases:"testcase.05", grade:30},
-        {testcases:"testcase.06", grade:40},
-        {testcases:"testcase.07", grade:45},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
-        {testcases:"testcase.08", grade:50},
+    <a class="grading-container" href="#">
+        <img src="images/create_assignment_bg_export.png" />
+        <p>Export</p>
+    </a>
+</div>
 
-    ];
-    
-    let table = document.querySelector(".table-content");
-    
-    document.getElementById("assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("index-baseFile");
-    document.getElementById("homework-text").innerHTML = "Homework File: " + sessionStorage.getItem("homework-baseFile");
-
-    let filesArray = [];
-    let fileZipPath = sessionStorage.getItem("homework-directory");
-    ipcRenderer.send('populate-homework-array', fileZipPath);
-
-    ipcRenderer.on('populate-homework-array-response', (e,args) =>{
-        console.log(args);
-        let output = "";
-        let filesArray = args;
-
-        filesArray.forEach((file,index) => {
-            output += `<tr>
-                        <td>${file.name} </td>
-                        <td>${index}% </td>
-                    </tr>`;
-        });
-
-        console.log(output);
-
-        table.innerHTML = output;
-    });
-    
+    <script>
+        window.$ = window.jQuery = require("./js/jquery-3.6.0.min.js");
     </script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/gradingResults.js"></script>
 
 </body>
 
