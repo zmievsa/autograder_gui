@@ -324,7 +324,24 @@ let editFormFields = document.querySelectorAll("#edit-form input, #edit-form tex
 for(let input of editFormFields)
 {
     if(input.type == "text"){
+
+        input.addEventListener("keydown", (e)=>{
+
+            let key = e.key.toLowerCase().charCodeAt(0);
+
+            if(!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8))
+            {
+                e.preventDefault();
+                return;
+            }
+        })
+
         input.addEventListener("keyup", (e) =>{
+
+            
+            console.log(input.value);
+
+
             let value = e.target.value;
 
             console.log(value.length);
@@ -334,12 +351,12 @@ for(let input of editFormFields)
 
             globalData.testcases[currentIndex][input.dataset.name] = value;
 
-            if(value.length >= 28)
+            if(value.length >= 26)
                 value = value.substring(0,25) + "...";
         
             if (globalData.testcases[currentIndex].language == "c"){
                 image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
-                if(value.length >= 28)
+                if(value.length >= 26)
                     fileName = value.substring(0,25) + "...";
                 else
                     fileName = globalData.testcases[currentIndex].name+"."+"c";
@@ -347,7 +364,7 @@ for(let input of editFormFields)
             else if (globalData.testcases[currentIndex].language == "java"){
                 image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
 
-                if(value.length >= 28)
+                if(value.length >= 26)
                     fileName = value.substring(0,25) + "...";
                 else
                     fileName = globalData.testcases[currentIndex].name+"."+"java"
@@ -355,14 +372,14 @@ for(let input of editFormFields)
             else if (globalData.testcases[currentIndex].language == "c++"){
                 image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
                 
-                if(value.length >= 28)
+                if(value.length >= 26)
                     fileName = value.substring(0,25) + "...";
                 else
                     fileName = globalData.testcases[currentIndex].name+"."+"c++";
             }
             else{
                 image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
-                if(value.length >= 28)
+                if(value.length >= 26)
                     fileName = value.substring(0,25) + "...";
                 else
                     fileName = globalData.testcases[currentIndex].name+"."+"py";
