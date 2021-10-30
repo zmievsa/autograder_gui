@@ -431,6 +431,12 @@ label{
     border-radius: 15px;
     box-shadow: 5px 10px 5px #ccc;
     display: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#global-settings-container::-webkit-scrollbar{
+    display: none;
 }
 
 #global-settings-container img{

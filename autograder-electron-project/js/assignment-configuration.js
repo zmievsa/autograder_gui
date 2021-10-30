@@ -13,6 +13,7 @@ let globalData = {
                     generateResults:false, 
                     parallelGrading:false, 
                     stdoutGrading:false,
+                    memoryLeak:false,
                     testcases:[],
 };
 
@@ -631,6 +632,9 @@ function populateGlobalSettings(){
     let stdoutField = document.getElementById("stdout-grading");
 
     stdoutField.checked = globalData.stdoutGrading;
+
+    let memoryLeakField = document.getElementById("memory-leak");
+    memoryLeakField.checked = globalData.memoryLeak;
 
 }
 
