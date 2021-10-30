@@ -431,11 +431,15 @@ label{
     border-radius: 15px;
     box-shadow: 5px 10px 5px #ccc;
     display: none;
+}
+
+#global-settings-container .form-container{
+    height:480px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-#global-settings-container::-webkit-scrollbar{
+#global-settings-container .form-container::-webkit-scrollbar{
     display: none;
 }
 
