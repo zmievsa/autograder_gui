@@ -52,8 +52,6 @@
         sessionStorage.removeItem("assignment-baseFile");
         sessionStorage.removeItem("assignment-directory");
 
-        ipcRenderer.send('clear-temp');
-    
         const dropZoneElement = document.querySelector(".assignment-container");
         const inputElement = document.querySelector(".drop-zone-input");
         const createAssignmentButton = document.querySelector(".create-assignment-container");
