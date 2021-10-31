@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ css }}/custom_styles/assignment-configuration.css" />
+{% endblock %}
+
+{% block content %}
+<!--Index Button-->
+<div class="header">
+    <a class="index-container" href="index.html">
+        <img src="{{ images }}/header-bg-short-arrow.png" />
+        <p>Index</p>
+    </a>
+    <div class="file-container">
+        <p id="assignment-text"></p>
+    </div>
+
+    <div class="global-icons">
+        <img id="zip-button"
+            style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;"
+            src="{{ images }}/zip4.png" data-action="zip-files" title="Files" data-toggle="popover" data-html="true"
+            data-content="" data-state="false" />
+        <img id="global-settings-button"
+            style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;"
+            src="{{ images }}/global-settings.png" />
+    </div>
+
+</div>
+
+<!--Main Container (windows) -->
+<div style="display: flex; align-items: center; justify-content: center;">
+
+    <div class="main-container">
+
+        <div id="testcase-container">
+            <i class="fas fa-plus-circle add-item fa-4x" data-action="add"></i>
+            <p class="testcase-title">Testcases</p>
+            <img src="{{ images }}/testcase configuration.png" />
+            <div class="table-scroll">
+                <table id="main-table" class="table table-hover">
+                    <tbody id="testcase-table">
+
+                    </tbody>
+                </table>
+                <div id="no-items-container">
+                    <div
+                        style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <img src="{{ images }}/empty-folder-blue.svg" />
+                        <div style="width:250px; margin-top: 10px;">
+                            <p style="text-align: center; margin-bottom: 5px;">You currently have no testcases. </p>
+                            <p style="text-align: center;">Click the <i style="color:#00A9E9;"
+                                    class="fas fa-plus-circle"></i> button to create one.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="instructions-container">
+            <div id="instructions-secondary-container">
+                <p class="instructions-title">Instructions</p>
+                <img src="{{ images }}/testcase configuration.png" />
+                <div class="instructions-info-container">
+                    <p class="instructions-text">Select Option From Testcases</p>
+
+                    <table class="table">
+                        <tr>
+                            <td><i class="fas fa-edit buttons fa-lg text-primary"></i></td>
+                            <td>Edit and View code</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-cog buttons fa-lg text-primary"></i></td>
+                            <td>Edit Config File</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-trash buttons fa-lg text-primary"></i></td>
+                            <td>Delete Testcase </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-plus-circle add-item fa-lg text-primary"></i></td>
+                            <td>Add Testcase </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div id="edit-container">
+
+            <p class="edit-title">Edit and View Code </p>
+            <img src="{{ images }}/testcase configuration.png" />
+            <div class="form-container">
+                <form id="edit-form">
+                    <div class="form-group">
+                        <label for="file-name">File Name: </label>
+                        <input id="file-name" type="text" spellcheck="false" class="form-control" data-name="name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="language-select">Programming Language: </label>
+                        <select id="language-select" class="form-control" data-name="language">
+                            <option>C</option>
+                            <option>C++</option>
+                            <option>Java</option>
+                            <option>Python</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">Code: </label>
+                        <textarea id="edit-code" rows="10" class="form-control" spellcheck="false"
+                            data-name="code"></textarea>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div id="config-container">
+            <p class="config-title"> Configuration </p>
+            <img src="{{ images }}/testcase configuration.png" />
+            <div id="config-content">
+
+                <div class="form-container" id="config-individual-container">
+
+                    <form id="config-form" class="form-scroll">
+                        <div class="form-group">
+                            <label>Timeout <i id="individualTimeoutInfo" class="fas fa-info-circle text-primary"
+                                    title="Timeout" data-toggle="popover" data-html="true"
+                                    data-content="<p>Student's program is terminated if it takes more than this time in seconds</p>"
+                                    data-placement="top" data-action="individualTimeoutInfo"></i> : </label>
+                            <input id="time-out" type="text" spellcheck="false" class="form-control"
+                                data-name="individualTimeout" />
+                        </div>
+                        <div class="form-group">
+                            <label>Testcase Weight <i id="individualTestcaseWeightInfo"
+                                    class="fas fa-info-circle text-primary" title="Testcase Weight"
+                                    data-toggle="popover" data-html="true"
+                                    data-content="<p>A comma separated list of testcase_filename</p>"
+                                    data-placement="top" data-action="individualTestcaseWeightInfo"></i> : </label>
+                            <input id="testcase-weights" type="text" spellcheck="false" class="form-control"
+                                data-name="testcaseWeights" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-container" id="input-container">
+                    <form id="input-form">
+                        <div class="form-group pt-3">
+                            <label for="input-code">Input:</label>
+                            <textarea id="input-code" rows="17"
+                                class="form-control"></textarea data-name="inputText">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-container" id="output-container">
+                    <form id="output-form">
+                        
+                        <div class="form-group pt-3">
+                            <label for="output-code">Output:</label>
+                            <textarea id="output-code" rows="17" class="form-control" data-name="outputText"></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; position:absolute; top:20px; right:-51px;">
+                <img id="config-button"
+                    style="height:50px; width:50px; border:3px solid dodgerblue; padding:5px; margin-bottom: 7px; border-radius: 10px;"
+                    src="{{ images }}/gear.svg" />
+                <img id="input-button"
+                    style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px; margin-bottom: 7px;"
+                    src="{{ images }}/keyboard.png" />
+                <img id="output-button"
+                    style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px;"
+                    src="{{ images }}/monitor.png" />
+            </div>
+        </div>
+
+        <div id="global-settings-container">
+            <p class="global-settings-title"> Global Settings </p>
+            <img src="{{ images }}/testcase configuration.png" />
+
+            <div class="form-container">
+
+                <form id="global-settings-form" class="form-scroll">
+                    <div class="form-group">
+                        <label>Assignment Name <i id="assignmentNameInfo" class="fas fa-info-circle text-primary"
+                                title="Assignment Name" data-toggle="popover" data-html="true"
+                                data-content="<p>For display in the output for the student</p>" data-placement="top"
+                                data-action="assignmentNameInfo"></i> : </label>
+
+                        <input id="assignment-name" type="text" spellcheck="false" class="form-control"
+                            data-name="assignmentName" />
+                    </div>
+                    <div class="form-group">
+                        <label>Possible Source File Stems <i id="possibleSourceFileInfo"
+                                class="fas fa-info-circle text-primary" title="Possible Source File Stems"
+                                data-toggle="popover" data-html="true"
+                                data-content="<p>A list of strings separated by a comma. </p>" data-placement="top"
+                                data-action="possibleSourceFileInfo"></i> : </label>
+                        <input id="source-files" type="text" spellcheck="false" class="form-control"
+                            data-name="sourceFiles" />
+                    </div>
+                    <div class="form-group">
+                        <label>Timeout <i id="globalTimeoutInfo" class="fas fa-info-circle text-primary" title="Timeout"
+                                data-toggle="popover" data-html="true"
+                                data-content="<p>Student's program is terminated if it takes more than this time in seconds</p>"
+                                data-placement="top" data-action="globalTimeoutInfo"></i> : </label>
+                        <input id="global-timeout" type="text" spellcheck="false" class="form-control"
+                            data-name="timeout" />
+                    </div>
+                    <div class="form-group">
+                        <label>Testcase Weights <i id="testcaseWeightInfo" class="fas fa-info-circle text-primary"
+                                title="Testcase Weight" data-toggle="popover" data-html="true"
+                                data-content="<p>A comma separated list of testcase_filename</p>" data-placement="top"
+                                data-action="testcaseWeightInfo"></i> : </label>
+                        <input id="testcase-weights" type="text" spellcheck="false" class="form-control"
+                            data-name="testcaseWeight" />
+                    </div>
+                    <div class="form-group">
+                        <label>Total Points <i id="totalPointsInfo" class="fas fa-info-circle text-primary"
+                                title="Total Points" data-toggle="popover" data-html="true"
+                                data-content="<p>Total points given for tests.</p>" data-placement="top"
+                                data-action="totalPointsInfo"></i> : </label>
+                        <input id="total-points" type="text" spellcheck="false" class="form-control"
+                            data-name="totalPoints" />
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Generate Results</span>
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="generate-results"
+                                data-name="generateResults">
+                            <label class="custom-control-label" for="generate-results"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Parallel Grading</span>
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="parallel-grading"
+                                data-name="parallelGrading">
+                            <label class="custom-control-label" for="parallel-grading"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Stdout only grading</span>
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="stdout-grading"
+                                data-name="stdoutGrading">
+                            <label class="custom-control-label" for="stdout-grading"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="pr-2">Memory Leak Detetion</span>
+                        <div class="custom-control custom-switch d-inline">
+                            <input type="checkbox" class="custom-control-input" id="memory-leak" data-name="memoryLeak">
+                            <label class="custom-control-label" for="memory-leak"></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div id="add-container">
+
+            <p class="add-title">New Testcase </p>
+            <img src="{{ images }}/testcase configuration.png" />
+            <div class="form-container">
+                <form>
+                    <div class="form-group">
+                        <label for="add-filename">File Name: </label>
+                        <input id="add-filename" type="text" spellcheck="false" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="add-language-select">Programming Language: </label>
+                        <select id="add-language-select" class="form-control">
+                            <option>C</option>
+                            <option>C++</option>
+                            <option>Java</option>
+                            <option>Python</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-code">Code: </label>
+                        <textarea id="add-code" rows="8" class="form-control"></textarea>
+                    </div>
+                    <div class="button-container">
+                        <button id="submit-button" class="btn"
+                            style="background-color:#00A9E9; color:white; font-weight: bold;">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Testcase</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">Would you like to delete this testcase?</p>
+                    <form>
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="confirmButton" class="btn btn-danger">Delete</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Footer -->
+<div class="footer">
+    <a id="export-container" class="export-container">
+        <img src="{{ images }}/export_bg.png" />
+        <p>Export</p>
+    </a>
+
+    <a class="grading-container" onclick="saveAssignment(); location.href = 'homework.html';">
+        <img src="{{ images }}/Grading_bg.png" />
+        <p>Grading</p>
+    </a>
+</div>
+<script src="{{ js }}/assignment-configuration.js"></script>
+{% endblock %}
