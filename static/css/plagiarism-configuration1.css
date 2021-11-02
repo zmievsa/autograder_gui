@@ -1,3 +1,4 @@
+
 /* Checkbox  Section */ 
 
 .check_box {
@@ -21,7 +22,7 @@ label{
 }
 
 .check_box + label{
-    background:'{{ images }}/checkbox-unchecked.png' no-repeat;
+    background:'../images/checkbox-unchecked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
@@ -29,7 +30,7 @@ label{
 }
 
 .check_box:checked + label{
-    background:'{{ images }}/checkbox-checked.png' no-repeat;
+    background:'../images/checkbox-checked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;

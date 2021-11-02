@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ css }}/custom_styles/plagiarism-configuration1.css" />
+<link rel="stylesheet" href="../css/plagiarism-configuration1.css" />
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
     <!-- Assignment Configuration Button -->
     <div class="header">
         <a class="assignment-configuration-container" href="Index.html">
-            <img src="{{ images }}/header-bg-short-arrow.png" />
+            <img src="../images/header-bg-short-arrow.png" />
             <div class="assignment-configuration-text">
                 <p>Index</p>
             </div>
@@ -23,14 +23,14 @@
         <div class="main-container">
 
             <div class="upload-container">
-                <img src="{{ images }}/Assignment_background_small.png" />
+                <img src="../images/Assignment_background_small.png" />
                 <p>Homework</p>
                 <input type="file" class="drop-zone-input" />
             </div>
 
             <div id="homework-container">
                 <p class="homework-title">Homework</p>
-                <img src="{{ images }}/testcase configuration.png" />
+                <img src="../images/testcase configuration.png" />
                 <div class="table-scroll">
                     <table id="main-table" class="table table-hover">
                         <tbody id="homework-table">
@@ -40,7 +40,7 @@
                     <div id="no-items-container">
                         <div
                             style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
-                            <img style="height:50px; width:50px;" src="{{ images }}/upload.png" />
+                            <img style="height:50px; width:50px;" src="../images/upload.png" />
                             <div style="width:250px; margin-top: 10px;">
                                 <p style="text-align: center; margin-bottom: 5px; line-height: 1.4;">To upload
                                     homework, drag and drop homework files onto homework button. </p>
@@ -58,9 +58,9 @@
 
     <div class="footer">
         <a class="right-button-container" href="plagiarism-checking-results.html">
-            <img src="{{ images }}/create_assignment_bg_orig.png" />
+            <img src="../images/create_assignment_bg_orig.png" />
             <p>Check</p>
         </a>
     </div>
-<script src="{{ js }}/plagiarism.js"></script>
+<script src="../js/plagiarism.js"></script>
 {% endblock %}

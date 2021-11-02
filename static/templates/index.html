@@ -1,75 +1,28 @@
 {% extends 'base.html' %}
 {% block head %}
-<link rel="stylesheet" href="{{ css }}/custom_styles/index.css" />
+<link rel="stylesheet" type="text/css" href="../css/index.css" />
 {% endblock %}
 
 {% block content %}
-<!-- plagiarism Button -->
 <div class="header">
     <a href="plagiarism-configuration1.html" class="plagiarism-container">
-        <img src="{{ images }}/button_bg_top.png" />
+        <img src="../images/button_bg_top.png" />
         <p>Plagiarism</p>
     </a>
 
 </div>
 
-<!-- Assignment Button -->
-
-<div class="assignment-container">
-    <img src="{{ images }}/Assignment_background_small.png" />
+<div class="assignment-container" onclick="eel.extract_zip('assignment')(r => {if (r) location.href = 'assignment-configuration.html'});">
+    <img src="../images/Assignment_background_small.png" />
     <p>Assignment</p>
-    <input class="drop-zone-input" type="file" />
+    <input class="drop-zone-input" />
 </div>
 
 
-<!-- Create Assignment Button -->
 <div class="footer">
     <a class="create-assignment-container" href="assignment-configuration.html">
-        <img src="{{ images }}/create_assignment_bg_orig.png" />
+        <img src="../images/create_assignment_bg_orig.png" />
         <p>Create Assignment</p>
     </a>
 </div>
-
-
-<script>
-
-    sessionStorage.removeItem("assignment-baseFile");
-    sessionStorage.removeItem("assignment-directory");
-
-    const dropZoneElement = document.querySelector(".assignment-container");
-    const inputElement = document.querySelector(".drop-zone-input");
-
-    dropZoneElement.addEventListener("click", e => {
-        inputElement.click();
-    });
-
-    inputElement.addEventListener("change", e => {
-        if (inputElement.files.length) {
-            sessionStorage.setItem('assignment-baseFile', inputElement.files[0].name);
-            sessionStorage.setItem("assignment-directory", inputElement.files[0].path);
-            location.href = "assignment-configuration.html";
-
-        }
-    });
-
-    dropZoneElement.addEventListener("dragover", e => {
-        e.preventDefault();
-        dropZoneElement.classList.add("drop-zone--over");
-    });
-
-    ["dragleave", "dragend"].forEach((type) => {
-        dropZoneElement.addEventListener(type, (e) => {
-            dropZoneElement.classList.remove("drop-zone--over");
-        })
-    })
-
-    dropZoneElement.addEventListener("drop", e => {
-        e.preventDefault();
-        console.log(e.dataTransfer.files[0]);
-        sessionStorage.setItem("assignment-baseFile", e.dataTransfer.files[0].name);
-        sessionStorage.setItem("assignment-directory", e.dataTransfer.files[0].path);
-        location.href = "assignment-configuration.html";
-    })
-
-</script>
 {% endblock %}

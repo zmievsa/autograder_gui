@@ -1,4 +1,5 @@
-eel.expose(populateHomeworkArray)
+
+
 function populateHomeworkArray(filesArray) {
     let output = "";
     filesArray.forEach((file, index) => {
@@ -12,30 +13,7 @@ function populateHomeworkArray(filesArray) {
     document.querySelector(".homework-checkbox-containers").innerHTML = output;
 }
 
-eel.expose(populateArray);
-function populateArray(files) {
-
-    for (let file of files) {
-        let obj = {};
-        let fullFileName = file.name.split(".");
-        obj.name = fullFileName[0];
-        obj.language = fullFileName[1];
-        obj.code = file.body;
-        obj.config = {
-            timeout: "1",
-            testcaseWeight: "test"
-        };
-        obj.input = "";
-        obj.output = "";
-        globalData.testcases.push(obj);
-    }
-
-    showEmptyTable(globalData.testcases);
-    createTable(globalData.testcases);
-};
-
-eel.expose(populateHomeworkArray)
-function populateHomeworkArray(files) {
+function populateResultsArray(files) {
     homeworkData = [];
     for (let file of files) {
         let obj = {};

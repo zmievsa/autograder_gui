@@ -1,3 +1,5 @@
+
+
 const dropZoneElement = document.querySelector(".upload-container");
 const inputElement = document.querySelector(".drop-zone-input");
 
@@ -37,19 +39,19 @@ function createTable(items) {
 
 
         if (item.extension == "c") {
-            image = `<img style="height:20px; width:20px;" src="../../images/c.svg" />`;
+            image = `<img style="height:20px; width:20px;" src="../images/c.svg" />`;
             fileName = item.name + "." + "c";
         }
         else if (item.extension == "java") {
-            image = `<img style="height:20px; width:20px;" src="../../images/java.svg" />`;
+            image = `<img style="height:20px; width:20px;" src="../images/java.svg" />`;
             fileName = item.name + "." + "java"
         }
         else if (item.extension == "c++") {
-            image = `<img style="height:20px; width:20px;" src="../../images/c-plus.svg" />`;
+            image = `<img style="height:20px; width:20px;" src="../images/c-plus.svg" />`;
             fileName = item.name + "." + "c++";
         }
         else {
-            image = `<img style="height:20px; width:20px;" src="../../images/python.svg" />`;
+            image = `<img style="height:20px; width:20px;" src="../images/python.svg" />`;
             fileName = item.name + "." + "py";
         }
 

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ css }}/custom_styles/grading-results.css" />
+<link rel="stylesheet" href="../css/grading-results.css" />
 {% endblock %}
 
 {% block content %}
 <div class="header">
     <a class="grading-configuration-container" href="homework.html">
-        <img src="{{ images }}/header-bg-long.png" />
+        <img src="../images/header-bg-long.png" />
         <div class="grading-configuration-text">
             <p>Homework</p>
         </div>
@@ -37,11 +37,11 @@
 
 
     <a class="grading-container" href="#">
-        <img src="{{ images }}/create_assignment_bg_export.png" />
+        <img src="../images/create_assignment_bg_export.png" />
         <p>Export</p>
     </a>
 </div>
 
-<script src="{{ js }}/gradingResults.js"></script>
+<script src="../js/gradingResults.js"></script>
 
 {% endblock %}

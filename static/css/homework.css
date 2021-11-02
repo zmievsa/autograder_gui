@@ -1,5 +1,5 @@
-/* Checkbox  Section */ 
 
+/* Checkbox  Section */ 
 .check_box {
     display:none;
 }
@@ -21,7 +21,7 @@ label{
 }
 
 .check_box + label{
-    background:'{{ images }}/checkbox-unchecked.png' no-repeat;
+    background:'../images/checkbox-unchecked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
@@ -29,7 +29,7 @@ label{
 }
 
 .check_box:checked + label{
-    background:'{{ images }}/checkbox-checked.png' no-repeat;
+    background:'../images/checkbox-checked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
@@ -192,24 +192,3 @@ label{
 .show-window{
     display: block !important;
 }
-
-/* .bs-tooltip-auto[x-placement^=bottom] .arrow::before, 
-.bs-tooltip-bottom .arrow::before {
-    border-bottom-color: dodgerblue !important;
-}
-.bs-tooltip-auto[x-placement^=top] .arrow::before, 
-.bs-tooltip-top .arrow::before {
-    border-top-color:dodgerblue !important;
-}
-.bs-tooltip-auto[x-placement^=left] .arrow::before, 
-.bs-tooltip-left .arrow::before {
-    border-left-color: dodgerblue !important;
-}
-.bs-tooltip-auto[x-placement^=right] .arrow::before,
-.bs-tooltip-right .arrow::before {
-    border-right-color:dodgerblue !important;
-}
-
-.tooltip-inner{
-    background-color: dodgerblue !important;
-} */

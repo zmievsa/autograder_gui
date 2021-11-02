@@ -23,7 +23,7 @@ label{
 }
 
 .check_box + label{
-    background:'{{ images }}/checkbox-unchecked.png' no-repeat;
+    background:'../images/checkbox-unchecked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
@@ -31,7 +31,7 @@ label{
 }
 
 .check_box:checked + label{
-    background:'{{ images }}/checkbox-checked.png' no-repeat;
+    background:'../images/checkbox-checked.png' no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
@@ -284,7 +284,6 @@ label{
     border-radius: 15px;
     box-shadow: 5px 10px 5px #ccc;
     display: none;
-
 }
 
 #config-container img{

@@ -1,4 +1,3 @@
-/* Generals and Fonts */
 
 table{
     border-collapse: collapse;
@@ -7,11 +6,11 @@ table{
 }
 
 th{
-    padding-right: 50px;
-    padding-left: 5px;
     font-size: 25px;
     background-color: #009de0;
-    color:white;   
+    color:white;
+    text-align: center;
+    padding-right:25px;
 }
 
 td{
@@ -22,23 +21,22 @@ td{
 }
 
 
-/* plagiarism Button */
+/* Grading Configuration Button */
 
 .header{
     position: relative;
     height:100px;
     width:100%;
-    
     background-color: white;
 }
 
-.plagiarism-container{
+.grading-configuration-container{
     position: absolute;
     left:5px;
     top:5px;
 }
 
-.plagiarism-container p {
+.grading-configuration-text {
     color:white;
     font-family: 'humanist';
     font-size: 33px;
@@ -46,50 +44,72 @@ td{
     left:50%;
     top:50%;
     transform:translate(-50%, -50%);
-    
-    margin-right: 20px;
+    padding-right:70px;
 }
 
-/* Assignment Button */
 
-.assignment-container{
-    
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    cursor:pointer;
- 
+/* Table */
+
+.container{
+    display: flex;
+    margin-top:50px;
+    width:100%;
+    background-color: white;
+    justify-content: center;
 }
 
-.assignment-container p{
-    position: absolute;
-    font-family: 'humanist';
-    font-size: 33px;
-    color:white;
-  
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    padding-bottom: 30px;
-}
-
-/* Create Assignment Button*/
-
-.footer{
-   
+.main-container{
     position: relative;
-    height:100px;
-    margin-top: auto;
+    width:800px;
+    margin-top: 20px;
+    border:3px solid dodgerblue;
 }
 
-.create-assignment-container{
+.table-scroll{
+    height:300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.table-scroll::-webkit-scrollbar{
+    display: none;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e5f4fa;
+    
+}
+
+/* Export Button */
+
+.export-container{
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    cursor:pointer;
+}
+
+.export-container p {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-right:20px;
+}
+
+
+/* Grading Button */
+
+.grading-container{
     position: absolute;
     bottom:5px;
     right:5px;
 }
 
-.create-assignment-container p {
+.grading-container p {
     color:white;
     font-family: 'humanist';
     font-size: 33px;
@@ -97,7 +117,6 @@ td{
     left:50%;
     top:50%;
     transform:translate(-50%, -50%);
-    margin-right: 20px;
+    padding-left:30px;
+    
 }
-
-

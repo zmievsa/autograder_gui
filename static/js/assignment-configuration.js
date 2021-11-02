@@ -1,17 +1,99 @@
+
+
+function loadAssignmentPage(assignment) {
+    console.log(assignment)
+    if (assignment.testcases.length == 0)
+        noItemsContainer.classList.add("show-window");
+    for (const testcase of assignment.testcases)
+        addTestcaseRow(testcase);
+    globalAssignment = assignment
+    populateDocumentWithConfig(assignment.global_config);
+
+    $(".cfgtooltip").hover(function () {
+        const span = $(this).next("span");
+        console.log($("body").height);
+        const top = ($(this).offset().top - span.height() * 0.6 - 200);
+        span.css("top", `${top}px`)
+        span.addClass("d-inline-table");
+    }, function () {
+        $(this).next("span").removeClass("d-inline-table");
+    })
+
+}
+
+
+$(document).ready(function () {
+    eel.get_assignment()(loadAssignmentPage);
+});
+
+function populateDocumentWithConfig(config) {
+    let output = ""
+    for (item of config.filter((i) => i.type !== "checkbox")) {
+        if (item.is_per_testcase) {
+            item.key = "Default " + item.key.toLowerCase();
+        }
+        output += `
+        <div class="form-group">
+            <i class="fas fa-info-circle text-primary cfgtooltip"></i><span class="tooltiptext">${item.description}</span>
+            <label>${item.key}</label>
+            <input type="${item.type}" spellcheck="false" value="${item.value}" class="form-control"
+                data-name="${item.original_name}" data-description="${item.description}">
+        </div>
+    `
+    }
+    for (item of config.filter((i) => i.type === "checkbox")) {
+        if (item.value)
+            value = "on";
+        else
+            value = "off";
+        output += `
+            <div class="form-group">
+                <i class="fas fa-info-circle text-primary cfgtooltip"></i><span class="tooltiptext">${item.description}</span>
+                <span class="pr-2">${item.key}</span>
+                <div class="custom-control custom-switch d-inline">
+                    <input id="${item.original_name}"
+                        type="${item.type}"
+                        class="custom-control-input"
+                        id="${item.original_name}"
+                        data-name="${item.original_name}"
+                        value="${value}"
+                    />
+                    <label class="custom-control-label" for="${item.original_name}"></label>
+                </div>
+            </div>
+        `;
+    }
+    $("#global-settings-content").html(output)
+}
+
+function addTestcaseRow(item) {
+    let image = `<img style="height:20px; width:20px;" src="../images/${item.language.toLowerCase()}.svg" />`;
+    console.log(image);
+    // TODO
+    // if (item.name.length >= 28)
+    //     fileName = item.name.substring(0, 25) + "...";
+    // else
+    //     fileName = item.name + "." + "py";
+    let tr = document.createElement("tr");
+    tr.innerHTML = `<tr>
+        <td data-action="row">${image}${item.name}</td>
+        <td data-action="row" class="buttons">
+            <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
+            <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
+            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
+        </td>
+    </tr>
+    `;
+    table.appendChild(tr);
+    globalAssignment.testcases.push({ name: item.name, language: item.language, code: item.code });
+}
+
 // Globals
 let currentIndex = 0;
 let currentRow = null;
 
-let globalData = {
-    assignmentName: 'Daniel',
-    sourceFiles: '',
-    timeout: '',
-    testcaseWeight: '',
-    totalPoints: '',
-    generateResults: false,
-    parallelGrading: false,
-    stdoutGrading: false,
-    memoryLeak: false,
+let globalAssignment = {
+    global_config: {},
     testcases: [],
 };
 
@@ -57,103 +139,6 @@ let gradingButton = document.querySelector(".grading-container");
 
 currentContainer.classList.add("show-window");
 
-function showEmptyTable(items) {
-
-    if (items.length == 0)
-        noItemsContainer.classList.add("show-window");
-}
-
-
-// Creates the table on initial page load
-function createTable(items) {
-    let output = "";
-
-    for (const item of items) {
-        let image = "";
-        let fileName = "";
-
-        if (item.language == "c") {
-            image = `<img style="height:20px; width:20px;" src="../../images/c.svg" />`;
-            fileName = item.name + "." + "c";
-        }
-        else if (item.language == "java") {
-            image = `<img style="height:20px; width:20px;" src="../../images/java.svg" />`;
-            fileName = item.name + "." + "java"
-        }
-        else if (item.language == "c++") {
-            image = `<img style="height:20px; width:20px;" src="../../images/c-plus.svg" />`;
-            fileName = item.name + "." + "c++";
-        }
-        else {
-            image = `<img style="height:20px; width:20px;" src="../../images/python.svg" />`;
-            fileName = item.name + "." + "py";
-        }
-
-        output += `<tr>
-                        <td data-action="row">${image}${fileName}</td>
-                        <td data-action="row" class="buttons">
-                            <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
-                            <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-                            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
-                        </td>
-                    </tr>
-                `;
-    }
-
-    table.innerHTML = output;
-}
-
-// Adds a new row to our table
-function insertRow(item) {
-    let tr = document.createElement("tr");
-
-    let image = "";
-    let fileName = "";
-
-    if (item.language == "c") {
-        image = `<img style="height:20px; width:20px;" src="../../images/c.svg" />`;
-        if (item.name.length >= 28)
-            fileName = item.name.substring(0, 25) + "...";
-        else
-            fileName = item.name + "." + "c";
-    }
-    else if (item.language == "java") {
-        image = `<img style="height:20px; width:20px;" src="../../images/java.svg" />`;
-        if (item.name.length >= 28)
-            fileName = item.name.substring(0, 25) + "...";
-        else
-            fileName = item.name + "." + "java"
-    }
-    else if (item.language == "c++") {
-        image = `<img style="height:20px; width:20px;" src="../../images/c-plus.svg" />`;
-        if (item.name.length >= 28)
-            fileName = item.name.substring(0, 25) + "...";
-        else
-            fileName = item.name + "." + "c++";
-    }
-    else {
-        image = `<img style="height:20px; width:20px;" src="../../images/python.svg" />`;
-
-        if (item.name.length >= 28)
-            fileName = item.name.substring(0, 25) + "...";
-        else
-            fileName = item.name + "." + "py";
-    }
-
-    let output = `
-        <td data-action="row">${image}${fileName}</td>
-        <td data-action="row" class="buttons">
-            <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
-            <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
-        </td>`;
-
-    tr.innerHTML = output;
-
-    table.appendChild(tr);
-    globalData.testcases.push({ name: item.name, language: item.language, code: item.code });
-}
-
 // Function that populates the edit screen window
 function populateEditScreen(testcases, index) {
     let nameField = document.getElementById("file-name");
@@ -187,12 +172,12 @@ function handleClick(evt) {
         if (action == "edit") {
             let rowIndex = evt.target.closest("tr").rowIndex;
             currentIndex = rowIndex;
-            // alert(`Edit user with ID of ${rowIndex}`);
+            // alert(`Edit user with ID of ${ rowIndex } `);
             // console.log(testcases);
             currentContainer.classList.remove("show-window");
             currentContainer = editContainer;
             currentContainer.classList.add("show-window");
-            populateEditScreen(globalData.testcases, rowIndex);
+            populateEditScreen(globalAssignment.testcases, rowIndex);
         }
         else if (action == "delete") {
             let rowIndex = evt.target.closest("tr").rowIndex;
@@ -236,257 +221,257 @@ function handleClick(evt) {
             currentContainer.classList.remove("show-window");
             currentContainer = editContainer;
             currentContainer.classList.add("show-window");
-            populateEditScreen(globalData.testcases, rowIndex);
+            populateEditScreen(globalAssignment.testcases, rowIndex);
         }
-        else if (action == "globalTimeoutInfo") {
-            currentPopOver = $("#globalTimeoutInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "zip-files") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#zip-button");
-            currentPopOver.popover('show');
-        }
-        else if (action == "testcaseWeightInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#testcaseWeightInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "assignmentNameInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#assignmentNameInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "possibleSourceFileInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#possibleSourceFileInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "globalTimeoutInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#globalTimeoutInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "testcaseWeightInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#testcaseWeightInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "totalPointsInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#totalPointsInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "individualTimeoutInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#individualTimeoutInfo");
-            currentPopOver.popover('show');
-        }
-        else if (action == "individualTestcaseWeightInfo") {
-            currentPopOver.popover('hide');
-            currentPopOver = $("#individualTestcaseWeightInfo");
-            currentPopOver.popover('show');
-        }
+        // else if (action == "globalTimeoutInfo") {
+        //     currentPopOver = $("#globalTimeoutInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "zip-files") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#zip-button");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "testcaseWeightInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#testcaseWeightInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "assignmentNameInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#assignmentNameInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "possibleSourceFileInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#possibleSourceFileInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "globalTimeoutInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#globalTimeoutInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "testcaseWeightInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#testcaseWeightInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "totalPointsInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#totalPointsInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "individualTimeoutInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#individualTimeoutInfo");
+        //     currentPopOver.popover('show');
+        // }
+        // else if (action == "individualTestcaseWeightInfo") {
+        //     currentPopOver.popover('hide');
+        //     currentPopOver = $("#individualTestcaseWeightInfo");
+        //     currentPopOver.popover('show');
+        // }
     }
-    else
-        currentPopOver.popover('hide');
+    // else
+    //     currentPopOver.popover('hide');
 }
 
 
 
-document.addEventListener("click", handleClick);
+// document.addEventListener("click", handleClick);
 
 
 // Global Settings Form
 let globalSettingsForm = document.querySelectorAll("#global-settings-form input");
 
-for (let input of globalSettingsForm) {
-    console.log(input.type);
+// for (let input of globalSettingsForm) {
+//     console.log(input.type);
 
-    if (input.type == "text") {
-        input.addEventListener("change", (e) => {
-            globalData[input.dataset.name] = e.target.value;
-        });
-    }
+//     if (input.type == "text") {
+//         input.addEventListener("change", (e) => {
+//             globalAssignment[input.dataset.name] = e.target.value;
+//         });
+//     }
 
-    if (input.type == "checkbox") {
-        input.addEventListener("change", (e) => {
-            console.log(input.checked);
-            globalData[input.dataset.name] = e.target.checked;
-        })
-    }
-}
+//     if (input.type == "checkbox") {
+//         input.addEventListener("change", (e) => {
+//             console.log(input.checked);
+//             globalAssignment[input.dataset.name] = e.target.checked;
+//         })
+//     }
+// }
 
 // Edit Form Fields
 let editFormFields = document.querySelectorAll("#edit-form input, #edit-form textarea,#edit-form select");
 
-for (let input of editFormFields) {
-    if (input.type == "text") {
+// for (let input of editFormFields) {
+//     if (input.type == "text") {
 
-        input.addEventListener("keydown", (e) => {
+//         input.addEventListener("keydown", (e) => {
 
-            let key = e.key.toLowerCase().charCodeAt(0);
+//             let key = e.key.toLowerCase().charCodeAt(0);
 
-            if (!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8)) {
-                e.preventDefault();
-                return;
-            }
-        })
+//             if (!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8)) {
+//                 e.preventDefault();
+//                 return;
+//             }
+//         })
 
-        input.addEventListener("keyup", (e) => {
-
-
-            console.log(input.value);
+//         input.addEventListener("keyup", (e) => {
 
 
-            let value = e.target.value;
-
-            console.log(value.length);
-
-            let image = "";
-            let fileName = "";
-
-            globalData.testcases[currentIndex][input.dataset.name] = value;
-
-            if (value.length >= 26)
-                value = value.substring(0, 25) + "...";
-
-            if (globalData.testcases[currentIndex].language == "c") {
-                image = `<img style="height:20px; width:20px;" src="../../images/c.svg" />`;
-                if (value.length >= 26)
-                    fileName = value.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "c";
-            }
-            else if (globalData.testcases[currentIndex].language == "java") {
-                image = `<img style="height:20px; width:20px;" src="../../images/java.svg" />`;
-
-                if (value.length >= 26)
-                    fileName = value.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "java"
-            }
-            else if (globalData.testcases[currentIndex].language == "c++") {
-                image = `<img style="height:20px; width:20px;" src="../../images/c-plus.svg" />`;
-
-                if (value.length >= 26)
-                    fileName = value.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "c++";
-            }
-            else {
-                image = `<img style="height:20px; width:20px;" src="../../images/python.svg" />`;
-                if (value.length >= 26)
-                    fileName = value.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "py";
-            }
-
-            let td = table.rows[currentIndex].getElementsByTagName("td");
-            td[0].innerHTML = `${image}${fileName}`;
-
-        });
-    }
-    else if (input.type == "textarea") {
-        input.addEventListener("keyup", (e) => {
-            let value = e.target.value;
-            globalData.testcases[currentIndex][input.dataset.name] = value;
-        });
-    }
-    else if (input.type == "select-one") {
-        input.addEventListener("change", (e) => {
-            let value = e.target.options[input.selectedIndex].value.toLowerCase();
-
-            console.log(value);
-            console.log(input.selectedIndex);
-            if (value == 'c')
-                globalData.testcases[currentIndex][input.dataset.name] = 'c';
-            else if (value == 'c++')
-                globalData.testcases[currentIndex][input.dataset.name] = 'c++';
-            else if (value == 'python')
-                globalData.testcases[currentIndex][input.dataset.name] = 'py';
-            else if (value == 'java')
-                globalData.testcases[currentIndex][input.dataset.name] = 'java';
+//             console.log(input.value);
 
 
-            if (globalData.testcases[currentIndex].language == "c") {
-                image = `<img style="height:20px; width:20px;" src="../../images/c.svg" />`;
+//             let value = e.target.value;
 
-                if (globalData.testcases[currentIndex].name.length >= 28)
-                    fileName = globalData.testcases[currentIndex].name.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "c";
-            }
-            else if (globalData.testcases[currentIndex].language == "java") {
-                image = `<img style="height:20px; width:20px;" src="../../images/java.svg" />`;
-                if (globalData.testcases[currentIndex].name.length >= 28)
-                    fileName = globalData.testcases[currentIndex].name.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "java"
-            }
-            else if (globalData.testcases[currentIndex].language == "c++") {
-                image = `<img style="height:20px; width:20px;" src="../../images/c-plus.svg" />`;
+//             console.log(value.length);
 
-                if (globalData.testcases[currentIndex].name.length >= 28)
-                    fileName = globalData.testcases[currentIndex].name.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "c++";
-            }
-            else {
-                image = `<img style="height:20px; width:20px;" src="../../images/python.svg" />`;
-                if (globalData.testcases[currentIndex].name.length >= 28)
-                    fileName = globalData.testcases[currentIndex].name.substring(0, 25) + "...";
-                else
-                    fileName = globalData.testcases[currentIndex].name + "." + "py";
-            }
+//             let image = "";
+//             let fileName = "";
 
-            let td = table.rows[currentIndex].getElementsByTagName("td");
-            td[0].innerHTML = `${image}${fileName}`;
+//             globalAssignment.testcases[currentIndex][input.dataset.name] = value;
 
-        });
-    }
-}
+//             if (value.length >= 26)
+//                 value = value.substring(0, 25) + "...";
+
+//             if (globalAssignment.testcases[currentIndex].language == "c") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/c.svg" /> `;
+//                 if (value.length >= 26)
+//                     fileName = value.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "c";
+//             }
+//             else if (globalAssignment.testcases[currentIndex].language == "java") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/java.svg" /> `;
+
+//                 if (value.length >= 26)
+//                     fileName = value.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "java"
+//             }
+//             else if (globalAssignment.testcases[currentIndex].language == "c++") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/c-plus.svg" /> `;
+
+//                 if (value.length >= 26)
+//                     fileName = value.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "c++";
+//             }
+//             else {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/python.svg" /> `;
+//                 if (value.length >= 26)
+//                     fileName = value.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "py";
+//             }
+
+//             let td = table.rows[currentIndex].getElementsByTagName("td");
+//             td[0].innerHTML = `${image}${fileName} `;
+
+//         });
+//     }
+//     else if (input.type == "textarea") {
+//         input.addEventListener("keyup", (e) => {
+//             let value = e.target.value;
+//             globalAssignment.testcases[currentIndex][input.dataset.name] = value;
+//         });
+//     }
+//     else if (input.type == "select-one") {
+//         input.addEventListener("change", (e) => {
+//             let value = e.target.options[input.selectedIndex].value.toLowerCase();
+
+//             console.log(value);
+//             console.log(input.selectedIndex);
+//             if (value == 'c')
+//                 globalAssignment.testcases[currentIndex][input.dataset.name] = 'c';
+//             else if (value == 'c++')
+//                 globalAssignment.testcases[currentIndex][input.dataset.name] = 'c++';
+//             else if (value == 'python')
+//                 globalAssignment.testcases[currentIndex][input.dataset.name] = 'py';
+//             else if (value == 'java')
+//                 globalAssignment.testcases[currentIndex][input.dataset.name] = 'java';
+
+
+//             if (globalAssignment.testcases[currentIndex].language == "c") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/c.svg" /> `;
+
+//                 if (globalAssignment.testcases[currentIndex].name.length >= 28)
+//                     fileName = globalAssignment.testcases[currentIndex].name.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "c";
+//             }
+//             else if (globalAssignment.testcases[currentIndex].language == "java") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/java.svg" /> `;
+//                 if (globalAssignment.testcases[currentIndex].name.length >= 28)
+//                     fileName = globalAssignment.testcases[currentIndex].name.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "java"
+//             }
+//             else if (globalAssignment.testcases[currentIndex].language == "c++") {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/c-plus.svg" /> `;
+
+//                 if (globalAssignment.testcases[currentIndex].name.length >= 28)
+//                     fileName = globalAssignment.testcases[currentIndex].name.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "c++";
+//             }
+//             else {
+//                 image = `< img style = "height:20px; width:20px;" src = "../images/python.svg" /> `;
+//                 if (globalAssignment.testcases[currentIndex].name.length >= 28)
+//                     fileName = globalAssignment.testcases[currentIndex].name.substring(0, 25) + "...";
+//                 else
+//                     fileName = globalAssignment.testcases[currentIndex].name + "." + "py";
+//             }
+
+//             let td = table.rows[currentIndex].getElementsByTagName("td");
+//             td[0].innerHTML = `${image}${fileName} `;
+
+//         });
+//     }
+// }
 
 // Configuration Form Fields
-let configFormFields = document.querySelectorAll("#config-form input");
+// let configFormFields = document.querySelectorAll("#config-form input");
 
-for (input of configFormFields) {
-    if (input.dataset.name == "individualTimeout") {
+// for (input of configFormFields) {
+//     if (input.dataset.name == "individualTimeout") {
 
-        input.addEventListener("change", (e) => {
-            globalData.testcases[currentIndex].config.timeout = e.target.value;
-        });
-    }
+//         input.addEventListener("change", (e) => {
+//             globalAssignment.testcases[currentIndex].config.timeout = e.target.value;
+//         });
+//     }
 
-    if (input.dataset.name == "testcaseWeights") {
+//     if (input.dataset.name == "testcaseWeights") {
 
-        input.addEventListener("change", (e) => {
-            globalData.testcases[currentIndex].config.testcaseWeights = e.target.value;
-        });
-    }
-}
+//         input.addEventListener("change", (e) => {
+//             globalAssignment.testcases[currentIndex].config.testcaseWeights = e.target.value;
+//         });
+//     }
+// }
 
 // Input Form Fields
-let inputFormFields = document.querySelectorAll("#input-form input");
+// let inputFormFields = document.querySelectorAll("#input-form input");
 
-for (let input of inputFormFields) {
-    if (input.dataset.name == "inputText") {
-        input.addEventListener("change", (e) => {
-            globalData.testcases[currentIndex].input.body = e.target.value;
-        })
-    }
-}
+// for (let input of inputFormFields) {
+//     if (input.dataset.name == "inputText") {
+//         input.addEventListener("change", (e) => {
+//             globalAssignment.testcases[currentIndex].input.body = e.target.value;
+//         })
+//     }
+// }
 
-// Output Form Fields
-let outputFormFields = document.querySelectorAll("#output-form input");
+// // Output Form Fields
+// let outputFormFields = document.querySelectorAll("#output-form input");
 
-for (let input of outputFormFields) {
-    if (input.dataset.name == "outputText") {
-        input.addEventListener("change", (e) => {
-            globalData.testcases[currentIndex].input.body = e.target.value;
-        })
-    }
-}
+// for (let input of outputFormFields) {
+//     if (input.dataset.name == "outputText") {
+//         input.addEventListener("change", (e) => {
+//             globalAssignment.testcases[currentIndex].input.body = e.target.value;
+//         })
+//     }
+// }
 
 // Configuration screen icon button
 configButton.addEventListener("click", (e) => {
@@ -549,7 +534,7 @@ submitButton.addEventListener("click", (e) => {
     let language = document.getElementById("add-language-select");
     let code = document.getElementById("add-code");
 
-    insertRow({ name: name.value, language: language.value.toLowerCase(), code: code.value });
+    addTestcaseRow({ name: name.value, language: language.value.toLowerCase(), code: code.value });
 
     name.value = "";
     language.selectedIndex = 0;
@@ -559,7 +544,7 @@ submitButton.addEventListener("click", (e) => {
     currentContainer = instructionsContainer;
     currentContainer.classList.add("show-window");
 
-    if (globalData.testcases.length == 0)
+    if (globalAssignment.testcases.length == 0)
         noItemsContainer.classList.add("show-window");
     else
         noItemsContainer.classList.remove("show-window");
@@ -587,46 +572,47 @@ globalSettingsButton.addEventListener("click", (e) => {
     currentContainer.classList.remove("show-window");
     currentContainer = globalSettingsContainer;
     currentContainer.classList.add("show-window");
-    populateGlobalSettings();
+    // populateGlobalSettings(); tbr
 });
 
 function populateGlobalSettings() {
 
     for (elem of document.getElementsByClassName("global_config"))
-        elem.value = globalData[elem.name];
+        elem.value = globalAssignment[elem.name];
     let assignmentNameField = document.getElementById("assignment-name");
-    assignmentNameField.value = globalData.assignmentName;
+    console.log(assignmentNameField.dataset.name);
+    assignmentNameField.value = globalAssignment.assignmentName;
 
     let sourceFilesField = document.getElementById("source-files");
 
-    sourceFilesField.value = globalData.sourceFiles;
+    sourceFilesField.value = globalAssignment.sourceFiles;
 
     let timeoutField = document.getElementById("global-timeout");
 
-    timeoutField.value = globalData.timeout;
+    timeoutField.value = globalAssignment.timeout;
 
     let testcaseWeights = document.getElementById("testcase-weights");
 
-    testcaseWeights.value = globalData.testcaseWeight;
+    testcaseWeights.value = globalAssignment.testcaseWeight;
 
     let totalPoints = document.getElementById("total-points");
 
-    testcaseWeights.value = globalData.totalPoints;
+    testcaseWeights.value = globalAssignment.totalPoints;
 
     let generateResultsField = document.getElementById("generate-results");
 
-    generateResultsField.checked = globalData.generateResults;
+    generateResultsField.checked = globalAssignment.generateResults;
 
     let parallelGradingField = document.getElementById("parallel-grading");
 
-    parallelGradingField.checked = globalData.parallelGrading;
+    parallelGradingField.checked = globalAssignment.parallelGrading;
 
     let stdoutField = document.getElementById("stdout-grading");
 
-    stdoutField.checked = globalData.stdoutGrading;
+    stdoutField.checked = globalAssignment.stdoutGrading;
 
     let memoryLeakField = document.getElementById("memory-leak");
-    memoryLeakField.checked = globalData.memoryLeak;
+    memoryLeakField.checked = globalAssignment.memoryLeak;
 
 }
 
@@ -634,30 +620,30 @@ function populateGlobalSettings() {
 function populateIndividualConfig() {
     let individualConfigField = document.getElementById("time-out");
 
-    individualConfigField.value = globalData.testcases[currentIndex].config.timeout;
+    individualConfigField.value = globalAssignment.testcases[currentIndex].config.timeout;
 
     let testcaseWeights = document.getElementById("testcase-weights");
 
-    testcaseWeights.value = globalData.testcases[currentIndex].config.testcaseWeight;
+    testcaseWeights.value = globalAssignment.testcases[currentIndex].config.testcaseWeight;
 }
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-});
+// $(function () {
+//     $('[data-toggle="tooltip"]').tooltip()
+// });
 
-$(function () {
-    $('[data-toggle="popover"]').popover();
-});
+// $(function () {
+//     $('[data-toggle="popover"]').popover();
+// });
 
 
 document.getElementById("confirmButton").addEventListener("click", (e) => {
-    let name = globalData.testcases[currentIndex].name;
-    globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+    let name = globalAssignment.testcases[currentIndex].name;
+    globalAssignment.testcases = globalAssignment.testcases.filter(testcase => testcase.name != name);
     currentRow.remove();
     currentContainer.classList.remove("show-window");
     currentContainer = instructionsContainer;
     currentContainer.classList.add("show-window");
-    if (globalData.testcases.length == 0)
+    if (globalAssignment.testcases.length == 0)
         noItemsContainer.classList.add("show-window");
     else
         noItemsContainer.classList.remove("show-window");
@@ -667,12 +653,12 @@ document.getElementById("confirmButton").addEventListener("click", (e) => {
 
 inputButton.addEventListener("click", (e) => {
     let inputField = document.getElementById("input-code");
-    inputField.value = globalData.testcases[currentIndex].input;
+    inputField.value = globalAssignment.testcases[currentIndex].input;
 })
 
 outputButton.addEventListener("click", (e) => {
     let outputField = document.getElementById("input-code");
-    outputField.value = globalData.testcases[currentIndex].output;
+    outputField.value = globalAssignment.testcases[currentIndex].output;
 })
 
 
@@ -688,17 +674,12 @@ function saveAssignment() {
 
 let exportButton = document.getElementById("export-container");
 
-if (sessionStorage.getItem("assignment-directory") != null)
-    eel.get_assignment_info(sessionStorage.getItem("assignment-directory"));
-else
-    showEmptyTable(globalData.testcases);
-
 
 exportButton.addEventListener("click", (e) => {
-    eel.export_assignment(globalData.testcases, sessionStorage.getItem("index"));
+    eel.export_assignment(globalAssignment.testcases, sessionStorage.getItem("index"));
 });
 
 if (sessionStorage.getItem("assignment-baseFile") != null) {
-    zipButton.setAttribute("data-content", `<p>${sessionStorage.getItem("assignment-baseFile")}</p>`);
+    zipButton.setAttribute("data-content", `< p > ${sessionStorage.getItem("assignment-baseFile")}</p > `);
 }
 

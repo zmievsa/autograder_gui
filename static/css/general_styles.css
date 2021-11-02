@@ -1,8 +1,10 @@
+/* 
+
 /* Generals and Fonts */
 
 *{
-    margin:0;
-    padding:0;
+    margin: 0px;
+    padding: 0px;
     line-height: 1.0;
 }
 
@@ -18,7 +20,7 @@ body{
 
 @font-face {
     font-family: 'humanist';
-    src: '{{ lib }}/fonts/humanist.ttf'  format('truetype');
+    src: url('../lib/fonts/humanist.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -44,19 +46,19 @@ label{
 }
 
 .check_box + label{
-    background:'{{ images }}/checkbox-unchecked.png' no-repeat;
+    background: url('../images/checkbox-unchecked.png') no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
-    padding: 0 0 0 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 .check_box:checked + label{
-    background:'{{ images }}/checkbox-checked.png' no-repeat;
+    background: url('../images/checkbox-checked.png') no-repeat;
     height: 32px;
     width: 32px;
     display:inline-block;
-    padding: 0 0 0 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 .checkbox_label{
@@ -73,10 +75,31 @@ label{
 
 .file-container{
     position:absolute;
-    right:0;
+    right: 0px;
     padding-right: 10px;
 }
 
 p{
-    margin-bottom: 0;
+    margin-bottom: 0px;
+}
+
+
+
+.cfgtooltip + .tooltiptext {
+    display: none;
+    position: absolute;
+    z-index: 99999;
+    min-width: 300px;
+    right: 20%;
+
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px 0px;
+    border-radius: 6px;
+  }
+  
+.d-inline-table {
+    display: inline-table!important;
 }

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ css }}/custom_styles/assignment-configuration.css" />
+<link rel="stylesheet" href="../css/assignment-configuration.css" />
 {% endblock %}
 
 {% block content %}
 <!--Index Button-->
 <div class="header">
     <a class="index-container" href="index.html">
-        <img src="{{ images }}/header-bg-short-arrow.png" />
+        <img src="../images/header-bg-short-arrow.png" />
         <p>Index</p>
     </a>
     <div class="file-container">
@@ -18,11 +18,11 @@
     <div class="global-icons">
         <img id="zip-button"
             style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;"
-            src="{{ images }}/zip4.png" data-action="zip-files" title="Files" data-toggle="popover" data-html="true"
+            src="../images/zip4.png" data-action="zip-files" title="Files" data-toggle="popover" data-html="true"
             data-content="" data-state="false" />
         <img id="global-settings-button"
             style="height:50px; width:50px; border:3px solid black; padding:5px; margin-bottom: 7px; border-radius: 10px;"
-            src="{{ images }}/global-settings.png" />
+            src="../images/global-settings.png" />
     </div>
 
 </div>
@@ -35,7 +35,7 @@
         <div id="testcase-container">
             <i class="fas fa-plus-circle add-item fa-4x" data-action="add"></i>
             <p class="testcase-title">Testcases</p>
-            <img src="{{ images }}/testcase configuration.png" />
+            <img src="../images/testcase configuration.png" />
             <div class="table-scroll">
                 <table id="main-table" class="table table-hover">
                     <tbody id="testcase-table">
@@ -45,7 +45,7 @@
                 <div id="no-items-container">
                     <div
                         style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
-                        <img src="{{ images }}/empty-folder-blue.svg" />
+                        <img src="../images/empty-folder-blue.svg" />
                         <div style="width:250px; margin-top: 10px;">
                             <p style="text-align: center; margin-bottom: 5px;">You currently have no testcases. </p>
                             <p style="text-align: center;">Click the <i style="color:#00A9E9;"
@@ -59,7 +59,7 @@
         <div id="instructions-container">
             <div id="instructions-secondary-container">
                 <p class="instructions-title">Instructions</p>
-                <img src="{{ images }}/testcase configuration.png" />
+                <img src="../images/testcase configuration.png" />
                 <div class="instructions-info-container">
                     <p class="instructions-text">Select Option From Testcases</p>
 
@@ -90,7 +90,7 @@
         <div id="edit-container">
 
             <p class="edit-title">Edit and View Code </p>
-            <img src="{{ images }}/testcase configuration.png" />
+            <img src="../images/testcase configuration.png" />
             <div class="form-container">
                 <form id="edit-form">
                     <div class="form-group">
@@ -116,8 +116,8 @@
 
         </div>
         <div id="config-container">
-            <p class="config-title"> Configuration </p>
-            <img src="{{ images }}/testcase configuration.png" />
+            <p class="config-title">Configuration</p>
+            <img src="../images/testcase configuration.png" />
             <div id="config-content">
 
                 <div class="form-container" id="config-individual-container">
@@ -166,97 +166,29 @@
             <div style="display: flex; flex-direction: column; position:absolute; top:20px; right:-51px;">
                 <img id="config-button"
                     style="height:50px; width:50px; border:3px solid dodgerblue; padding:5px; margin-bottom: 7px; border-radius: 10px;"
-                    src="{{ images }}/gear.svg" />
+                    src="../images/gear.svg" />
                 <img id="input-button"
                     style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px; margin-bottom: 7px;"
-                    src="{{ images }}/keyboard.png" />
+                    src="../images/keyboard.png" />
                 <img id="output-button"
                     style="height: 50px; width:50px; border:3px solid dodgerblue; padding:5px; border-radius: 10px;"
-                    src="{{ images }}/monitor.png" />
+                    src="../images/monitor.png" />
             </div>
         </div>
 
         <div id="global-settings-container">
             <p class="global-settings-title"> Global Settings </p>
-            <img src="{{ images }}/testcase configuration.png" />
+            <img src="../images/testcase configuration.png" />
 
-            <div class="form-container">
+            <div id="global-settings-content" class="form-container">
+                <p class="global-settings-title"> Global Settings </p>
+                <img src="../images/testcase configuration.png" />
 
-                <form id="global-settings-form" class="form-scroll">
-                    <div class="form-group">
-                        <label>Assignment Name <i id="assignmentNameInfo" class="fas fa-info-circle text-primary"
-                                title="Assignment Name" data-toggle="popover" data-html="true"
-                                data-content="<p>For display in the output for the student</p>" data-placement="top"
-                                data-action="assignmentNameInfo"></i> : </label>
-
-                        <input id="assignment-name" type="text" spellcheck="false" class="form-control"
-                            data-name="assignmentName" />
-                    </div>
-                    <div class="form-group">
-                        <label>Possible Source File Stems <i id="possibleSourceFileInfo"
-                                class="fas fa-info-circle text-primary" title="Possible Source File Stems"
-                                data-toggle="popover" data-html="true"
-                                data-content="<p>A list of strings separated by a comma. </p>" data-placement="top"
-                                data-action="possibleSourceFileInfo"></i> : </label>
-                        <input id="source-files" type="text" spellcheck="false" class="form-control"
-                            data-name="sourceFiles" />
-                    </div>
-                    <div class="form-group">
-                        <label>Timeout <i id="globalTimeoutInfo" class="fas fa-info-circle text-primary" title="Timeout"
-                                data-toggle="popover" data-html="true"
-                                data-content="<p>Student's program is terminated if it takes more than this time in seconds</p>"
-                                data-placement="top" data-action="globalTimeoutInfo"></i> : </label>
-                        <input id="global-timeout" type="text" spellcheck="false" class="form-control"
-                            data-name="timeout" />
-                    </div>
-                    <div class="form-group">
-                        <label>Testcase Weights <i id="testcaseWeightInfo" class="fas fa-info-circle text-primary"
-                                title="Testcase Weight" data-toggle="popover" data-html="true"
-                                data-content="<p>A comma separated list of testcase_filename</p>" data-placement="top"
-                                data-action="testcaseWeightInfo"></i> : </label>
-                        <input id="testcase-weights" type="text" spellcheck="false" class="form-control"
-                            data-name="testcaseWeight" />
-                    </div>
-                    <div class="form-group">
-                        <label>Total Points <i id="totalPointsInfo" class="fas fa-info-circle text-primary"
-                                title="Total Points" data-toggle="popover" data-html="true"
-                                data-content="<p>Total points given for tests.</p>" data-placement="top"
-                                data-action="totalPointsInfo"></i> : </label>
-                        <input id="total-points" type="text" spellcheck="false" class="form-control"
-                            data-name="totalPoints" />
-                    </div>
-                    <div class="form-group">
-                        <span class="pr-2">Generate Results</span>
-                        <div class="custom-control custom-switch d-inline">
-                            <input type="checkbox" class="custom-control-input" id="generate-results"
-                                data-name="generateResults">
-                            <label class="custom-control-label" for="generate-results"></label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <span class="pr-2">Parallel Grading</span>
-                        <div class="custom-control custom-switch d-inline">
-                            <input type="checkbox" class="custom-control-input" id="parallel-grading"
-                                data-name="parallelGrading">
-                            <label class="custom-control-label" for="parallel-grading"></label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <span class="pr-2">Stdout only grading</span>
-                        <div class="custom-control custom-switch d-inline">
-                            <input type="checkbox" class="custom-control-input" id="stdout-grading"
-                                data-name="stdoutGrading">
-                            <label class="custom-control-label" for="stdout-grading"></label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <span class="pr-2">Memory Leak Detetion</span>
-                        <div class="custom-control custom-switch d-inline">
-                            <input type="checkbox" class="custom-control-input" id="memory-leak" data-name="memoryLeak">
-                            <label class="custom-control-label" for="memory-leak"></label>
-                        </div>
-                    </div>
-                </form>
+                <div class="form-container">
+                    <form id="global-settings-form" class="form-scroll">
+                        <!-- To be filled up when assignment has been loaded -->
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -264,7 +196,7 @@
         <div id="add-container">
 
             <p class="add-title">New Testcase </p>
-            <img src="{{ images }}/testcase configuration.png" />
+            <img src="../images/testcase configuration.png" />
             <div class="form-container">
                 <form>
                     <div class="form-group">
@@ -327,14 +259,14 @@
 <!--Footer -->
 <div class="footer">
     <a id="export-container" class="export-container">
-        <img src="{{ images }}/export_bg.png" />
+        <img src="../images/export_bg.png" />
         <p>Export</p>
     </a>
 
     <a class="grading-container" onclick="saveAssignment(); location.href = 'homework.html';">
-        <img src="{{ images }}/Grading_bg.png" />
+        <img src="../images/Grading_bg.png" />
         <p>Grading</p>
     </a>
 </div>
-<script src="{{ js }}/assignment-configuration.js"></script>
+<script src="../js/assignment-configuration.js"></script>
 {% endblock %}
