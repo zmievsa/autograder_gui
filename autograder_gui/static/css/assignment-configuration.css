@@ -205,7 +205,7 @@ label{
 
 /* Edit Screen */
 
-#edit-container{
+#edit-testcase-container{
     min-width:400px;
     height:550px;
     border:1px solid black;
@@ -216,9 +216,9 @@ label{
 
 }
 
-#edit-container img{
+/* #edit-testcase-container img{
     width:390px;
-}
+} */
 
 .edit-title{
     position: absolute;
@@ -456,6 +456,14 @@ label{
     margin-top:2px;
 }
 
+.testcase-nav {
+    height:50px;
+    width:50px;
+    border:3px solid dodgerblue;
+    padding:5px;
+    border-radius: 10px;
+    margin-bottom: 7px;
+}
 /* Testcase section */
 
 

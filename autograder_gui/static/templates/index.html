@@ -12,15 +12,17 @@
 
 </div>
 
-<div class="assignment-container" onclick="eel.extract_zip('assignment')(r => {if (r) location.href = 'assignment-configuration.html'});">
+<div class="assignment-container"
+    onclick="eel.extract_zip('assignment')(r => {if (r) location.href = 'assignment-configuration.html'});">
     <img src="../images/Assignment_background_small.png" />
     <p>Assignment</p>
     <input class="drop-zone-input" />
 </div>
 
 
-<div class="footer">
-    <a class="create-assignment-container" href="assignment-configuration.html">
+<div class="footer" style="cursor: pointer;">
+    <a class="create-assignment-container"
+    onclick="eel.create_assignment()(r => {if (r) location.href = 'assignment-configuration.html'});">
         <img src="../images/create_assignment_bg_orig.png" />
         <p>Create Assignment</p>
     </a>

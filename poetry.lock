@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "assignment-autograder"
-version = "3.0.0a3"
+version = "3.0.0a4"
 description = "Automatic assignment grading for instructor use in programming courses"
 category = "main"
 optional = false
@@ -341,15 +341,15 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "9aa165753fa89e7dc7061287676edb7d0958b3e4cc053e7a85484b08e04b4f6a"
+content-hash = "575901f2e8744194ffec4affcc83011e5fe1b619954bd1631ffb24d62489e9bc"
 
 [metadata.files]
 antlr4-python3-runtime = [
     {file = "antlr4-python3-runtime-4.9.2.tar.gz", hash = "sha256:31f5abdc7faf16a1a6e9bf2eb31565d004359b821b09944436a34361929ae85a"},
 ]
 assignment-autograder = [
-    {file = "assignment-autograder-3.0.0a3.tar.gz", hash = "sha256:64802c738f4c6447b468964dbab65861af0b157ac130df1d303dff22f7dfcc0d"},
-    {file = "assignment_autograder-3.0.0a3-py3-none-any.whl", hash = "sha256:de910fc9f531f3c59c231aa26eceee9a3537ee93eff9f7904038656ac0677453"},
+    {file = "assignment-autograder-3.0.0a4.tar.gz", hash = "sha256:bef66a8b40e759f16c7bee0fcb6226ba29faba71fcc23396b8f9e31878dfa7fd"},
+    {file = "assignment_autograder-3.0.0a4-py3-none-any.whl", hash = "sha256:cea810d387f25f1ed767ab0dad6eb433fcb6c2605ebcb85b241df1b5118eebb1"},
 ]
 black = [
     {file = "black-21.10b0-py3-none-any.whl", hash = "sha256:6eb7448da9143ee65b856a5f3676b7dda98ad9abe0f87fce8c59291f15e82a5b"},
