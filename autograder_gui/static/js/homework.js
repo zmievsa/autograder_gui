@@ -14,6 +14,7 @@ $(window).bind('beforeunload', function () {
 
 
 function loadHomeworksPage(homeworks) {
+    console.log("HW:", homeworks);
     if (homeworks)
         createHomeworksTable(homeworks);
     HOMEWORKS = homeworks;

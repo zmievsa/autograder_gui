@@ -14,16 +14,16 @@
 
 {% block footer %}
 <div class="footer">
-        <a class="right-button-container" onclick="runPlagiarismChecking()">
-            <img src="../images/create_assignment_bg_orig.png" />
-            <p>Check</p>
-        </a>
+    <a class="right-button-container" onclick="runPlagiarismChecking()">
+        <img src="../images/create_assignment_bg_orig.png" />
+        <p>Check</p>
+    </a>
 </div>
 <script>
-async function runPlagiarismChecking() {
-    await eel.save_homeworks(HOMEWORKS)();
-    eel.autograder_plagiarism();
-    location.href = "plagiarism-checking-results.html";
-}
+    async function runPlagiarismChecking() {
+        await eel.save_homeworks(HOMEWORKS)();
+        eel.erase_plagiarism_results();
+        location.href = "plagiarism-checking-results.html";
+    }
 </script>
 {% endblock %}

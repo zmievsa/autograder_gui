@@ -24,8 +24,8 @@
 <script>
     async function runAutograder() {
         await eel.save_homeworks(HOMEWORKS)();
-        eel.autograder_run();
-        location.href = "plagiarism-checking-results.html";
+        eel.erase_grading_results();
+        location.href = "grading-results.html";
     }
 </script>
 {% endblock %}

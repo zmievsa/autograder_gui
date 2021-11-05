@@ -18,7 +18,7 @@ def load_homeworks(dir_with_homeworks: Path):
     return [{"path": f, "name": f.name, "enabled": True} for f in dir_with_homeworks.iterdir() if f.is_file()]
 
 
-def skip_inner_dirs(dir_: Path):
+def skip_inner_dirs(dir_: Path) -> Path:
     contents = list(dir_.iterdir())
     if len(contents) == 1 and contents[0].is_dir():
         return skip_inner_dirs(contents[0])
