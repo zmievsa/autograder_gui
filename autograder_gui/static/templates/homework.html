@@ -1,75 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'base_homework.html' %}
 
-{% block head %}
-<link rel="stylesheet" href="../css/homework.css" />
-{% endblock %}
-
-{% block content %}
-<!-- Assignment Configuration Button -->
+{% block header %}
 <div class="header">
     <a class="assignment-configuration-container" href="assignment-configuration.html">
         <img src="../images/header-bg-long.png" />
         <div class="assignment-configuration-text">
-            <p>Assignment</p>
+            <p style="margin-bottom: 17px;">Assignment</p>
             <p>Configuration</p>
         </div>
     </a>
-
 </div>
-
-<!-- Homeworks Upload Button -->
-<div class="container">
-
-    <div class="main-container">
-
-        <div class="upload-container">
-            <img src="../images/Assignment_background_small.png" />
-            <p>Homework</p>
-            <input type="file" class="drop-zone-input" />
-        </div>
-
-        <div id="homework-container">
-            <p class="homework-title">Homework</p>
-            <img src="../images/testcase configuration.png" />
-            <div class="table-scroll">
-                <table id="main-table" class="table table-hover">
-                    <tbody id="homework-table">
-
-                    </tbody>
-                </table>
-                <div id="no-items-container">
-                    <div
-                        style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
-                        <img style="height:50px; width:50px;" src="../images/upload.png" />
-                        <div style="width:250px; margin-top: 10px;">
-                            <p style="text-align: center; margin-bottom: 5px; line-height: 1.4;">To upload
-                                homework, drag and drop homework files onto homework button. </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+{% endblock %}
 
 
-
-</div>
-
+{% block footer %}
 <div class="footer">
-    <a class="right-button-container" onclick="saveHomeworks(); location.href = 'grading-results.html';">
+    <a class="right-button-container" onclick="runAutograder()">
         <img src="../images/create_assignment_bg_orig.png" />
         <p>Grade</p>
     </a>
 </div>
 
-
-
 <script>
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
+    async function runAutograder() {
+        await eel.save_homeworks(HOMEWORKS)();
+        eel.autograder_run();
+        location.href = "plagiarism-checking-results.html";
+    }
 </script>
-
-<script src="../js/homework.js"></script>
 {% endblock %}

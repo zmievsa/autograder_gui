@@ -2,6 +2,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="../css/assignment-configuration.css" />
+<script src="../js/assignment-configuration.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -162,28 +163,6 @@
     </div>
 </div>
 
-{# <div id="add-container">
-    <p class="add-title">New Testcase </p>
-    <img src="../images/testcase configuration.png" />
-    <div class="form-container">
-        <form>
-            <div class="form-group">
-                <label for="add-filename">File Name: </label>
-                <input id="add-filename" type="text" spellcheck="false" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="add-code">Code: </label>
-                <textarea id="add-code" rows="8" class="form-control"></textarea>
-            </div>
-            <div class="button-container">
-                <button id="submit-button" class="btn"
-                    style="background-color:#00A9E9; color:white; font-weight: bold;">Submit</button>
-            </div>
-        </form>
-    </div>
-</div> #}
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -216,10 +195,9 @@
         <p>Export</p>
     </a>
 
-    <a class="grading-container" onclick="saveAssignment(); location.href = 'homework.html';">
+    <a class="grading-container" onclick="location.href = 'homework.html';">
         <img src="../images/Grading_bg.png" />
         <p>Grading</p>
     </a>
 </div>
-<script src="../js/assignment-configuration.js"></script>
 {% endblock %}
