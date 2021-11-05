@@ -11,4 +11,3 @@ $(document).ready(async function () {
     $(".table-content").html(output);
 });
 
-

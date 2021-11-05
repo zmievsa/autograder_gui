@@ -77,7 +77,7 @@ def export_grading_results():
     root = tk.Tk()
     root.withdraw()
     root.wm_attributes("-topmost", 1)
-    dst = Path(askopenfilename(defaultextension=".zip"))
+    dst = Path(asksaveasfilename(defaultextension=".zip"))
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
     paths = AutograderPaths(root_dir)
     with TemporaryDirectory() as tmp:
@@ -85,6 +85,13 @@ def export_grading_results():
         if paths.results_dir.exists():
             shutil.copytree(paths.results_dir, tmp / paths.results_dir.name)
         (tmp / "results.json").write_text(json.dumps(GRADING_RESULTS, indent=4))
+        import csv
+
+        with (tmp / "results.csv").open("w", newline="") as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)
+            spamwriter.writerow(["submission_name", "grade"])
+            for r in GRADING_RESULTS["submissions"]:
+                spamwriter.writerow([r["submission"], r["final_grade"]])
         if dst.is_file():
             dst.unlink()
         make_archive(tmp, dst)
