@@ -1,0 +1,29 @@
+{% extends 'base_homework.html' %}
+
+{% block header %}
+<div class="header">
+    <a class="assignment-configuration-container" href="index.html">
+        <img src="../images/header-bg-long.png" />
+        <div class="assignment-configuration-text">
+            <p style="margin-bottom: 17px;">Index</p>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<div class="footer">
+    <a class="right-button-container" onclick="runPlagiarismChecking()">
+        <img src="../images/create_assignment_bg_orig.png" />
+        <p>Check</p>
+    </a>
+</div>
+<script>
+    async function runPlagiarismChecking() {
+        await eel.save_homeworks(HOMEWORKS)();
+        eel.erase_plagiarism_results();
+        location.href = "plagiarism-checking-results.html";
+    }
+</script>
+{% endblock %}
