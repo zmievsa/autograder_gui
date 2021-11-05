@@ -1,1 +1,4 @@
-autograder-electron-project/node_modules
+node_modules
+.vscode
+__pycache__
+dist
