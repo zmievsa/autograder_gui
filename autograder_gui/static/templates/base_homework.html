@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="../css/homework.css" />
+<script src="../js/homework.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Assignment Configuration Button -->
+{% block header %}{% endblock %}
+
+<!-- Homeworks Upload Button -->
+<div class="container">
+    <div class="main-container">
+        <div class="upload-container" onclick="eel.extract_zip('homeworks')(loadHomeworksPage)">
+            <img src="../images/Assignment_background_small.png" />
+            <p>Homeworks</p>
+            <input type="file" class="drop-zone-input" />
+        </div>
+        <div id="homework-container">
+            <p class="homework-title">Homeworks</p>
+            <img src="../images/testcase configuration.png" />
+            <div class="table-scroll">
+                <table id="main-table" class="table table-hover">
+                    <tbody id="homework-table">
+                        <!-- To be filled up in js -->
+                    </tbody>
+                </table>
+                <div id="no-items-container">
+                    <div
+                        style="height:300px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <img style="height:50px; width:50px;" src="../images/upload.png" />
+                        <div style="width:250px; margin-top: 10px;">
+                            <p style="text-align: center; margin-bottom: 5px; line-height: 1.4;">To upload
+                                homeworks, click on "Homework" </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% block footer %}{% endblock %}
+{% endblock %}
