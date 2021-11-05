@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/custom_styles/createAssignmentScreen-styles.css" />
+    <title>Document</title>
+</head>
+
+<div id="topLeft-button-container">
+    <a class="link-container" href="index.html">
+        <img src="images/header-bg-short-arrow.png" />
+        <div class="headerButtonText-withArrow">
+            <p>Index</p>
+        </div>
+    </a>
+</div>
+
+<div class="container">
+
+    <div class="main-container testcase-container">
+
+        <div id="dropdown-container">
+            <select name="cars" id="cars">
+                <option value="testcase1">testcase1.c</option>
+                <option value="testcase2">testcase2.c</option>
+                <option value="testcase3">testcase3.c</option>
+                <option value="testcase4">testcase4.c</option>
+            </select>
+        </div>
+
+        <div class="scroll-container">
+            <img class="scrollbar" src="images/scrollbar.png" />
+            <div class="frame-container">
+                <div class="header-container">
+                    <img src="images/testcase configuration.png" />
+                    <p>Testcase Code</p>
+                </div>
+                <img class="custom-border" src="images/border_small.png" />
+                <div class="content-container">
+                    <textarea cols="40" rows="20" placeholder="test code here."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="scroll-container">
+            <img class="scrollbar" src="images/scrollbar.png" />
+            <div class="frame-container">
+                <div class="header-container">
+                    <img src="images/testcase configuration.png" />
+                    <p>Testcase Configuration</p>
+                </div>
+                <img class="custom-border" src="images/border_small.png" />
+                <div class="content-container">
+                    <div>Max runtime: <input type="text" /> seconds</div>
+
+                    <div class="checkbox-containers">
+                        <div class="checkbox-container">
+                            <input type="checkbox" class="check_box" id="checkbox1" />
+                            <label for="checkbox1"></label>
+                            <p class="checkbox_label">Field 1</p>
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" class="check_box" id="checkbox2" />
+                            <label for="checkbox2"></label>
+                            <p class="checkbox_label">Field 2</p>
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" class="check_box" id="checkbox3" />
+                            <label for="checkbox3"></label>
+                            <p class="checkbox_label">Field 3</p>
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" class="check_box" id="checkbox4" />
+                            <label for="checkbox4"></label>
+                            <p class="checkbox_label">Field 4</p>
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" class="check_box" id="checkbox5" />
+                            <label for="checkbox5"></label>
+                            <p class="checkbox_label">Field 5</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="footer">
+    <div id="bottomLeft-button-container">
+        <img src="images/export_bg.png" />
+        <p>Export</p>
+    </div>
+    <div id="bottomRight-button-container">
+        <a class="link-container" href="results_screen.html">
+        <img src="images/Grading_bg.png" />
+        <p>Grading</p>
+        </a>
+    </div>
+</div>
+
+
+</body>
+
+</html>

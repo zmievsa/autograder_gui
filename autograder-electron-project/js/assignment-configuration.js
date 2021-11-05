@@ -1,5 +1,23 @@
 const { ipcRenderer, session } = require('electron');
 
+// Globals
+let currentIndex = 0;
+let currentRow = null;
+
+let globalData = {
+                    assignmentName:'Daniel',
+                    sourceFiles:'', 
+                    timeout:'', 
+                    testcaseWeight:'', 
+                    totalPoints:'', 
+                    generateResults:false, 
+                    parallelGrading:false, 
+                    stdoutGrading:false,
+                    memoryLeak:false,
+                    testcases:[],
+};
+
+
 // Containers
 let mainContainer = document.querySelector(".main-container");
 let instructionsContainer = document.getElementById("instructions-container");
@@ -8,36 +26,47 @@ let configContainer = document.getElementById("config-container");
 let addContainer = document.getElementById("add-container");
 let currentContainer = instructionsContainer;
 let noItemsContainer = document.getElementById("no-items-container");
+let globalSettingsContainer = document.getElementById("global-settings-container");
+
+// Subcontainers
+let configIndividualContainer = document.getElementById("config-individual-container");
+let inputContainer = document.getElementById("input-container");
+let outputContainer = document.getElementById("output-container");
+
+let currentConfigContainer = configIndividualContainer;
 
 // Table
 let table = document.getElementById("testcase-table");
-
-// Globals
-let currentIndex = 0;
-
-let testcases = [
-
-];
 
 // Config Icon Buttons
 let configButton = document.getElementById("config-button");
 let inputButton = document.getElementById("input-button");
 let outputButton = document.getElementById("output-button");
-let configContent = document.getElementById("config-content");
 
-// Buttons in add screen
+// Add Screen references
+let addFileName = document.getElementById("add-filename");
 let submitButton = document.getElementById("submit-button");
+
+// Right Header Buttons
+let globalIcons = document.querySelector(".global-icons");
+let zipButton = document.getElementById("zip-button");
+let globalSettingsButton = document.getElementById("global-settings-button");
+
+// Popover 
+let currentPopOver = $("#zip-button");
+
+let gradingButton = document.querySelector(".grading-container");
 
 currentContainer.classList.add("show-window");
 
-
-
-function initializeTable(items) {
+function showEmptyTable(items) {
 
     if(items.length == 0)
         noItemsContainer.classList.add("show-window");
 }
 
+
+// Creates the table on initial page load
 function createTable(items) {
     let output = "";
 
@@ -67,7 +96,7 @@ function createTable(items) {
                         <td data-action="row" class="buttons">
                             <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
                             <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-                            <i class="fas fa-trash fa-lg text-primary" data-action="delete"></i>
+                            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
                         </td>
                     </tr>
                 `;
@@ -76,6 +105,7 @@ function createTable(items) {
     table.innerHTML = output;
 }
 
+// Adds a new row to our table
 function insertRow(item){
     let tr = document.createElement("tr");
 
@@ -84,19 +114,32 @@ function insertRow(item){
 
     if (item.language == "c"){
         image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
-        fileName = item.name+"."+"c";
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"c";
     }
     else if (item.language == "java"){
         image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
-        fileName = item.name+"."+"java"
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"java"
     }
     else if (item.language == "c++"){
         image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
-        fileName = item.name+"."+"c++";
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+         else 
+            fileName = item.name+"."+"c++";
     }
     else{
         image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
-        fileName = item.name+"."+"py";
+        
+        if(item.name.length >= 28)
+            fileName = item.name.substring(0,25) + "...";
+        else 
+            fileName = item.name+"."+"py";
     }
 
     let output = `
@@ -104,70 +147,16 @@ function insertRow(item){
         <td data-action="row" class="buttons">
             <i class="fas fa-edit fa-lg text-primary" data-action="edit"></i>
             <i class="fas fa-cog fa-lg text-primary" data-action="config"></i>
-            <i class="fas fa-trash fa-lg text-primary" data-action="delete"></i>
+            <i class="fas fa-trash fa-lg text-primary" data-action="delete" data-toggle="modal" data-target="#exampleModalCenter"></i>
         </td>`;
 
     tr.innerHTML = output;
 
     table.appendChild(tr);
-    testcases.push({name:item.name, language:item.language,code:item.code});
+    globalData.testcases.push({name:item.name, language:item.language,code:item.code});
 }
 
-function handleClick(evt) {
-    var { action } = evt.target.dataset;
-    console.log(action);
-    
-    if (action) {
-    
-        if (action == "edit") {
-            let rowIndex = evt.target.closest("tr").rowIndex;
-            // alert(`Edit user with ID of ${rowIndex}`);
-            console.log(testcases);
-            currentContainer.classList.remove("show-window");
-            currentContainer = editContainer;
-            currentContainer.classList.add("show-window");
-            populateEditScreen(testcases,rowIndex);
-        } 
-        else if (action == "delete") {
-            let rowIndex = evt.target.closest("tr").rowIndex;
-            let name = testcases[rowIndex].name;
-            console.log(evt.target.closest("tr").rowIndex);
-            testcases = testcases.filter(testcase => testcase.name != name);
-            evt.target.closest("tr").remove();
-            currentContainer.classList.remove("show-window");
-            currentContainer = instructionsContainer;
-            currentContainer.classList.add("show-window");
-            if(testcases.length == 0)
-                noItemsContainer.classList.add("show-window");
-            else
-                noItemsContainer.classList.remove("show-window");
-        } 
-        else if (action == "config") {
-            currentContainer.classList.remove("show-window");
-            currentContainer = configContainer;
-            currentContainer.classList.add("show-window");
-            currentIndex = evt.target.closest("tr").rowIndex;
-            let output = `<p>This is the config for ${testcases[currentIndex].name}</p>`;
-            configContent.innerHTML = output;
-        }
-        else if(action == "add"){
-            currentContainer.classList.remove("show-window");
-            currentContainer = addContainer;
-            currentContainer.classList.add("show-window");
-        }
-        else if(action == "row"){
-            let rowIndex = evt.target.closest("tr").rowIndex;
-            // alert(`Edit user with ID of ${rowIndex}`);
-            console.log(testcases);
-            currentContainer.classList.remove("show-window");
-            currentContainer = editContainer;
-            currentContainer.classList.add("show-window");
-            populateEditScreen(testcases,rowIndex);
-        }
-
-    }
-}
-
+// Function that populates the edit screen window
 function populateEditScreen(testcases, index){
     let nameField = document.getElementById("file-name");
     nameField.value = testcases[index].name;
@@ -190,31 +179,380 @@ function populateEditScreen(testcases, index){
     editCode.value = testcases[index].code;
 }
 
+function handleClick(evt) {
+    var { action } = evt.target.dataset;
+    console.log(evt.target.id);
+    console.log(currentPopOver.attr('id'));
+    
+    if (action) {
+        currentPopOver.popover('hide');
+        if (action == "edit") {
+            let rowIndex = evt.target.closest("tr").rowIndex;
+            currentIndex = rowIndex;
+            // alert(`Edit user with ID of ${rowIndex}`);
+            // console.log(testcases);
+            currentContainer.classList.remove("show-window");
+            currentContainer = editContainer;
+            currentContainer.classList.add("show-window");
+            populateEditScreen(globalData.testcases,rowIndex);
+        } 
+        else if (action == "delete") {
+            let rowIndex = evt.target.closest("tr").rowIndex;
+            currentIndex = rowIndex;
+            currentRow = evt.target.closest("tr");
+            // let name = globalData.testcases[rowIndex].name;
+            // console.log(evt.target.closest("tr").rowIndex);
+            // globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+            // evt.target.closest("tr").remove();
+            // currentContainer.classList.remove("show-window");
+            // currentContainer = instructionsContainer;
+            // currentContainer.classList.add("show-window");
+            // if(globalData.testcases.length == 0)
+            //     noItemsContainer.classList.add("show-window");
+            // else
+            //     noItemsContainer.classList.remove("show-window");
+        } 
+        else if (action == "config") {
+            let titleText = document.querySelector(".config-title");
+            let rowIndex = evt.target.closest("tr").rowIndex;
+            currentIndex = rowIndex;
+            titleText.innerHTML = "Configuration";
+            currentContainer.classList.remove("show-window");
+            currentContainer = configContainer;
+            currentContainer.classList.add("show-window");
+            currentIndex = evt.target.closest("tr").rowIndex;
+        
+            currentConfigContainer.classList.remove("show-window");
+            currentConfigContainer = configIndividualContainer;
+            currentConfigContainer.classList.add("show-window");
+            populateIndividualConfig();
+        }
+        else if(action == "add"){
+            currentContainer.classList.remove("show-window");
+            currentContainer = addContainer;
+            currentContainer.classList.add("show-window");
+        }
+        else if(action == "row"){
+            let rowIndex = evt.target.closest("tr").rowIndex;
+            currentIndex = rowIndex;
+            currentContainer.classList.remove("show-window");
+            currentContainer = editContainer;
+            currentContainer.classList.add("show-window");
+            populateEditScreen(globalData.testcases,rowIndex);
+        }
+        else if(action == "globalTimeoutInfo"){
+            currentPopOver = $("#globalTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "zip-files"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#zip-button");
+            currentPopOver.popover('show');
+        }
+        else if(action == "testcaseWeightInfo")
+        {
+            currentPopOver.popover('hide');
+            currentPopOver = $("#testcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "assignmentNameInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#assignmentNameInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "possibleSourceFileInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#possibleSourceFileInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "globalTimeoutInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#globalTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "testcaseWeightInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#testcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "totalPointsInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#totalPointsInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "individualTimeoutInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#individualTimeoutInfo");
+            currentPopOver.popover('show');
+        }
+        else if(action == "individualTestcaseWeightInfo"){
+            currentPopOver.popover('hide');
+            currentPopOver = $("#individualTestcaseWeightInfo");
+            currentPopOver.popover('show');
+        }
+    }
+    else
+        currentPopOver.popover('hide');
+}
 
 
+
+document.addEventListener("click", handleClick);
+
+
+// Global Settings Form
+let globalSettingsForm = document.querySelectorAll("#global-settings-form input");
+
+for(let input of globalSettingsForm){
+    console.log(input.type);
+
+    if(input.type == "text"){
+        input.addEventListener("change",(e)=>{
+            globalData[input.dataset.name] = e.target.value;
+        });
+    }
+
+    if(input.type == "checkbox"){
+        input.addEventListener("change", (e) =>{
+            console.log(input.checked);
+            globalData[input.dataset.name] = e.target.checked;
+        })
+    }
+}
+
+// Edit Form Fields
+let editFormFields = document.querySelectorAll("#edit-form input, #edit-form textarea,#edit-form select");
+
+for(let input of editFormFields)
+{
+    if(input.type == "text"){
+
+        input.addEventListener("keydown", (e)=>{
+
+            let key = e.key.toLowerCase().charCodeAt(0);
+
+            if(!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8))
+            {
+                e.preventDefault();
+                return;
+            }
+        })
+
+        input.addEventListener("keyup", (e) =>{
+
+            
+            console.log(input.value);
+
+
+            let value = e.target.value;
+
+            console.log(value.length);
+
+            let image = "";
+            let fileName = "";
+
+            globalData.testcases[currentIndex][input.dataset.name] = value;
+
+            if(value.length >= 26)
+                value = value.substring(0,25) + "...";
+        
+            if (globalData.testcases[currentIndex].language == "c"){
+                image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
+                if(value.length >= 26)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c";
+            }
+            else if (globalData.testcases[currentIndex].language == "java"){
+                image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
+
+                if(value.length >= 26)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"java"
+            }
+            else if (globalData.testcases[currentIndex].language == "c++"){
+                image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
+                
+                if(value.length >= 26)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c++";
+            }
+            else{
+                image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
+                if(value.length >= 26)
+                    fileName = value.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"py";
+            }
+
+            let td = table.rows[currentIndex].getElementsByTagName("td");
+            td[0].innerHTML = `${image}${fileName}`;
+                
+        });
+    }
+    else if(input.type == "textarea"){
+        input.addEventListener("keyup", (e) =>{
+            let value = e.target.value;
+            globalData.testcases[currentIndex][input.dataset.name] = value;
+        });
+    }
+    else if(input.type == "select-one"){
+        input.addEventListener("change", (e) =>{
+            let value = e.target.options[input.selectedIndex].value.toLowerCase();
+
+            console.log(value);
+            console.log(input.selectedIndex);
+            if(value == 'c')
+                globalData.testcases[currentIndex][input.dataset.name] = 'c';
+            else if(value == 'c++')
+                globalData.testcases[currentIndex][input.dataset.name] = 'c++';
+            else if(value == 'python')
+                globalData.testcases[currentIndex][input.dataset.name] = 'py';
+            else if(value == 'java')
+                globalData.testcases[currentIndex][input.dataset.name] = 'java';
+
+
+            if (globalData.testcases[currentIndex].language == "c"){
+                image = `<img style="height:20px; width:20px;" src="images/c.svg" />`;
+
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
+                fileName = globalData.testcases[currentIndex].name+"."+"c";
+            }
+            else if (globalData.testcases[currentIndex].language == "java"){
+                image = `<img style="height:20px; width:20px;" src="images/java.svg" />`;
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"java"
+            }
+            else if (globalData.testcases[currentIndex].language == "c++"){
+                image = `<img style="height:20px; width:20px;" src="images/c-plus.svg" />`;
+
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                else
+                    fileName = globalData.testcases[currentIndex].name+"."+"c++";
+            }
+            else{
+                image = `<img style="height:20px; width:20px;" src="images/python.svg" />`;
+                if(globalData.testcases[currentIndex].name.length >= 28)
+                    fileName = globalData.testcases[currentIndex].name.substring(0,25) + "...";
+                 else
+                    fileName = globalData.testcases[currentIndex].name+"."+"py";
+            }
+
+            let td = table.rows[currentIndex].getElementsByTagName("td");
+            td[0].innerHTML = `${image}${fileName}`;
+            
+        });
+    }
+}
+
+// Configuration Form Fields
+let configFormFields = document.querySelectorAll("#config-form input");
+
+for(input of configFormFields)
+{
+    if(input.dataset.name == "individualTimeout"){
+
+        input.addEventListener("change", (e)=>{
+                globalData.testcases[currentIndex].config.timeout = e.target.value;
+        });
+    }
+
+    if(input.dataset.name == "testcaseWeights"){
+
+        input.addEventListener("change", (e)=>{
+                globalData.testcases[currentIndex].config.testcaseWeights = e.target.value;
+        });
+    }
+}
+
+// Input Form Fields
+let inputFormFields = document.querySelectorAll("#input-form input");
+
+for(let input of inputFormFields)
+{
+    if(input.dataset.name == "inputText")
+    {
+        input.addEventListener("change",(e)=>{
+            globalData.testcases[currentIndex].input.body = e.target.value;
+        })
+    }
+}
+
+// Output Form Fields
+let outputFormFields = document.querySelectorAll("#output-form input");
+
+for(let input of outputFormFields)
+{
+    if(input.dataset.name == "outputText")
+    {
+        input.addEventListener("change",(e)=>{
+            globalData.testcases[currentIndex].input.body = e.target.value;
+        })
+    }
+}
+
+// Configuration screen icon button
 configButton.addEventListener("click", (e)=>{
     let titleText = document.querySelector(".config-title");
     titleText.innerHTML = "Configuration";
+    currentContainer.classList.remove("show-window");
+    currentContainer = configContainer;
+    currentContainer.classList.add("show-window");
 
-    let output = `<p>This is the config for ${testcases[currentIndex].name}</p>`;
-    configContent.innerHTML = output;
+    currentConfigContainer.classList.remove("show-window");
+    currentConfigContainer = configIndividualContainer;
+    currentConfigContainer.classList.add("show-window");
 });
 
+
+// Configuration screen input button
 inputButton.addEventListener("click", (e)=>{
     let titleText = document.querySelector(".config-title");
     titleText.innerHTML = "Input";
 
-    let output = `<p>This is the input for ${testcases[currentIndex].name}</p>`;
-    configContent.innerHTML = output;
+    currentContainer.classList.remove("show-window");
+    currentContainer = configContainer;
+    currentContainer.classList.add("show-window");
+
+    currentConfigContainer.classList.remove("show-window");
+    currentConfigContainer = inputContainer;
+    currentConfigContainer.classList.add("show-window");
 });
 
+
+// Configuration screen output button
 outputButton.addEventListener("click", (e) =>{
     let titleText = document.querySelector(".config-title");
     titleText.innerHTML = "Output";
 
-    let output = `<p>This is the output for ${testcases[currentIndex].name}</p>`;
-    configContent.innerHTML = output;
+    currentContainer.classList.remove("show-window");
+    currentContainer = configContainer;
+    currentContainer.classList.add("show-window");
+
+    currentConfigContainer.classList.remove("show-window");
+    currentConfigContainer = outputContainer;
+    currentConfigContainer.classList.add("show-window");
 })
+
+addFileName.addEventListener("keydown", (e)=>{
+
+    let key = e.key.toLowerCase().charCodeAt(0);
+
+    if(!((key >= 97 && key <= 122) || (key >= 48 && key <= 57) || key == 32 || key == 8))
+    {
+        e.preventDefault();
+        return;
+    }
+
+})
+
 
 submitButton.addEventListener("click", (e) =>{
     e.preventDefault();
@@ -223,6 +561,7 @@ submitButton.addEventListener("click", (e) =>{
     let code = document.getElementById("add-code");
 
     insertRow({name:name.value,language:language.value.toLowerCase(),code:code.value});
+    
     name.value = "";
     language.selectedIndex = 0;
     code.value = "";
@@ -231,18 +570,15 @@ submitButton.addEventListener("click", (e) =>{
     currentContainer = instructionsContainer;
     currentContainer.classList.add("show-window");
 
-    if(testcases.length == 0)
+    if(globalData.testcases.length == 0)
         noItemsContainer.classList.add("show-window");
     else
         noItemsContainer.classList.remove("show-window");
 
-
 });
 
-document.addEventListener("click", handleClick);
-
 document.addEventListener("click", function(event){
-    var isClickInside = mainContainer.contains(event.target);
+    var isClickInside = mainContainer.contains(event.target) || globalIcons.contains(event.target);
 
     if(!isClickInside){
         currentContainer.classList.remove("show-window");
@@ -251,21 +587,128 @@ document.addEventListener("click", function(event){
     }
 });
 
-if(sessionStorage.getItem("assignment-baseFile") != null)
-{
-    document.querySelector("#assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("assignment-baseFile");
+// if(sessionStorage.getItem("assignment-baseFile") != null)
+// {
+//     document.querySelector("#assignment-text").innerHTML = "Assignment File: " + sessionStorage.getItem("assignment-baseFile");
+// }
+
+
+// Show Global Settings
+globalSettingsButton.addEventListener("click", (e) =>{
+    currentContainer.classList.remove("show-window");
+    currentContainer = globalSettingsContainer;
+    currentContainer.classList.add("show-window");
+    populateGlobalSettings();
+});
+
+function populateGlobalSettings(){
+    let assignmentNameField = document.getElementById("assignment-name");
+    assignmentNameField.value = globalData.assignmentName;
+
+    let sourceFilesField = document.getElementById("source-files");
+
+    sourceFilesField.value = globalData.sourceFiles;
+
+    let timeoutField = document.getElementById("global-timeout");
+
+    timeoutField.value = globalData.timeout;
+
+    let testcaseWeights = document.getElementById("testcase-weights");
+
+    testcaseWeights.value = globalData.testcaseWeight;
+
+    let totalPoints = document.getElementById("total-points");
+
+    testcaseWeights.value = globalData.totalPoints;
+
+    let generateResultsField = document.getElementById("generate-results");
+
+    generateResultsField.checked = globalData.generateResults;
+
+    let parallelGradingField = document.getElementById("parallel-grading");
+
+    parallelGradingField.checked = globalData.parallelGrading;
+
+    let stdoutField = document.getElementById("stdout-grading");
+
+    stdoutField.checked = globalData.stdoutGrading;
+
+    let memoryLeakField = document.getElementById("memory-leak");
+    memoryLeakField.checked = globalData.memoryLeak;
+
 }
 
 
-let fileZipPath = './temp/testcases';
+function populateIndividualConfig()
+{
+    let individualConfigField = document.getElementById("time-out");
+
+    individualConfigField.value = globalData.testcases[currentIndex].config.timeout;
+
+    let testcaseWeights = document.getElementById("testcase-weights");
+
+    testcaseWeights.value = globalData.testcases[currentIndex].config.testcaseWeight;
+}
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+$(function () {
+$('[data-toggle="popover"]').popover();
+});
+
+
+document.getElementById("confirmButton").addEventListener("click",(e)=>{
+    let name = globalData.testcases[currentIndex].name;
+    globalData.testcases = globalData.testcases.filter(testcase => testcase.name != name);
+    currentRow.remove();
+    currentContainer.classList.remove("show-window");
+    currentContainer = instructionsContainer;
+    currentContainer.classList.add("show-window");
+    if(globalData.testcases.length == 0)
+        noItemsContainer.classList.add("show-window");
+    else
+        noItemsContainer.classList.remove("show-window");
+
+    $('#exampleModalCenter').modal('hide');
+})
+
+inputButton.addEventListener("click",(e)=>{
+    let inputField = document.getElementById("input-code");
+    inputField.value = globalData.testcases[currentIndex].input;
+})
+
+outputButton.addEventListener("click",(e)=>{
+    let outputField = document.getElementById("input-code");
+    outputField.value = globalData.testcases[currentIndex].output;
+})
+
+
+
+/* Backend Code */
+// File I/O Scripts
+
+gradingButton.addEventListener("click",(e)=>{
+    alert("Make call to backend code here");
+
+    // Your logic here - daniel
+
+
+
+    location.href="homework.html";
+
+})
+
+
 let exportButton = document.getElementById("export-container");
 
 if(sessionStorage.getItem("assignment-directory") != null)
     ipcRenderer.send('populate-array', sessionStorage.getItem("assignment-directory"));
 else
-    initializeTable(testcases);
+    showEmptyTable(globalData.testcases);
 
-
+// Request to populate our array using zip
 ipcRenderer.on('populate-array-response', (e, args) => {
 
     let files = args;
@@ -277,15 +720,26 @@ ipcRenderer.on('populate-array-response', (e, args) => {
         obj.name = fullFileName[0];
         obj.language = fullFileName[1];
         obj.code = file.body;
-
-        testcases.push(obj);
+        obj.config = {
+            timeout:"1",
+            testcaseWeight:"test"
+        };
+        obj.input = "";
+        obj.output= "";
+        globalData.testcases.push(obj);
     }
 
-    initializeTable(testcases);
-    createTable(testcases);
+    showEmptyTable(globalData.testcases);
+    createTable(globalData.testcases);
 });
+
 
 
 exportButton.addEventListener("click", (e) => {
-    ipcRenderer.send('export-file', filesArray, sessionStorage.getItem("index"));
+    ipcRenderer.send('export-file', globalData.testcases, sessionStorage.getItem("index"));
 });
+
+if(sessionStorage.getItem("assignment-baseFile") != null){
+    zipButton.setAttribute("data-content", `<p>${sessionStorage.getItem("assignment-baseFile")}</p>`);
+}
+

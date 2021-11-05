@@ -69,3 +69,53 @@ td{
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.table-scroll::-webkit-scrollbar{
+    display: none;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e5f4fa;
+    
+}
+
+/* Export Button */
+
+.export-container{
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    cursor:pointer;
+}
+
+.export-container p {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-right:20px;
+}
+
+
+/* Grading Button */
+
+.grading-container{
+    position: absolute;
+    bottom:5px;
+    right:5px;
+}
+
+.grading-container p {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-left:30px;
+    
+}
