@@ -25,13 +25,12 @@ th{
     background-color: #009de0;
     color:white;   
     text-align: center !important;
-    padding-right: 85px !important;
 
 }
 
 td{
     text-align: center;
-    border:2px solid #009de0;
+    border:1px solid #009de0;
     font-size: 18px;
     width:50%;
 }
@@ -140,3 +139,27 @@ td{
     padding-left:30px;
     
 }
+
+
+/* Loading Text */
+.loading-text{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    display: none;
+}
+
+.table th{
+    border:1px solid #009de0 !important;
+}
+
+thead th{
+    position: sticky; 
+    top: 0; 
+    z-index: 2;
+    text-align: center !important;
+    padding-left: 10px;
+}
+
+
