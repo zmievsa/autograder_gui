@@ -7,11 +7,12 @@ import eel
 from pathlib import Path
 
 import tkinter as tk
-from tkinter import filedialog  # import askopenfilenames, asksaveasfilename
+from tkinter import filedialog
+import csv
 
 
 from tempfile import TemporaryDirectory
-from contextlib import redirect_stdout, redirect_stderr
+from contextlib import redirect_stdout
 from io import StringIO
 
 
@@ -89,10 +90,9 @@ def export_grading_results():
         if paths.results_dir.exists():
             shutil.copytree(paths.results_dir, tmp / paths.results_dir.name)
         (tmp / "results.json").write_text(json.dumps(GRADING_RESULTS, indent=4))
-        import csv
 
         with (tmp / "results.csv").open("w", newline="") as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)
+            spamwriter = csv.writer(csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["submission_name", "grade"])
             for r in GRADING_RESULTS["submissions"]:
                 spamwriter.writerow([r["submission"], r["final_grade"]])
@@ -126,8 +126,7 @@ def autograder_plagiarism():
     PLAGIARISM_RESULTS = AUTOGRADER_RUN_IN_PROGRESS
 
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
-    # argv = ["plagiarism", str(root_dir), "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
-    argv = ["plagiarism", str(root_dir)]
+    argv = ["plagiarism", str(root_dir), "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
     with StringIO() as buf:
         with redirect_stdout(buf):
             try:
@@ -145,6 +144,27 @@ def erase_plagiarism_results():
     if PLAGIARISM_RESULTS == AUTOGRADER_RUN_IN_PROGRESS:
         return
     PLAGIARISM_RESULTS = None
+
+
+@eel.expose
+def export_plagiarism_results():
+    if PLAGIARISM_RESULTS == AUTOGRADER_RUN_IN_PROGRESS or not PLAGIARISM_RESULTS:
+        return
+
+    spawn_tkinter_window()
+    dst = Path(filedialog.asksaveasfilename(filetypes=[("Zip File", ".zip")]))
+    with TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        (tmp / "plagiarism_results.json").write_text(json.dumps(PLAGIARISM_RESULTS, indent=4))
+
+        with (tmp / "plagiarism_results.csv").open("w", newline="") as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL)
+            spamwriter.writerow(["Submission 1", "Submission 2", "Similarity Score"])
+            for r in PLAGIARISM_RESULTS["results"]:
+                spamwriter.writerow([r["student1"], r["student2"], r["similarity_score"]])
+        if dst.is_file():
+            dst.unlink()
+        make_archive(tmp, dst)
 
 
 @eel.expose
