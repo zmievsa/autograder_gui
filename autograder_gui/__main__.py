@@ -1,13 +1,13 @@
 import json
 import os
 import shutil
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, overload
 from autograder.autograder import AutograderPaths
 import eel
 from pathlib import Path
 
 import tkinter as tk
-from tkinter.filedialog import askopenfilename, asksaveasfilename
+from tkinter import filedialog  # import askopenfilenames, asksaveasfilename
 
 
 from tempfile import TemporaryDirectory
@@ -35,6 +35,8 @@ HOMEWORKS: Optional[List[Dict[str, Union[str, bool]]]] = None
 GRADING_RESULTS = None
 PLAGIARISM_RESULTS = None
 
+AUTOGRADER_RUN_IN_PROGRESS = "PROGRESS"
+
 SIZE = (1200, 900)
 
 
@@ -57,27 +59,29 @@ def autograder_run():
     if GRADING_RESULTS:
         return GRADING_RESULTS
     # Temporary value to signall that we started grading
-    GRADING_RESULTS = "TEMP"
+    GRADING_RESULTS = AUTOGRADER_RUN_IN_PROGRESS
 
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
     argv = ["run", str(root_dir), "-j", "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
     generate_assignment_configuration(CURRENT_ASSIGNMENT, AutograderPaths(root_dir))
     with StringIO() as buf:
         with redirect_stdout(buf):
-            autograder(argv)
+            try:
+                autograder(argv)
+            except Exception as e:
+                GRADING_RESULTS = None
+                return {"error": str(e)}
         GRADING_RESULTS = json.loads(buf.getvalue())
         return GRADING_RESULTS
 
 
 @eel.expose
 def export_grading_results():
-    if GRADING_RESULTS == "TEMP" or not GRADING_RESULTS or HOMEWORK_ROOT_DIR is None:
+    if GRADING_RESULTS == AUTOGRADER_RUN_IN_PROGRESS or not GRADING_RESULTS or HOMEWORK_ROOT_DIR is None:
         return
 
-    root = tk.Tk()
-    root.withdraw()
-    root.wm_attributes("-topmost", 1)
-    dst = Path(asksaveasfilename(defaultextension=".zip"))
+    spawn_tkinter_window()
+    dst = Path(filedialog.asksaveasfilename(filetypes=[("Zip File", ".zip")]))
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
     paths = AutograderPaths(root_dir)
     with TemporaryDirectory() as tmp:
@@ -100,7 +104,7 @@ def export_grading_results():
 @eel.expose
 def erase_grading_results():
     global GRADING_RESULTS
-    if GRADING_RESULTS == "TEMP":
+    if GRADING_RESULTS == AUTOGRADER_RUN_IN_PROGRESS:
         return
     if HOMEWORK_ROOT_DIR is not None:
         root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
@@ -119,14 +123,18 @@ def autograder_plagiarism():
     if PLAGIARISM_RESULTS:
         return PLAGIARISM_RESULTS
     # Temporary value to signal that we started checking
-    PLAGIARISM_RESULTS = "TEMP"
+    PLAGIARISM_RESULTS = AUTOGRADER_RUN_IN_PROGRESS
 
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
     # argv = ["plagiarism", str(root_dir), "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
     argv = ["plagiarism", str(root_dir)]
     with StringIO() as buf:
         with redirect_stdout(buf):
-            autograder(argv)
+            try:
+                autograder(argv)
+            except Exception as e:
+                PLAGIARISM_RESULTS = None
+                return {"error": str(e)}
         PLAGIARISM_RESULTS = json.loads(buf.getvalue())
         return PLAGIARISM_RESULTS
 
@@ -134,7 +142,7 @@ def autograder_plagiarism():
 @eel.expose
 def erase_plagiarism_results():
     global PLAGIARISM_RESULTS
-    if PLAGIARISM_RESULTS == "TEMP":
+    if PLAGIARISM_RESULTS == AUTOGRADER_RUN_IN_PROGRESS:
         return
     PLAGIARISM_RESULTS = None
 
@@ -161,46 +169,65 @@ def get_homeworks():
     return HOMEWORKS
 
 
-@eel.expose
-def extract_zip(filetype: str):
-    global CURRENT_ASSIGNMENT
-    global HOMEWORKS
-    global HOMEWORK_ROOT_DIR
+def spawn_tkinter_window():
     root = tk.Tk()
     root.withdraw()
     root.wm_attributes("-topmost", 1)
-    f = askopenfilename()
-    if not f:
-        return
-    path = Path(f)
-    if not path.exists() or not (path.is_dir() or path.is_file()):
-        return
-    # In case somehow user tried to upload homeworks before uploading assignment
-    tmp = TemporaryDirectory()
-    paths = AutograderPaths(Path(tmp.name))
-    extraction_dir = paths.tests_dir if filetype == "assignment" else paths.current_dir
-    extraction_path = Path(tmp.name) / extraction_dir
-    if path.is_file() and path.suffix.endswith(".zip"):
-        extract_zip_into_dir(path, extraction_path)
-    if filetype == "assignment":
-        CURRENT_ASSIGNMENT = load_assignment(tmp.name)
+    return root
+
+
+@eel.expose
+def extract_assignment():
+    global CURRENT_ASSIGNMENT
+
+    spawn_tkinter_window().title("Choose files to open")
+    chosen_paths: str = filedialog.askopenfilename(filetypes=[("Assignment file", "*.zip")])
+    if not chosen_paths:
+        return {"error": "No path was chosen"}
+    path = Path(chosen_paths)
+    if not path.is_file():
+        return {"error": f"The path '{path}' is not a file."}
+    with TemporaryDirectory() as tmp:
+        paths = AutograderPaths(Path(tmp))
+        extract_zip_into_dir(path, paths.tests_dir)
+        CURRENT_ASSIGNMENT = load_assignment(tmp)
         return CURRENT_ASSIGNMENT
+
+
+@eel.expose
+def extract_homeworks():
+    global HOMEWORKS
+    global HOMEWORK_ROOT_DIR
+
+    spawn_tkinter_window().title("Choose files to open")
+    chosen_paths = filedialog.askopenfilenames(
+        filetypes=[("Archive with student submissions", "*.zip"), ("Student Submissions", "*")]
+    )
+    if not chosen_paths:
+        return {"error": "No path was chosen"}
+    non_existent_paths = [f"'{p}'" for p in chosen_paths if not os.path.isfile(p)]
+    if non_existent_paths:
+        return {"error": f"Picked paths do not exist. Paths: {', '.join(non_existent_paths)}"}
+    tmp = TemporaryDirectory()
+    extraction_dir = Path(tmp.name)
+    if len(chosen_paths) == 1 or chosen_paths[0].endswith(".zip"):
+        extract_zip_into_dir(chosen_paths[0], extraction_dir)
     else:
-        HOMEWORKS = load_homeworks(Path(tmp.name))
-        if HOMEWORK_ROOT_DIR:
-            HOMEWORK_ROOT_DIR.cleanup()
-        HOMEWORK_ROOT_DIR = tmp
-        return HOMEWORKS
+        for f in chosen_paths:
+            shutil.copy(f, extraction_dir)
+    HOMEWORKS = load_homeworks(extraction_dir)
+    if HOMEWORK_ROOT_DIR:
+        HOMEWORK_ROOT_DIR.cleanup()
+    HOMEWORK_ROOT_DIR = tmp
+    return HOMEWORKS
 
 
 @eel.expose
 def export_assignment():
-    root = tk.Tk()
-    root.withdraw()
-    root.wm_attributes("-topmost", 1)
-    fname = asksaveasfilename()
+    spawn_tkinter_window()
+    fname = filedialog.asksaveasfilename()
     if not fname:
-        return
+        return {"error": "No path was chosen"}
 
     build_assignment_zip(CURRENT_ASSIGNMENT, Path(fname))
 
