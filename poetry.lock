@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "assignment-autograder"
-version = "3.0.1"
+version = "3.1.0"
 description = "Automatic assignment grading for instructor use in programming courses"
 category = "main"
 optional = false
@@ -374,8 +374,8 @@ antlr4-python3-runtime = [
     {file = "antlr4-python3-runtime-4.9.2.tar.gz", hash = "sha256:31f5abdc7faf16a1a6e9bf2eb31565d004359b821b09944436a34361929ae85a"},
 ]
 assignment-autograder = [
-    {file = "assignment-autograder-3.0.1.tar.gz", hash = "sha256:55405486cafab7c882e50e1cb0c0596fac5d6ab3787f6f7f09eaac5d8086cc88"},
-    {file = "assignment_autograder-3.0.1-py3-none-any.whl", hash = "sha256:f783097950901054b4b12caff7c69d0bff83cffce3b726ce556c7cd1b5cb1ea1"},
+    {file = "assignment-autograder-3.1.0.tar.gz", hash = "sha256:b3b3325fdb3a7c43d825e3c2a55d99284550dd978d4613f4549641f2069f03d1"},
+    {file = "assignment_autograder-3.1.0-py3-none-any.whl", hash = "sha256:286f7f8d8a6f87dbc9e25431fc622479f304bbb9970f201abe06798b25263968"},
 ]
 black = [
     {file = "black-21.10b0-py3-none-any.whl", hash = "sha256:6eb7448da9143ee65b856a5f3676b7dda98ad9abe0f87fce8c59291f15e82a5b"},

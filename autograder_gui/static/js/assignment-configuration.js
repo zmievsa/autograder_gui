@@ -39,7 +39,7 @@ function loadAssignmentPage(assignment) {
     $("#file-name").on("input", handleChangedFilename);
     $("#confirmButton").click(function () {
         $("#exampleModalCenter").modal('hide');
-        getCurrentTestcaseRow().parent().remove();
+        getCurrentTestcaseRow().remove();
         currentContainer = showContainer(currentContainer, "#instructions-container");
         currentAssignment.testcases.splice(currentTestcaseIndex, 1);
         currentTestcaseIndex = null;
@@ -50,8 +50,7 @@ function handleChangedFilename(e) {
     let val = e.target.value.replace(" ", "").replace("\"", "").replace("'", ""); // Yeah, We could do it with a regex. But I'm tired.
     $(e.target).val(val);
     current_table_val = getCurrentTestcaseRow();
-    current_table_val.attr("data-name", val);
-    current_table_val.html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
+    current_table_val.children(":first").html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
     currentAssignment.testcases[currentTestcaseIndex].original_name = val;
     currentAssignment.testcases[currentTestcaseIndex].name = val;
 }
@@ -152,7 +151,7 @@ function getMetadataAsDataset(item) {
 function addTestcaseRow(item) {
     let tr = document.createElement("tr");
     tr.innerHTML = `<tr>
-        <td data-action="row" data-name="${item.original_name}">
+        <td data-action="row">
             ${getTestcaseLanguageImage(item.name)}${getTestcaseDisplayName(item.name)}
         </td>
         <td data-action="row" class="buttons">
@@ -165,7 +164,7 @@ function addTestcaseRow(item) {
     </tr>
     `;
     $(tr).click(function () {
-        chooseTestcase($(this).children(":first").attr('data-name'));
+        chooseTestcase($(this).index());
     })
     $(tr).css("cursor", "pointer");
     $("#testcase-table").append(tr);
@@ -215,20 +214,19 @@ function getUniqueTestcaseName(name = null, n = "") {
 }
 
 function getCurrentTestcaseRow() {
-    let currentName = currentAssignment.testcases[currentTestcaseIndex].original_name;
-    return $("#testcase-table").find(`[data-name='${currentName}']`);
+    return $(`#testcase-table tr:nth-child(${currentTestcaseIndex + 1})`);
 }
 
-function chooseTestcase(name) {
-    testcase = currentAssignment.testcases.find(t => t.name === name);
+function chooseTestcase(index) {
+    testcase = currentAssignment.testcases[index];
     if (!testcase)
         window.alert("SOMETHING BROKE TERRIBLY. Please, restart autograder and try again or contact the author.");
-    if (currentAssignment.testcases.indexOf(testcase) !== currentTestcaseIndex) {
+    if (index !== currentTestcaseIndex) {
         if (currentTestcaseIndex !== null) {
-            getCurrentTestcaseRow().parent().css("background-color", "");
+            getCurrentTestcaseRow().css("background-color", "");
             saveCurrentTestcase();
         }
-        $("#file-name").val(name);
+        $("#file-name").val(testcase.name);
         $("#edit-code").val(testcase.text);
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
@@ -240,8 +238,8 @@ function chooseTestcase(name) {
             else
                 elem.val(entry.value);
         }
-        currentTestcaseIndex = currentAssignment.testcases.indexOf(testcase);
-        getCurrentTestcaseRow().parent().css("background-color", "#e5f4fa");
+        currentTestcaseIndex = index;
+        getCurrentTestcaseRow().css("background-color", "#e5f4fa");
     }
     currentContainer = showContainer(currentContainer, '#edit-testcase-container');
     currentSubContainer = showContainer(currentSubContainer, '#edit-testcase-code');
