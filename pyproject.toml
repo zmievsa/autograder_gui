@@ -18,7 +18,7 @@ typing-extensions = "^3.10.0"
 black = "^21.9b0"
 
 [tool.poetry.scripts]
-autograder = 'autograder_gui.__main__:run'
+autograder_gui = 'autograder_gui.__main__:run'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
