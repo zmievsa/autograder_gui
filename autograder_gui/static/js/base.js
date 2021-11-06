@@ -1,4 +1,5 @@
-let AVAILABLE_LANGUAGES = ["c", "cpp", "py", "java"]
+const AVAILABLE_LANGUAGES = ["c", "cpp", "py", "java"]
+const MAX_TESTCASE_NAME_DISPLAY_LENGTH = 30;
 // $(document).ready(function () {
 //     window.resizeTo(1200, 900);
 // });
@@ -16,8 +17,8 @@ function getTestcaseLanguageImage(name) {
 }
 
 function getTestcaseDisplayName(name) {
-    if (name.length >= 28)
-        return name.substring(0, 25) + "...";
+    if (name.length > MAX_TESTCASE_NAME_DISPLAY_LENGTH)
+        return name.substring(0, MAX_TESTCASE_NAME_DISPLAY_LENGTH) + "...";
     else
         return name
 }
