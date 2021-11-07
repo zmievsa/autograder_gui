@@ -3,6 +3,12 @@
 {% block head %}
 <link rel="stylesheet" href="../css/assignment-configuration.css" />
 <script src="../js/assignment-configuration.js"></script>
+<script src="../lib/codemirror/js/codemirror.js"></script>
+<link rel="stylesheet" href="../lib/codemirror/css/codemirror.css">
+<script src="../lib/codemirror/mode/python.js"></script>
+<script src="../lib/codemirror/mode/clike.js"></script>
+{# <link rel="stylesheet" href="../lib/codemirror/theme/darcula.css" /> #}
+
 {% endblock %}
 
 {% block content %}
@@ -58,7 +64,7 @@
                     <p class="instructions-text">Select Option From Testcases</p>
                     <table class="table">
                         <tr>
-                            <td><i class="fas fa-edit buttons fa-lg text-primary"></i></td>
+                            <td><i class="fas fa-edit buttons fa-lg text-primary "></i></td>
                             <td>Edit and View code</td>
                         </tr>
                         <tr>
@@ -80,20 +86,20 @@
             </div>
         </div>
 
-        <div id="edit-testcase-container" style="display: none">
+        <div id="edit-testcase-container" style="display: none; max-width: ;">
             <div id="edit-testcase-code">
                 <p class="edit-title">Edit and View Code </p>
                 <img src="../images/testcase configuration.png" />
                 <div class="form-container">
                     <form>
                         <div class="form-group">
-                            <label for="file-name">File Name: </label>
+                            <label for="file-name">File Name </label>
                             <input id="file-name" type="text" spellcheck="false" class="form-control"
                                 data-originalName="" />
                         </div>
                         <div class="form-group">
-                            <label for="edit-code">Code: </label>
-                            <textarea id="edit-code" rows="10" class="form-control" spellcheck="false"></textarea>
+                            <label for="edit-code">Code </label>
+                            <textarea id="edit-code" class="form-control" spellcheck="false"></textarea>
                         </div>
                     </form>
                 </div>

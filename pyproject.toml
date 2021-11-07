@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "autograder_gui"
-version = "0.5.0"
+version = "0.6.0"
 description = ""
 authors = ["Ovsyanka <szmiev2000@gmail.com>"]
 license = "GPLv3"
@@ -13,12 +13,13 @@ python = ">=3.7,<3.10"
 Eel = { extras = ["jinja2"], version = "^0.14.0" }
 assignment-autograder = "^3.0.1"
 typing-extensions = "^3.10.0"
+filetype = "^1.0.8"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
 
 [tool.poetry.scripts]
-autograder = 'autograder_gui.__main__:run'
+autograder_gui = 'autograder_gui.__main__:run'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

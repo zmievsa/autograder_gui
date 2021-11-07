@@ -115,6 +115,14 @@ whichcraft = "*"
 jinja2 = ["jinja2 (>=2.10)"]
 
 [[package]]
+name = "filetype"
+version = "1.0.8"
+description = "Infer file type and MIME type of any file/buffer. No external dependencies."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "future"
 version = "0.18.2"
 description = "Clean single-source support for Python 3 and 2"
@@ -367,7 +375,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<3.10"
-content-hash = "51fd879f0de9c5541f5ee697723d92f79465db84bbb0d8b9a60b30f8a0c98d55"
+content-hash = "dcb30ebb7669e3815621e1a2e67ab4ee68819f1c626c2fbe309cc88742f2a9d1"
 
 [metadata.files]
 antlr4-python3-runtime = [
@@ -450,6 +458,10 @@ colorama = [
 ]
 eel = [
     {file = "Eel-0.14.0.tar.gz", hash = "sha256:b21f88c21e050eb2b5f6296f1eeeaf57ad9a2dfbffdf1bf88b90ef05a6ffcdb9"},
+]
+filetype = [
+    {file = "filetype-1.0.8-py2.py3-none-any.whl", hash = "sha256:eb974519c5dbbd678a9fbfb5e2616105c6768ee9c01ce4a4ecaefc141e50d5e5"},
+    {file = "filetype-1.0.8.tar.gz", hash = "sha256:77df14879b73fd9711b8bd4f465dadf2ecdafff0eac3b22c0bdb0ccba68db316"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
