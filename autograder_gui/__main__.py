@@ -8,6 +8,7 @@ from pathlib import Path
 
 import tkinter as tk
 from tkinter import filedialog
+import filetype
 import csv
 
 
@@ -230,10 +231,11 @@ def extract_homeworks():
         return {"error": f"Picked paths do not exist. Paths: {', '.join(non_existent_paths)}"}
     tmp = TemporaryDirectory()
     extraction_dir = Path(tmp.name)
-    if len(chosen_paths) == 1 or chosen_paths[0].endswith(".zip"):
-        extract_zip_into_dir(chosen_paths[0], extraction_dir)
-    else:
-        for f in chosen_paths:
+    for f in chosen_paths:
+        type_ = filetype.guess(f)
+        if type_ and type_.extension == "zip":
+            extract_zip_into_dir(chosen_paths[0], extraction_dir)
+        else:
             shutil.copy(f, extraction_dir)
     HOMEWORKS = load_homeworks(extraction_dir)
     if HOMEWORK_ROOT_DIR:

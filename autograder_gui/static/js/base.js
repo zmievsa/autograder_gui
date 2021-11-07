@@ -1,15 +1,19 @@
-const AVAILABLE_LANGUAGES = ["c", "cpp", "py", "java"]
+const AVAILABLE_LANGUAGES = { "c": "text/x-csrc", "cpp": "text/x-c++src", "py": "python", "java": "text/x-java" }
 const MAX_TESTCASE_NAME_DISPLAY_LENGTH = 30;
 // $(document).ready(function () {
 //     window.resizeTo(1200, 900);
 // });
 
 
-function getTestcaseLanguageImage(name) {
+function getSuffix(name) {
     let splitName = name.split(".");
     let suffix = splitName.length > 1 ? splitName[splitName.length - 1] : "";
-    suffix = suffix.toLowerCase();
-    if (AVAILABLE_LANGUAGES.includes(suffix))
+    return suffix.toLowerCase();
+}
+
+function getTestcaseLanguageImage(name) {
+    let suffix = getSuffix(name);
+    if (AVAILABLE_LANGUAGES.hasOwnProperty(suffix))
         imgstem = suffix;
     else
         imgstem = "gear";

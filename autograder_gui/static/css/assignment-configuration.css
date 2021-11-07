@@ -207,6 +207,7 @@ label{
 
 #edit-testcase-container{
     min-width:400px;
+    max-width: 400px;
     height:550px;
     border:1px solid black;
     position: relative;

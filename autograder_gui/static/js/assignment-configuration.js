@@ -3,6 +3,7 @@ let currentContainer = null;
 let currentSubContainer = null;
 let currentTestcaseIndex = null;
 let currentAssignment;
+let EDITOR = null;
 
 let ASSIGNMENT_ID_PREFIX = "ASS-"
 let TESTCASE_ID_PREFIX = "TEST-"
@@ -12,6 +13,13 @@ $(document).ready(function () {
     currentContainer = $("#instructions-container");
     currentSubContainer = $("#edit-testcase-code");
     currentContainer.show();
+
+    EDITOR = CodeMirror.fromTextArea(document.getElementById("edit-code"), {
+        lineNumbers: true,
+        lineWrapping: true,
+    });
+    EDITOR.setSize(null, 380);
+    editor.refresh();
 });
 
 
@@ -53,6 +61,8 @@ function handleChangedFilename(e) {
     current_table_val.children(":first").html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
     currentAssignment.testcases[currentTestcaseIndex].original_name = val;
     currentAssignment.testcases[currentTestcaseIndex].name = val;
+    EDITOR.setOption("mode", getCodeMirrorMimetype(val));
+    EDITOR.refresh();
 }
 
 async function saveAssignment() {
@@ -227,7 +237,10 @@ function chooseTestcase(index) {
             saveCurrentTestcase();
         }
         $("#file-name").val(testcase.name);
-        $("#edit-code").val(testcase.text);
+        EDITOR.setValue(testcase.text);
+        EDITOR.setOption("mode", getCodeMirrorMimetype(testcase.name));
+        console.log("LANGUAGE", getCodeMirrorMimetype(testcase.name));
+        EDITOR.refresh();
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
         for (const entry of testcase.config) {
@@ -250,11 +263,17 @@ function saveCurrentTestcase() {
     new_testcase = {
         "name": name,
         "original_name": name,
-        "text": $("#edit-code").val(),
+        "text": EDITOR.getValue(),
         "input": $("#output-code").val(),
         "output": $("#input-code").val(),
         "config": gatherConfig("testcase-config-content")
     };
     currentAssignment.testcases[currentTestcaseIndex] = new_testcase;
+}
 
+function getCodeMirrorMimetype(name) {
+    let suffix = getSuffix(name);
+    if (AVAILABLE_LANGUAGES.hasOwnProperty(suffix))
+        return AVAILABLE_LANGUAGES[suffix];
+    return null;
 }
