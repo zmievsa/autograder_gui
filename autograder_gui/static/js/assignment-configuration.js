@@ -4,6 +4,7 @@ let currentSubContainer = null;
 let currentTestcaseIndex = null;
 let currentAssignment;
 let EDITOR = null;
+let SPACES_PER_TAB = 4;
 
 let ASSIGNMENT_ID_PREFIX = "ASS-"
 let TESTCASE_ID_PREFIX = "TEST-"
@@ -17,9 +18,12 @@ $(document).ready(function () {
     EDITOR = CodeMirror.fromTextArea(document.getElementById("edit-code"), {
         lineNumbers: true,
         lineWrapping: true,
+        indentUnit: SPACES_PER_TAB,
+        tabSize: SPACES_PER_TAB,
+        placeholder: CODE_PLACEHOLDER
     });
     EDITOR.setSize(null, 380);
-    editor.refresh();
+    EDITOR.refresh();
 });
 
 
@@ -34,6 +38,8 @@ function loadAssignmentPage(assignment) {
         addTestcaseRow(testcase);
     globalAssignment = assignment
     populateDocumentWithConfig(assignment.global_config);
+    appendTextToTextInputLabel(`${ASSIGNMENT_ID_PREFIX}TIMEOUT`, " (in seconds)");
+    appendTextToTextInputLabel(`${TESTCASE_ID_PREFIX}TIMEOUT`, " (in seconds)");
 
     $(".cfgtooltip").hover(function () {
         const span = $(this).next("span");
@@ -85,7 +91,8 @@ function gatherConfig(containerID) {
             key: elem.data("key"),
             is_per_testcase: elem.data("is_per_testcase"),
             is_list: elem.data("is_list"),
-            section: elem.data("section")
+            section: elem.data("section"),
+            description: elem.data("description"),
         })
     });
     return config;
@@ -112,6 +119,11 @@ function populateDocumentWithConfig(config) {
     }
     $("#global-settings-content").html(globalConfigOutput);
     $("#testcase-config-content").html(perTestcaseConfigOutput);
+}
+
+function appendTextToTextInputLabel(id, text) {
+    let label = $("#" + id).prev();
+    label.html(label.html() + ` ${text}`);
 }
 
 function newTextField(item, key, idPrefix) {
@@ -155,7 +167,8 @@ function getMetadataAsDataset(item) {
         data-is_per_testcase="${item.is_per_testcase}"
         data-is_list="${item.is_list}"
         data-section="${item.section}"
-    `
+        data-description="${item.description}"
+    `;
 }
 
 function addTestcaseRow(item) {
@@ -239,7 +252,6 @@ function chooseTestcase(index) {
         $("#file-name").val(testcase.name);
         EDITOR.setValue(testcase.text);
         EDITOR.setOption("mode", getCodeMirrorMimetype(testcase.name));
-        console.log("LANGUAGE", getCodeMirrorMimetype(testcase.name));
         EDITOR.refresh();
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
