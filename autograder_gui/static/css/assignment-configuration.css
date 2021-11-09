@@ -207,18 +207,20 @@ label{
 
 #edit-testcase-container{
     min-width:400px;
+    max-width: 400px;
     height:550px;
     border:1px solid black;
     position: relative;
     border-radius: 15px;
     box-shadow: 5px 10px 5px #ccc;
     display: none;
+    position: relative;
 
 }
 
-/* #edit-testcase-container img{
+#edit-testcase-container img{
     width:390px;
-} */
+}
 
 .edit-title{
     position: absolute;
@@ -299,9 +301,6 @@ label{
     text-align: center;
     padding-right: 20px;
     margin-top:2px;
-}
-
-#config-button{
 }
 
 .show-window{
@@ -458,12 +457,13 @@ label{
 
 .testcase-nav {
     height:50px;
-    width:50px;
+    width:50px !important;
     border:3px solid dodgerblue;
     padding:5px;
     border-radius: 10px;
     margin-bottom: 7px;
 }
+
 /* Testcase section */
 
 

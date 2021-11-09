@@ -3,6 +3,8 @@ let currentContainer = null;
 let currentSubContainer = null;
 let currentTestcaseIndex = null;
 let currentAssignment;
+let EDITOR = null;
+let SPACES_PER_TAB = 4;
 
 let ASSIGNMENT_ID_PREFIX = "ASS-"
 let TESTCASE_ID_PREFIX = "TEST-"
@@ -12,6 +14,16 @@ $(document).ready(function () {
     currentContainer = $("#instructions-container");
     currentSubContainer = $("#edit-testcase-code");
     currentContainer.show();
+
+    EDITOR = CodeMirror.fromTextArea(document.getElementById("edit-code"), {
+        lineNumbers: true,
+        lineWrapping: true,
+        indentUnit: SPACES_PER_TAB,
+        tabSize: SPACES_PER_TAB,
+        placeholder: CODE_PLACEHOLDER
+    });
+    EDITOR.setSize(null, 380);
+    EDITOR.refresh();
 });
 
 
@@ -26,6 +38,8 @@ function loadAssignmentPage(assignment) {
         addTestcaseRow(testcase);
     globalAssignment = assignment
     populateDocumentWithConfig(assignment.global_config);
+    appendTextToTextInputLabel(`${ASSIGNMENT_ID_PREFIX}TIMEOUT`, " (in seconds)");
+    appendTextToTextInputLabel(`${TESTCASE_ID_PREFIX}TIMEOUT`, " (in seconds)");
 
     $(".cfgtooltip").hover(function () {
         const span = $(this).next("span");
@@ -53,6 +67,8 @@ function handleChangedFilename(e) {
     current_table_val.children(":first").html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
     currentAssignment.testcases[currentTestcaseIndex].original_name = val;
     currentAssignment.testcases[currentTestcaseIndex].name = val;
+    EDITOR.setOption("mode", getCodeMirrorMimetype(val));
+    EDITOR.refresh();
 }
 
 async function saveAssignment() {
@@ -75,7 +91,8 @@ function gatherConfig(containerID) {
             key: elem.data("key"),
             is_per_testcase: elem.data("is_per_testcase"),
             is_list: elem.data("is_list"),
-            section: elem.data("section")
+            section: elem.data("section"),
+            description: elem.data("description"),
         })
     });
     return config;
@@ -102,6 +119,11 @@ function populateDocumentWithConfig(config) {
     }
     $("#global-settings-content").html(globalConfigOutput);
     $("#testcase-config-content").html(perTestcaseConfigOutput);
+}
+
+function appendTextToTextInputLabel(id, text) {
+    let label = $("#" + id).prev();
+    label.html(label.html() + ` ${text}`);
 }
 
 function newTextField(item, key, idPrefix) {
@@ -145,7 +167,8 @@ function getMetadataAsDataset(item) {
         data-is_per_testcase="${item.is_per_testcase}"
         data-is_list="${item.is_list}"
         data-section="${item.section}"
-    `
+        data-description="${item.description}"
+    `;
 }
 
 function addTestcaseRow(item) {
@@ -227,7 +250,9 @@ function chooseTestcase(index) {
             saveCurrentTestcase();
         }
         $("#file-name").val(testcase.name);
-        $("#edit-code").val(testcase.text);
+        EDITOR.setValue(testcase.text);
+        EDITOR.setOption("mode", getCodeMirrorMimetype(testcase.name));
+        EDITOR.refresh();
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
         for (const entry of testcase.config) {
@@ -250,11 +275,17 @@ function saveCurrentTestcase() {
     new_testcase = {
         "name": name,
         "original_name": name,
-        "text": $("#edit-code").val(),
+        "text": EDITOR.getValue(),
         "input": $("#output-code").val(),
         "output": $("#input-code").val(),
         "config": gatherConfig("testcase-config-content")
     };
     currentAssignment.testcases[currentTestcaseIndex] = new_testcase;
+}
 
+function getCodeMirrorMimetype(name) {
+    let suffix = getSuffix(name);
+    if (AVAILABLE_LANGUAGES.hasOwnProperty(suffix))
+        return AVAILABLE_LANGUAGES[suffix];
+    return null;
 }

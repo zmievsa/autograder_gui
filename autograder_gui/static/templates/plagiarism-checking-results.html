@@ -16,16 +16,18 @@
 
 <div class="container">
     <div class="main-container">
-        <table>
-            <tr>
-                <th>Homework 1 Name</th>
-                <th>Homework 2 Name</th>
-                <th>Similarity Score</th>
-            </tr>
-        </table>
-        <div class="table-scroll">
-            <table class="table-content">
 
+        <div class="loading-text">
+            <div class="spinner-border text-dark" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            <h1 style="display: inline-block;">Loading...</h1>
+        </div>
+ 
+        <div class="table-scroll table table-hover">
+
+            <table class="table-content">
+      
             </table>
 
         </div>
@@ -43,9 +45,21 @@
 
 <script>
 $(document).ready(async function () {
+    $(".loading-text").show();
     let results = await eel.autograder_plagiarism()();
+    $(".loading-text").hide();
     console.log(results);
     let output = "";
+
+    output += `<thead>
+                    <tr>
+                        <th>Homework 1 Name</th>
+                        <th>Homework 2 Name</th>
+                        <th>Similarity Score</th>
+                    </tr>
+                </thead>`;
+
+
     for (let file of results.results) {
         output += `<tr>
                     <td>${file["student1"]} </td>
@@ -56,6 +70,9 @@ $(document).ready(async function () {
     }
     $(".table-content").html(output);
 });
+
+
+
 
 </script>
 {% endblock %}

@@ -2,3 +2,5 @@ node_modules
 .vscode
 __pycache__
 dist
+build
+autograder.spec
