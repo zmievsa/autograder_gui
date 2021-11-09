@@ -43,8 +43,8 @@ SIZE = (1200, 900)
 
 
 def run():
-    os.chdir(str(Path(__file__).parent))
-    eel.init("static", allowed_extensions=[".html"])
+    static_dir = (Path(__file__).parent / "static").resolve()
+    eel.init(str(static_dir), allowed_extensions=[".html"])
     eel.start(
         "templates/index.html",
         jinja_templates="templates",
