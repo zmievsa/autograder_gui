@@ -15,6 +15,30 @@ import shutil
 from tempfile import TemporaryDirectory
 
 
+DEFAULT_FORMATTERS = """
+# You can specify a default formatter
+# that will handle all output for
+# all testcases that don't have 
+# their own formatters.
+def DEFAULT(output):
+    \"\"\" This formatter will remove
+        all whitespace from output
+    \"\"\"
+    return "".join(output.split())
+
+# And you can specify formatters
+# on a per-testcase basis.
+def testcase_name_stem(output):
+    \"\"\" This formatter will remove
+        all non-digit characters
+        from output
+    \"\"\"
+    return "".join(filter(
+        lambda c: c.isdigit(), s)
+    )
+""".lstrip()
+
+
 def load_homeworks(dir_with_homeworks: Path):
     dir_with_homeworks = skip_inner_dirs(dir_with_homeworks)
     return [{"path": f, "name": f.name, "enabled": True} for f in dir_with_homeworks.iterdir() if f.is_file()]
@@ -67,6 +91,7 @@ def load_assignment(dir_with_assignment: str = ""):
         "global_config": sections,
         "testcases": testcases,
         "testcase_types": load_testcase_types(paths.testcase_types_dir),
+        "formatters": paths.stdout_formatters.read_text() if paths.stdout_formatters.is_file() else DEFAULT_FORMATTERS,
     }
 
 
@@ -182,17 +207,20 @@ def generate_assignment_configuration(assignment, paths: AutograderPaths):
     paths.output_dir.mkdir()
     paths.extra_dir.mkdir()
     paths.testcases_dir.mkdir()
-    paths.stdout_formatters.write_text(paths.default_stdout_formatters.read_text())
+    paths.stdout_formatters.write_text(assignment["formatters"] if assignment["formatters"] else "")
+    for c in assignment["global_config"]:
+        add_value_to_config(config, c)
+
+    paths.config.write_text(dumps(config))
+    config_instance = GradingConfig(paths.config, paths.default_config)
     for t in assignment["testcases"]:
         name = str(t["name"])
-        (paths.testcases_dir / name).write_text(t["text"])
+        if not config_instance.stdout_only_grading_enabled:
+            (paths.testcases_dir / name).write_text(t["text"])
         (paths.input_dir / name).with_suffix(".txt").write_text(t["input"])
         (paths.output_dir / name).with_suffix(".txt").write_text(t["output"])
         for c in t["config"]:
             add_value_to_config(config, c, name)
-    for c in assignment["global_config"]:
-        add_value_to_config(config, c)
-    paths.config.write_text(dumps(config))
 
 
 def build_assignment_zip(assignment, output_fname: Path):

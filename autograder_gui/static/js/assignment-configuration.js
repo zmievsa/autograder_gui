@@ -4,10 +4,14 @@ let currentSubContainer = null;
 let currentTestcaseIndex = null;
 let currentAssignment;
 let EDITOR = null;
+let FORMATTER_EDITOR = null;
 let SPACES_PER_TAB = 4;
 
 let ASSIGNMENT_ID_PREFIX = "ASS-"
 let TESTCASE_ID_PREFIX = "TEST-"
+
+// It's not actually all invalid chars. I just came up with a few
+INVALID_FILENAME_CHARS_REGEX = /[\s"'/\\:;]/g
 
 $(document).ready(function () {
     eel.get_assignment()(loadAssignmentPage);
@@ -39,6 +43,26 @@ function loadAssignmentPage(assignment) {
     populateDocumentWithConfig(assignment.global_config);
     appendTextToTextInputLabel(`${ASSIGNMENT_ID_PREFIX}TIMEOUT`, " (in seconds)");
     appendTextToTextInputLabel(`${TESTCASE_ID_PREFIX}TIMEOUT`, " (in seconds)");
+    $(`#${ASSIGNMENT_ID_PREFIX}STDOUT_ONLY_GRADING_ENABLED`).click(function () {
+        handleModifiedStdoutOnlySubmissions(this.checked);
+    })
+    for (const field of assignment.global_config) {
+        if (field.original_name === "STDOUT_ONLY_GRADING_ENABLED") {
+            console.log("FOUND", field.value, typeof (field.value));
+            handleModifiedStdoutOnlySubmissions(field.value);
+            break;
+        }
+    }
+    FORMATTER_EDITOR = CodeMirror.fromTextArea(document.getElementById("edit-formatters"), {
+        lineNumbers: true,
+        lineWrapping: true,
+        indentUnit: SPACES_PER_TAB,
+        tabSize: SPACES_PER_TAB,
+        mode: "python"
+    })
+    FORMATTER_EDITOR.setValue(assignment.formatters);
+    FORMATTER_EDITOR.setSize(null, 400);
+    FORMATTER_EDITOR.refresh();
 
     $(".cfgtooltip").hover(function () {
         const span = $(this).next("span");
@@ -60,20 +84,30 @@ function loadAssignmentPage(assignment) {
 }
 
 function handleChangedFilename(e) {
-    let val = e.target.value.replace(" ", "").replace("\"", "").replace("'", ""); // Yeah, We could do it with a regex. But I'm tired.
+    let val = e.target.value.replace(INVALID_FILENAME_CHARS_REGEX, "");
     $(e.target).val(val);
     current_table_val = getCurrentTestcaseRow();
     current_table_val.children(":first").html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
     currentAssignment.testcases[currentTestcaseIndex].original_name = val;
     currentAssignment.testcases[currentTestcaseIndex].name = val;
-    updateEditor(EDITOR, val);
+    updateCodeEditor(EDITOR, val);
 }
 
-function updateEditor(editor, fname) {
+function handleModifiedStdoutOnlySubmissions(stdoutOnlySubmissionsEnabled) {
+    console.log(stdoutOnlySubmissionsEnabled);
+    if (stdoutOnlySubmissionsEnabled) {
+        $("#stdout-only-label-container").show()
+        $("#code-editor-container").hide();
+    } else {
+        $("#stdout-only-label-container").hide()
+        $("#code-editor-container").show();
+    }
+}
+
+function updateCodeEditor(editor, fname) {
     editor.setOption("mode", getCodeMirrorMimetype(fname));
     editor.setOption("placeholder", getCodePlaceholder(currentAssignment, fname));
     editor.refresh();
-
 }
 
 function getCodePlaceholder(assignment, fname) {
@@ -86,6 +120,7 @@ function getCodePlaceholder(assignment, fname) {
 async function saveAssignment() {
     saveCurrentTestcase();
     currentAssignment.global_config = gatherConfig("global-settings-content");
+    currentAssignment.formatters = FORMATTER_EDITOR.getValue();
     await eel.save_assignment(currentAssignment)();
 }
 
@@ -263,7 +298,6 @@ function chooseTestcase(index) {
         }
         $("#file-name").val(testcase.name);
         EDITOR.setValue(testcase.text);
-        updateEditor(EDITOR, testcase.name);
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
         for (const entry of testcase.config) {
@@ -279,6 +313,7 @@ function chooseTestcase(index) {
     }
     currentContainer = showContainer(currentContainer, '#edit-testcase-container');
     currentSubContainer = showContainer(currentSubContainer, '#edit-testcase-code');
+    updateCodeEditor(EDITOR, testcase.name);
 }
 
 function saveCurrentTestcase() {
