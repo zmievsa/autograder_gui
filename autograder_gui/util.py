@@ -1,9 +1,11 @@
-from typing import Dict, List, Optional, Tuple, TypeVar, Union, cast
+from typing import Dict, List, Optional, Tuple, Type, TypeVar, Union, cast
 import sys
 from typing_extensions import Literal
 from zipfile import ZipFile
 from autograder.config_manager import DEFAULT_ARGLIST_VALUE_KEY, ArgList, GradingConfig
 from autograder.autograder import AutograderPaths
+from autograder.testcase_utils.abstract_testcase import TestCase
+from autograder.testcase_utils.testcase_picker import TestCasePicker
 from itertools import chain
 from tomlkit.api import array, document, dumps, inline_table, parse, table
 from tomlkit.items import Array, Bool, InlineTable, Item, Table, item
@@ -61,7 +63,26 @@ def load_assignment(dir_with_assignment: str = ""):
         # TODO: Add support for parsing stdout-only testcases
         for test in (paths.testcases_dir.iterdir() if paths.testcases_dir.exists() else [])
     ]
-    return {"global_config": sections, "testcases": testcases}
+    return {
+        "global_config": sections,
+        "testcases": testcases,
+        "testcase_types": load_testcase_types(paths.testcase_types_dir),
+    }
+
+
+def load_testcase_types(testcase_types_dir: Path) -> List[dict]:
+    return [
+        {"suffix": t.source_suffix.lstrip("."), "template": get_template(t)}
+        for t in TestCasePicker(testcase_types_dir, False).testcase_types
+    ]
+
+
+def get_template(testcase_type: Type[TestCase]):
+    templates = list(testcase_type.get_template_dir().iterdir())
+    if templates:
+        return templates[0].read_text()
+    else:
+        return ""
 
 
 T = TypeVar("T")

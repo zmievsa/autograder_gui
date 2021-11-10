@@ -20,7 +20,6 @@ $(document).ready(function () {
         lineWrapping: true,
         indentUnit: SPACES_PER_TAB,
         tabSize: SPACES_PER_TAB,
-        placeholder: CODE_PLACEHOLDER
     });
     EDITOR.setSize(null, 380);
     EDITOR.refresh();
@@ -67,8 +66,21 @@ function handleChangedFilename(e) {
     current_table_val.children(":first").html(getTestcaseLanguageImage(val) + getTestcaseDisplayName(val));
     currentAssignment.testcases[currentTestcaseIndex].original_name = val;
     currentAssignment.testcases[currentTestcaseIndex].name = val;
-    EDITOR.setOption("mode", getCodeMirrorMimetype(val));
-    EDITOR.refresh();
+    updateEditor(EDITOR, val);
+}
+
+function updateEditor(editor, fname) {
+    editor.setOption("mode", getCodeMirrorMimetype(fname));
+    editor.setOption("placeholder", getCodePlaceholder(currentAssignment, fname));
+    editor.refresh();
+
+}
+
+function getCodePlaceholder(assignment, fname) {
+    let suffix = getSuffix(fname);
+    for (const testcaseType of assignment.testcase_types)
+        if (testcaseType.suffix === suffix)
+            return testcaseType.template;
 }
 
 async function saveAssignment() {
@@ -251,8 +263,7 @@ function chooseTestcase(index) {
         }
         $("#file-name").val(testcase.name);
         EDITOR.setValue(testcase.text);
-        EDITOR.setOption("mode", getCodeMirrorMimetype(testcase.name));
-        EDITOR.refresh();
+        updateEditor(EDITOR, testcase.name);
         $("#input-code").val(testcase.input);
         $("#output-code").val(testcase.output);
         for (const entry of testcase.config) {
