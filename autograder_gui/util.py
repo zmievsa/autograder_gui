@@ -28,7 +28,7 @@ def DEFAULT(output):
 
 # And you can specify formatters
 # on a per-testcase basis.
-def testcase_name_stem(output):
+def testcase_name_stem(s):
     \"\"\" This formatter will remove
         all non-digit characters
         from output
