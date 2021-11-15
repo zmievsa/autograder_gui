@@ -24,7 +24,7 @@
     <div class="global-icons">
         <img id="global-settings-button" class="testcase-nav" style="border:3px solid black;"
             src="../images/global-settings.png"
-            onclick="currentContainer = showContainer(currentContainer, '#global-settings-container', '#instructions-container');" />
+            onclick="currentContainer = showContainer(currentContainer, '#global-settings-container', '#instructions-container');currentSubContainer = showContainer(currentSubContainer, '#global-settings-config-subcontainer');" />
     </div>
 </div>
 
@@ -96,9 +96,17 @@
                             <input id="file-name" type="text" spellcheck="false" class="form-control"
                                 data-originalName="" />
                         </div>
-                        <div class="form-group">
+                        <div id="code-editor-container" class="form-group">
                             <label for="edit-code">Code </label>
                             <textarea id="edit-code" class="form-control" spellcheck="false"></textarea>
+                        </div>
+                        <div id="stdout-only-label-container" class="form-group">
+                            <label>
+                                Stdout-only mode is enabled.<br>
+                                1) Specify 'possible source file stems' in assignment configuration. At least one of these stems must be within each submission's name and, if the submission is a directory with source files and a makefile, within each compiled executable too.<br>
+                                2) Each student submission will be run using input (a button to the right) as stdin and then its stdout output will be compared to output (a button to the right).<br>
+                                3) Then both outputs are formatted by a matching stdout-formatter (a button to the right of assignment config), and if they are equal afterwards, then the student passes the testcase.
+                            </label>
                         </div>
                     </form>
                 </div>
@@ -151,18 +159,32 @@
         </div>
 
         <div id="global-settings-container">
-            <p class="global-settings-title"> Global Settings </p>
-            <img src="../images/testcase configuration.png" />
-
-            <div id="global-settings-content" class="form-container">
+            <div id="global-settings-config-subcontainer">
                 <p class="global-settings-title"> Global Settings </p>
                 <img src="../images/testcase configuration.png" />
 
-                <div class="form-container">
-                    <form id="global-settings-form" class="form-scroll">
-                        <!-- To be filled up when assignment has been loaded -->
-                    </form>
+                <div id="global-settings-content" class="form-container">
+                    <p class="global-settings-title"> Global Settings </p>
+                    <img src="../images/testcase configuration.png" />
+
+                    <div class="form-container">
+                        <form id="global-settings-form" class="form-scroll">
+                            <!-- To be filled up when assignment has been loaded -->
+                        </form>
+                    </div>
                 </div>
+            </div>
+            <div id="formatters-editor-subcontainer" class="form-group" style="display: none;">
+                <p class="global-settings-title"> Output Formatters </p>
+                <img src="../images/testcase configuration.png" />
+                <textarea id="edit-formatters" class="form-control" spellcheck="false"></textarea>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; position:absolute; top:0px; right:-55px;">
+                <img id="config-button" class="testcase-nav" src="../images/gear.svg"
+                        onclick="currentSubContainer = showContainer(currentSubContainer, '#global-settings-config-subcontainer');" />
+                <img id="config-button" class="testcase-nav" src="../images/paintbrush.png"
+                    onclick="currentSubContainer = showContainer(currentSubContainer, '#formatters-editor-subcontainer');FORMATTER_EDITOR.refresh();" />
             </div>
         </div>
     </div>

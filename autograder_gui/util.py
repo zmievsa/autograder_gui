@@ -1,9 +1,11 @@
-from typing import Dict, List, Optional, Tuple, TypeVar, Union, cast
+from typing import Dict, List, Optional, Tuple, Type, TypeVar, Union, cast
 import sys
 from typing_extensions import Literal
 from zipfile import ZipFile
 from autograder.config_manager import DEFAULT_ARGLIST_VALUE_KEY, ArgList, GradingConfig
 from autograder.autograder import AutograderPaths
+from autograder.testcase_utils.abstract_testcase import TestCase
+from autograder.testcase_utils.testcase_picker import TestCasePicker
 from itertools import chain
 from tomlkit.api import array, document, dumps, inline_table, parse, table
 from tomlkit.items import Array, Bool, InlineTable, Item, Table, item
@@ -11,6 +13,30 @@ from tomlkit.toml_document import TOMLDocument
 from pathlib import Path
 import shutil
 from tempfile import TemporaryDirectory
+
+
+DEFAULT_FORMATTERS = """
+# You can specify a default formatter
+# that will handle all output for
+# all testcases that don't have 
+# their own formatters.
+def DEFAULT(output):
+    \"\"\" This formatter will remove
+        all whitespace from output
+    \"\"\"
+    return "".join(output.split())
+
+# And you can specify formatters
+# on a per-testcase basis.
+def testcase_name_stem(s):
+    \"\"\" This formatter will remove
+        all non-digit characters
+        from output
+    \"\"\"
+    return "".join(filter(
+        lambda c: c.isdigit(), s)
+    )
+""".lstrip()
 
 
 def load_homeworks(dir_with_homeworks: Path):
@@ -61,7 +87,27 @@ def load_assignment(dir_with_assignment: str = ""):
         # TODO: Add support for parsing stdout-only testcases
         for test in (paths.testcases_dir.iterdir() if paths.testcases_dir.exists() else [])
     ]
-    return {"global_config": sections, "testcases": testcases}
+    return {
+        "global_config": sections,
+        "testcases": testcases,
+        "testcase_types": load_testcase_types(paths.testcase_types_dir),
+        "formatters": paths.stdout_formatters.read_text() if paths.stdout_formatters.is_file() else DEFAULT_FORMATTERS,
+    }
+
+
+def load_testcase_types(testcase_types_dir: Path) -> List[dict]:
+    return [
+        {"suffix": t.source_suffix.lstrip("."), "template": get_template(t)}
+        for t in TestCasePicker(testcase_types_dir, False).testcase_types
+    ]
+
+
+def get_template(testcase_type: Type[TestCase]):
+    templates = list(testcase_type.get_template_dir().iterdir())
+    if templates:
+        return templates[0].read_text()
+    else:
+        return ""
 
 
 T = TypeVar("T")
@@ -161,16 +207,19 @@ def generate_assignment_configuration(assignment, paths: AutograderPaths):
     paths.output_dir.mkdir()
     paths.extra_dir.mkdir()
     paths.testcases_dir.mkdir()
-    paths.stdout_formatters.write_text(paths.default_stdout_formatters.read_text())
+    paths.stdout_formatters.write_text(assignment["formatters"] if assignment["formatters"] else "")
+    for c in assignment["global_config"]:
+        add_value_to_config(config, c, include_comments=True)
+
+    config_instance = GradingConfig(paths.config, paths.default_config)
     for t in assignment["testcases"]:
         name = str(t["name"])
-        (paths.testcases_dir / name).write_text(t["text"])
+        if not config_instance.stdout_only_grading_enabled:
+            (paths.testcases_dir / name).write_text(t["text"])
         (paths.input_dir / name).with_suffix(".txt").write_text(t["input"])
         (paths.output_dir / name).with_suffix(".txt").write_text(t["output"])
         for c in t["config"]:
             add_value_to_config(config, c, name)
-    for c in assignment["global_config"]:
-        add_value_to_config(config, c)
     paths.config.write_text(dumps(config))
 
 
@@ -191,7 +240,12 @@ def make_archive(source: Path, destination: Path, fmt="zip"):
     shutil.move(f"{destination.stem}.{fmt}", destination)
 
 
-def add_value_to_config(config: TOMLDocument, c: dict, testcase_name: str = DEFAULT_ARGLIST_VALUE_KEY):
+def add_value_to_config(
+    config: TOMLDocument,
+    c: dict,
+    testcase_name: str = DEFAULT_ARGLIST_VALUE_KEY,
+    include_comments=True,
+):
     value = format_config_value(c["value"], c["type"])
     if c["section"] not in config:
         config.add(c["section"], table())
@@ -202,6 +256,8 @@ def add_value_to_config(config: TOMLDocument, c: dict, testcase_name: str = DEFA
             config[c["section"]].add(c["original_name"], array())
         else:
             config[c["section"]].add(c["original_name"], item(""))
+    if include_comments:
+        config[c["section"]][c["original_name"]].comment(c["description"])
     if value is None:
         return
     if c["is_per_testcase"]:
