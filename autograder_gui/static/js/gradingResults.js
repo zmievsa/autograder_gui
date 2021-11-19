@@ -20,3 +20,7 @@ $(document).ready(async function () {
     $(".table-content").html(output);
 });
 
+function exportGradingResults() {
+    eel.export_grading_results();
+}
+

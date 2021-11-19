@@ -42,3 +42,11 @@ function showContainer(currentContainer, container, alternativeContainer = null)
     currentContainer.show();
     return currentContainer;
 }
+
+function showError(error) {
+    alert(JSON.stringify(error));
+}
+
+function loadHomeworks() {
+    eel.extract_homeworks()(loadHomeworksPage);
+}

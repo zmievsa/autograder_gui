@@ -124,6 +124,14 @@ async function saveAssignment() {
     await eel.save_assignment(currentAssignment)();
 }
 
+function exportAssignment() {
+    eel.export_assignment()(r => {
+        if (r.error) {
+            showError(r.error);
+        }
+    });
+}
+
 function gatherConfig(containerID) {
     let config = [];
     $("#" + containerID).find('input').each(function () {
