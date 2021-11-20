@@ -15,17 +15,11 @@
 
 {% block footer %}
 <div class="footer">
-    <a class="right-button-container" onclick="runAutograder()">
+    <a class="right-button-container" onclick="runAutograder();">
         <img src="../images/create_assignment_bg_orig.png" />
         <p>Grade</p>
     </a>
 </div>
 
-<script>
-    async function runAutograder() {
-        await eel.save_homeworks(HOMEWORKS)();
-        eel.erase_grading_results();
-        location.href = "grading-results.html";
-    }
-</script>
+<script src="../js/homework.js"></script>
 {% endblock %}

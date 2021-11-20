@@ -48,5 +48,5 @@ function showError(error) {
 }
 
 function loadHomeworks() {
-    eel.extract_homeworks()(loadHomeworksPage);
+    eel.extract_homeworks()(loadHomeworksPage)
 }

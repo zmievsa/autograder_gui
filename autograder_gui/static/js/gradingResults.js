@@ -1,6 +1,9 @@
 $(document).ready(async function () {
     $(".loading-text").show();
     let results = await eel.autograder_run()();
+    if (results && results.error) {
+        showError(results.error);
+    }
     $(".loading-text").hide();
     console.log(results);
     let output = "";
@@ -21,6 +24,6 @@ $(document).ready(async function () {
 });
 
 function exportGradingResults() {
-    eel.export_grading_results();
+    eel.export_grading_results()();
 }
 

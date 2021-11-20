@@ -5,7 +5,6 @@ from typing import Dict, List, Optional, Union, overload
 from autograder.autograder import AutograderPaths
 import eel
 from pathlib import Path
-import sys
 
 import tkinter as tk
 from tkinter import filedialog
@@ -56,7 +55,6 @@ def run():
 
 @eel.expose
 def autograder_run():
-    print("0")
     global GRADING_RESULTS
     if not HOMEWORKS or not HOMEWORK_ROOT_DIR:
         return
@@ -64,41 +62,24 @@ def autograder_run():
         return GRADING_RESULTS
     # Temporary value to signall that we started grading
     GRADING_RESULTS = AUTOGRADER_RUN_IN_PROGRESS
-    print("1")
+
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
-    argv = [
-        "run",
-        str(root_dir),
-        "-j",
-        "-s",
-        *(h["name"] for h in HOMEWORKS if h["enabled"]),
-    ]
+    argv = ["run", str(root_dir), "-j", "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
     generate_assignment_configuration(CURRENT_ASSIGNMENT, AutograderPaths(root_dir))
-    print("2")
     with StringIO() as buf:
-        sys.stderr.write("2.5")
         with redirect_stdout(buf):
             try:
-                sys.stderr.write("3")
                 autograder(argv)
-                sys.stderr.write("4")
             except Exception as e:
-                sys.stderr.write("5")
                 GRADING_RESULTS = None
                 return {"error": str(e)}
-        print("6")
         GRADING_RESULTS = json.loads(buf.getvalue())
-        print("7")
         return GRADING_RESULTS
 
 
 @eel.expose
 def export_grading_results():
-    if (
-        GRADING_RESULTS == AUTOGRADER_RUN_IN_PROGRESS
-        or not GRADING_RESULTS
-        or HOMEWORK_ROOT_DIR is None
-    ):
+    if GRADING_RESULTS == AUTOGRADER_RUN_IN_PROGRESS or not GRADING_RESULTS or HOMEWORK_ROOT_DIR is None:
         return
 
     spawn_tkinter_window()
@@ -112,9 +93,7 @@ def export_grading_results():
         (tmp / "results.json").write_text(json.dumps(GRADING_RESULTS, indent=4))
 
         with (tmp / "results.csv").open("w", newline="") as csvfile:
-            spamwriter = csv.writer(
-                csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL
-            )
+            spamwriter = csv.writer(csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["submission_name", "grade"])
             for r in GRADING_RESULTS["submissions"]:
                 spamwriter.writerow([r["submission"], r["final_grade"]])
@@ -148,12 +127,7 @@ def autograder_plagiarism():
     PLAGIARISM_RESULTS = AUTOGRADER_RUN_IN_PROGRESS
 
     root_dir = skip_inner_dirs(Path(HOMEWORK_ROOT_DIR.name))
-    argv = [
-        "plagiarism",
-        str(root_dir),
-        "-s",
-        *(h["name"] for h in HOMEWORKS if h["enabled"]),
-    ]
+    argv = ["plagiarism", str(root_dir), "-s", *(h["name"] for h in HOMEWORKS if h["enabled"])]
     with StringIO() as buf:
         with redirect_stdout(buf):
             try:
@@ -182,19 +156,13 @@ def export_plagiarism_results():
     dst = Path(filedialog.asksaveasfilename(filetypes=[("Zip File", ".zip")]))
     with TemporaryDirectory() as tmp:
         tmp = Path(tmp)
-        (tmp / "plagiarism_results.json").write_text(
-            json.dumps(PLAGIARISM_RESULTS, indent=4)
-        )
+        (tmp / "plagiarism_results.json").write_text(json.dumps(PLAGIARISM_RESULTS, indent=4))
 
         with (tmp / "plagiarism_results.csv").open("w", newline="") as csvfile:
-            spamwriter = csv.writer(
-                csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL
-            )
+            spamwriter = csv.writer(csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["Submission 1", "Submission 2", "Similarity Score"])
             for r in PLAGIARISM_RESULTS["results"]:
-                spamwriter.writerow(
-                    [r["student1"], r["student2"], r["similarity_score"]]
-                )
+                spamwriter.writerow([r["student1"], r["student2"], r["similarity_score"]])
         if dst.is_file():
             dst.unlink()
         make_archive(tmp, dst)
@@ -234,9 +202,7 @@ def extract_assignment():
     global CURRENT_ASSIGNMENT
 
     spawn_tkinter_window().title("Choose files to open")
-    chosen_paths: str = filedialog.askopenfilename(
-        filetypes=[("Assignment file", "*.zip")]
-    )
+    chosen_paths: str = filedialog.askopenfilename(filetypes=[("Assignment file", "*.zip")])
     if not chosen_paths:
         return {"error": "No path was chosen"}
     path = Path(chosen_paths)
@@ -256,18 +222,13 @@ def extract_homeworks():
 
     spawn_tkinter_window().title("Choose files to open")
     chosen_paths = filedialog.askopenfilenames(
-        filetypes=[
-            ("Archive with student submissions", "*.zip"),
-            ("Student Submissions", "*"),
-        ]
+        filetypes=[("Archive with student submissions", "*.zip"), ("Student Submissions", "*")]
     )
     if not chosen_paths:
         return {"error": "No path was chosen"}
     non_existent_paths = [f"'{p}'" for p in chosen_paths if not os.path.isfile(p)]
     if non_existent_paths:
-        return {
-            "error": f"Picked paths do not exist. Paths: {', '.join(non_existent_paths)}"
-        }
+        return {"error": f"Picked paths do not exist. Paths: {', '.join(non_existent_paths)}"}
     tmp = TemporaryDirectory()
     extraction_dir = Path(tmp.name)
     for f in chosen_paths:
