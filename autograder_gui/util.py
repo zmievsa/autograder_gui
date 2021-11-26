@@ -209,9 +209,8 @@ def generate_assignment_configuration(assignment, paths: AutograderPaths):
     paths.testcases_dir.mkdir()
     paths.stdout_formatters.write_text(assignment["formatters"] if assignment["formatters"] else "")
     for c in assignment["global_config"]:
-        add_value_to_config(config, c)
+        add_value_to_config(config, c, include_comments=True)
 
-    paths.config.write_text(dumps(config))
     config_instance = GradingConfig(paths.config, paths.default_config)
     for t in assignment["testcases"]:
         name = str(t["name"])
@@ -221,6 +220,7 @@ def generate_assignment_configuration(assignment, paths: AutograderPaths):
         (paths.output_dir / name).with_suffix(".txt").write_text(t["output"])
         for c in t["config"]:
             add_value_to_config(config, c, name)
+    paths.config.write_text(dumps(config))
 
 
 def build_assignment_zip(assignment, output_fname: Path):
@@ -240,7 +240,12 @@ def make_archive(source: Path, destination: Path, fmt="zip"):
     shutil.move(f"{destination.stem}.{fmt}", destination)
 
 
-def add_value_to_config(config: TOMLDocument, c: dict, testcase_name: str = DEFAULT_ARGLIST_VALUE_KEY):
+def add_value_to_config(
+    config: TOMLDocument,
+    c: dict,
+    testcase_name: str = DEFAULT_ARGLIST_VALUE_KEY,
+    include_comments=True,
+):
     value = format_config_value(c["value"], c["type"])
     if c["section"] not in config:
         config.add(c["section"], table())
@@ -251,6 +256,8 @@ def add_value_to_config(config: TOMLDocument, c: dict, testcase_name: str = DEFA
             config[c["section"]].add(c["original_name"], array())
         else:
             config[c["section"]].add(c["original_name"], item(""))
+    if include_comments:
+        config[c["section"]][c["original_name"]].comment(c["description"])
     if value is None:
         return
     if c["is_per_testcase"]:

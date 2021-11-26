@@ -207,12 +207,15 @@ def extract_assignment():
         return {"error": "No path was chosen"}
     path = Path(chosen_paths)
     if not path.is_file():
-        return {"error": f"The path '{path}' is not a file."}
-    with TemporaryDirectory() as tmp:
-        paths = AutograderPaths(Path(tmp))
-        extract_zip_into_dir(path, paths.tests_dir)
-        CURRENT_ASSIGNMENT = load_assignment(tmp)
-        return CURRENT_ASSIGNMENT
+        return {"error": f"The path '{path}' is not a file or doesn't exist."}
+    try:
+        with TemporaryDirectory() as tmp:
+            paths = AutograderPaths(Path(tmp))
+            extract_zip_into_dir(path, paths.tests_dir)
+            CURRENT_ASSIGNMENT = load_assignment(tmp)
+            return CURRENT_ASSIGNMENT
+    except PermissionError as e:
+        return {"error": str(e), "errtype": "PermissionError"}
 
 
 @eel.expose
@@ -221,9 +224,7 @@ def extract_homeworks():
     global HOMEWORK_ROOT_DIR
 
     spawn_tkinter_window().title("Choose files to open")
-    chosen_paths = filedialog.askopenfilenames(
-        filetypes=[("Archive with student submissions", "*.zip"), ("Student Submissions", "*")]
-    )
+    chosen_paths = filedialog.askopenfilenames(filetypes=[("Student Submissions", "*")])
     if not chosen_paths:
         return {"error": "No path was chosen"}
     non_existent_paths = [f"'{p}'" for p in chosen_paths if not os.path.isfile(p)]
