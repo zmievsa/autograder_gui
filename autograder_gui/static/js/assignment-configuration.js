@@ -322,8 +322,8 @@ function saveCurrentTestcase() {
         "name": name,
         "original_name": name,
         "text": EDITOR.getValue(),
-        "input": $("#output-code").val(),
-        "output": $("#input-code").val(),
+        "input": $("#input-code").val(),
+        "output": $("#output-code").val(),
         "config": gatherConfig("testcase-config-content")
     };
     currentAssignment.testcases[currentTestcaseIndex] = new_testcase;
