@@ -205,9 +205,9 @@ label{
 
 /* Edit Screen */
 
-#edit-testcase-container{
+.code-editor-container{
     min-width:400px;
-    max-width: 400px;
+    max-width: 800px;
     height:550px;
     border:1px solid black;
     position: relative;
@@ -215,7 +215,6 @@ label{
     box-shadow: 5px 10px 5px #ccc;
     display: none;
     position: relative;
-
 }
 
 #edit-testcase-container img{
@@ -463,28 +462,3 @@ label{
     border-radius: 10px;
     margin-bottom: 7px;
 }
-
-/* Testcase section */
-
-
-
-
-/*
-
-@media screen and (max-width:1037px){
-    #container{
-        flex-direction:column;
-        margin-bottom: 20px;
-        align-items: center;
-        margin-top:0;
-    }
-}
-
-@media screen and (max-width: 650px)
-{
-    #testcase-container{
-        width:450px;
-    }
-}
-
-*/
