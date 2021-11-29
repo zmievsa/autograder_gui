@@ -174,11 +174,6 @@ label{
 }
 
 .instructions-title{
-    position: absolute;
-    color:white;
-    left:50%;
-    transform: translateX(-50%);
-    font-size: 30px;
     font-weight: bold;
 }
 
