@@ -8,6 +8,38 @@ label{
     vertical-align: middle;
 }
 
+.checkbox-containers{
+    z-index: 100;
+    position: relative;
+    margin-top: 10px;
+    overflow: auto;
+    height:400px;
+}
+
+.checkbox-container{
+    margin-bottom: 5px;
+}
+
+.check_box + label{
+    background:'../images/checkbox-unchecked.png' no-repeat;
+    height: 32px;
+    width: 32px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+
+.check_box:checked + label{
+    background:'../images/checkbox-checked.png' no-repeat;
+    height: 32px;
+    width: 32px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+
+.checkbox_label{
+    display:inline;
+}
+
 /* Assignement Configuration Button */
 
 .header{
@@ -35,6 +67,7 @@ label{
 
 .assignment-configuration-container p{
     line-height:0.6;
+
 }
 
 
@@ -147,8 +180,13 @@ label{
     overflow-x: hidden;
 }
 
+.table-scroll::-webkit-scrollbar{
+    display: none;
+}
+
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #e5f4fa;
+    
 }
 
 .show-window{

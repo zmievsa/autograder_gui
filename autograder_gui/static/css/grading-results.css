@@ -15,17 +15,20 @@ table{
     
 }
 
+.table{
+    margin-bottom:0 !important;
+    
+}
+
 .table th{
     border-top:1px solid #009de0 !important;
 }
 
 th{
-   
     font-size: 25px;
     background-color: #009de0;
     color:white;   
     text-align: center !important;
-
 }
 
 td{
@@ -37,9 +40,7 @@ td{
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #e5f4fa;
-    
 }
-
 
 /* Grading Configuration Button */
 
@@ -100,26 +101,6 @@ td{
     margin-top: auto;
 }
 
-/* Export Button */
-
-.export-container{
-    position: absolute;
-    bottom:5px;
-    left:5px;
-    cursor:pointer;
-}
-
-.export-container p {
-    color:white;
-    font-family: 'humanist';
-    font-size: 33px;
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    padding-right:20px;
-}
-
 /* Grading Button */
 
 .grading-container{
@@ -137,7 +118,6 @@ td{
     top:50%;
     transform:translate(-50%, -50%);
     padding-left:30px;
-    
 }
 
 
@@ -149,17 +129,3 @@ td{
     transform: translate(-50%,-50%);
     display: none;
 }
-
-.table th{
-    border:1px solid #009de0 !important;
-}
-
-thead th{
-    position: sticky; 
-    top: 0; 
-    z-index: 2;
-    text-align: center !important;
-    padding-left: 10px;
-}
-
-

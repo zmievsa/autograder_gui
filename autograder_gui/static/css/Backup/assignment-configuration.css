@@ -10,6 +10,18 @@ label{
     vertical-align: middle;
 }
 
+.checkbox-containers{
+    z-index: 100;
+    position: relative;
+    margin-top: 10px;
+    overflow: auto;
+    height:400px;
+}
+
+.checkbox-container{
+    margin-bottom: 5px;
+}
+
 .check_box + label{
     background:'../images/checkbox-unchecked.png' no-repeat;
     height: 32px;
@@ -24,6 +36,10 @@ label{
     width: 32px;
     display:inline-block;
     padding: 0 0 0 0px;
+}
+
+.checkbox_label{
+    display:inline;
 }
 
 
@@ -124,6 +140,10 @@ label{
     cursor: pointer;
 }
 
+#testcase-container .buttons{
+    text-align: right;
+}
+
 
 /* Instructions Screen */
 
@@ -185,9 +205,9 @@ label{
 
 /* Edit Screen */
 
-.code-editor-container{
+#edit-testcase-container{
     min-width:400px;
-    max-width: 800px;
+    max-width: 400px;
     height:550px;
     border:1px solid black;
     position: relative;
@@ -195,21 +215,19 @@ label{
     box-shadow: 5px 10px 5px #ccc;
     display: none;
     position: relative;
+
 }
 
 #edit-testcase-container img{
     width:390px;
 }
 
-.title{
+.edit-title{
     position: absolute;
     color:white;
     font-size: 30px;
     font-weight: bold;
     width:400px;
-}
-
-.edit-title{
     margin-left: 30px;
     margin-top:5px;
 }
@@ -219,12 +237,74 @@ label{
     padding:0px 15px;
 }
 
+
+/* Add Screen */
+
+/* Edit Screen */
+
+#add-container{
+    min-width:400px;
+    height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+
+}
+
+#add-container img{
+    width:390px;
+}
+
+.add-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
+    margin-left: 30px;
+}
+
+
+.button-container{
+    padding-top: 5px;
+    padding-right: 5px;
+    display: flex; 
+    justify-content: flex-end;
+}
+
+
 /* Config Screen */
 
+#config-container{
+    min-width:400px;
+    height:550px;
+    max-height:550px;
+    border:1px solid black;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px #ccc;
+    display: none;
+}
+
+#config-container img{
+    width:390px;
+}
+
 .config-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
     text-align: center;
     padding-right: 20px;
     margin-top:2px;
+}
+
+.show-window{
+    display: block !important;
 }
 
 .table-scroll{
@@ -233,9 +313,14 @@ label{
     overflow-x: hidden;
 }
 
+.table-scroll::-webkit-scrollbar{
+    display: none;
+}
+
 /* Footer Button Section */
 
 .footer{
+   
     position: relative;
     height:100px;
     margin-top: auto;
@@ -258,7 +343,7 @@ label{
     left:50%;
     top:50%;
     transform:translate(-50%, -50%);
-    padding-right: 20px;
+    padding-right:20px;
 }
 
 
@@ -279,7 +364,7 @@ label{
     left:50%;
     top:50%;
     transform:translate(-50%, -50%);
-    padding-left: 30px;
+    padding-left:30px;
     
 }
 
@@ -287,9 +372,53 @@ label{
     cursor: pointer;
 }
 
+.fa-cog{
+    cursor: pointer;
+}
+
+.fa-trash{
+    cursor: pointer;
+}
+
+#config-button{
+    cursor:pointer;
+}
+
+#input-button{
+    cursor: pointer;
+}
+
+#output-button{
+    cursor: pointer;
+}
+
 .global-icons{
     position:absolute;
     right:5px;
+}
+
+#zip-button{
+    cursor: pointer;
+}
+
+#global-settings-button{
+    cursor: pointer;
+}
+
+#config-global-container{
+    display: none;
+}
+
+#config-individual-container{
+    display: none;
+}
+
+#input-container{
+    display: none;
+}
+
+#output-container{
+    display: none;
 }
 
 #global-settings-container{
@@ -308,11 +437,20 @@ label{
     overflow-x: hidden;
 }
 
+#global-settings-container .form-container::-webkit-scrollbar{
+    display: none;
+}
+
 #global-settings-container img{
     width:390px;
 }
 
 .global-settings-title{
+    position: absolute;
+    color:white;
+    font-size: 30px;
+    font-weight: bold;
+    width:400px;
     margin-left: 30px;
     margin-top:2px;
 }
@@ -325,3 +463,28 @@ label{
     border-radius: 10px;
     margin-bottom: 7px;
 }
+
+/* Testcase section */
+
+
+
+
+/*
+
+@media screen and (max-width:1037px){
+    #container{
+        flex-direction:column;
+        margin-bottom: 20px;
+        align-items: center;
+        margin-top:0;
+    }
+}
+
+@media screen and (max-width: 650px)
+{
+    #testcase-container{
+        width:450px;
+    }
+}
+
+*/

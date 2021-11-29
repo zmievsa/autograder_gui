@@ -69,6 +69,10 @@ label{
     display: none;
 }
 
+.drop-zone--over{
+    border-style: dotted;
+}
+
 .file-container{
     position:absolute;
     right: 0px;

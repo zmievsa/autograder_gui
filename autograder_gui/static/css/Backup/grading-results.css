@@ -1,34 +1,43 @@
 
+*{
+    margin:0;
+    padding:0;
+}
+
 table{
-    border-collapse: collapse;
+
+    border:1px solid #009de0;
     width:100%;
 }
 
+.table{
+    margin-bottom:0 !important;
+    
+}
+
+.table th{
+    border-top:1px solid #009de0 !important;
+}
+
 th{
+   
     font-size: 25px;
     background-color: #009de0;
-    color:white;
-    text-align: center;
+    color:white;   
+    text-align: center !important;
+
 }
 
 td{
     text-align: center;
     border:1px solid #009de0;
     font-size: 18px;
+    width:50%;
 }
 
-.table{
-    margin-bottom:0 !important;
-}
-
-.table th{
-    border:1px solid #009de0 !important;
-}
-
-thead th{
-    position: sticky; 
-    top: 0; 
-    z-index: 2;
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e5f4fa;
+    
 }
 
 
@@ -56,6 +65,7 @@ thead th{
     top:50%;
     transform:translate(-50%, -50%);
     padding-right:70px;
+    padding-bottom: 20px;
 }
 
 
@@ -84,9 +94,30 @@ thead th{
 }
 
 
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: #e5f4fa;
-    
+.footer{
+    position: relative;
+    height:100px;
+    margin-top: auto;
+}
+
+/* Export Button */
+
+.export-container{
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    cursor:pointer;
+}
+
+.export-container p {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-right:20px;
 }
 
 /* Grading Button */
@@ -109,6 +140,7 @@ thead th{
     
 }
 
+
 /* Loading Text */
 .loading-text{
     position: absolute;
@@ -116,6 +148,18 @@ thead th{
     left:50%;
     transform: translate(-50%,-50%);
     display: none;
+}
+
+.table th{
+    border:1px solid #009de0 !important;
+}
+
+thead th{
+    position: sticky; 
+    top: 0; 
+    z-index: 2;
+    text-align: center !important;
+    padding-left: 10px;
 }
 
 

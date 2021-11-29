@@ -1,6 +1,27 @@
 
 /* Generals and Fonts */
 
+table{
+    border-collapse: collapse;
+    border:1px solid #009de0;
+    width:100%;
+}
+
+th{
+    padding-right: 50px;
+    padding-left: 5px;
+    font-size: 25px;
+    background-color: #009de0;
+    color:white;   
+}
+
+td{
+    text-align: center;
+    border:2px solid #009de0;
+    padding:5px 0px;
+    font-size: 18px;
+}
+
 
 /* plagiarism Button */
 
@@ -57,6 +78,7 @@
 /* Create Assignment Button*/
 
 .footer{
+   
     position: relative;
     height:100px;
     margin-top: auto;

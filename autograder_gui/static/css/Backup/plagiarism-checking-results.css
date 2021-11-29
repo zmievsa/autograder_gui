@@ -89,6 +89,27 @@ thead th{
     
 }
 
+/* Export Button */
+
+.export-container{
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    cursor:pointer;
+}
+
+.export-container p {
+    color:white;
+    font-family: 'humanist';
+    font-size: 33px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    padding-right:20px;
+}
+
+
 /* Grading Button */
 
 .grading-container{
