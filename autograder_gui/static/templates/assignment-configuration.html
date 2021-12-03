@@ -103,9 +103,14 @@
                         <div id="stdout-only-label-container" class="form-group">
                             <label>
                                 Stdout-only mode is enabled.<br>
-                                1) Specify 'possible source file stems' in assignment configuration. At least one of these stems must be within each submission's name and, if the submission is a directory with source files and a makefile, within each compiled executable too.<br>
-                                2) Each student submission will be run using input (a button to the right) as stdin and then its stdout output will be compared to output (a button to the right).<br>
-                                3) Then both outputs are formatted by a matching stdout-formatter (a button to the right of assignment config), and if they are equal afterwards, then the student passes the testcase.
+                                1) Specify 'possible source file stems' in assignment configuration. At least one of
+                                these stems must be within each submission's name and, if the submission is a directory
+                                with source files and a makefile, within each compiled executable too.<br>
+                                2) Each student submission will be run using input (a button to the right) as stdin and
+                                then its stdout output will be compared to output (a button to the right).<br>
+                                3) Then both outputs are formatted by a matching stdout-formatter (a button to the right
+                                of assignment config), and if they are equal afterwards, then the student passes the
+                                testcase.
                             </label>
                         </div>
                     </form>
@@ -179,10 +184,10 @@
                 <img src="../images/testcase configuration.png" />
                 <textarea id="edit-formatters" class="form-control" spellcheck="false"></textarea>
             </div>
-            
+
             <div style="display: flex; flex-direction: column; position:absolute; top:0px; right:-55px;">
                 <img id="config-button" class="testcase-nav" src="../images/gear.svg"
-                        onclick="currentSubContainer = showContainer(currentSubContainer, '#global-settings-config-subcontainer');" />
+                    onclick="currentSubContainer = showContainer(currentSubContainer, '#global-settings-config-subcontainer');" />
                 <img id="config-button" class="testcase-nav" src="../images/paintbrush.png"
                     onclick="currentSubContainer = showContainer(currentSubContainer, '#formatters-editor-subcontainer');FORMATTER_EDITOR.refresh();" />
             </div>
@@ -217,7 +222,7 @@
 
 <!--Footer -->
 <div class="footer">
-    <a id="export-container" class="export-container" onclick="saveAssignment(); eel.export_assignment();">
+    <a id="export-container" class="export-container" onclick="saveAssignment(); exportAssignment();">
         <img src="../images/export_bg.png" />
         <p>Export</p>
     </a>

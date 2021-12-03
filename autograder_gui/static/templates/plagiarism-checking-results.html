@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
 <link rel="stylesheet" href="../css/plagiarism-checking-results.css" />
+<script src="../js/plagiarism-checking-results.js"></script>
 {% endblock %}
 {% block content %}
 <div class="header">
@@ -20,14 +21,14 @@
         <div class="loading-text">
             <div class="spinner-border text-dark" role="status">
                 <span class="sr-only">Loading...</span>
-              </div>
+            </div>
             <h1 style="display: inline-block;">Loading...</h1>
         </div>
- 
+
         <div class="table-scroll table table-hover">
 
             <table class="table-content">
-      
+
             </table>
 
         </div>
@@ -36,7 +37,7 @@
 
 <div class="footer">
 
-    <a class="grading-container" onclick="eel.export_plagiarism_results()" style="cursor: pointer;">
+    <a class="grading-container" onclick="exportPlagiarismResults();" style="cursor: pointer;">
         <img src="../images/create_assignment_bg_export.png" />
         <p>Export</p>
     </a>
@@ -44,14 +45,34 @@
 
 
 <script>
-$(document).ready(async function () {
-    $(".loading-text").show();
-    let results = await eel.autograder_plagiarism()();
-    $(".loading-text").hide();
-    console.log(results);
-    let output = "";
+    $(document).ready(async function () {
+        $(".loading-text").show();
+        let results
+        let shouldReturn = false
+        eel.autograder_plagiarism()().then(r => {
+            results = r
+            if (!results) {
+                showError("No results found")
+                shouldReturn = true
+            }
+        }).catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+            shouldReturn = true
+        })
+        if (shouldReturn) {
+            location.href = "plagiarism-configuration1.html"
+            return
+        }
+        $(".loading-text").hide();
+        console.log(results);
+        let output = "";
 
-    output += `<thead>
+        output += `<thead>
                     <tr>
                         <th>Homework 1 Name</th>
                         <th>Homework 2 Name</th>
@@ -60,19 +81,28 @@ $(document).ready(async function () {
                 </thead>`;
 
 
-    for (let file of results.results) {
-        output += `<tr>
+        for (let file of results.results) {
+            output += `<tr>
                     <td>${file["student1"]} </td>
                     <td>${file["student2"]} </td>
                     <td>${(file["similarity_score"] * 100).toFixed(3)}%</td>
                 </tr>
                 `;
+        }
+        $(".table-content").html(output);
+    });
+</script>
+<script>
+    function exportPlagiarismResults() {
+        eel.export_plagiarism_results()()
+            .catch(e => {
+                if (e && e.error) {
+                    showError(e.error)
+                }
+                if (e && e.errorText) {
+                    showError(e.errorText)
+                }
+            })
     }
-    $(".table-content").html(output);
-});
-
-
-
-
 </script>
 {% endblock %}
