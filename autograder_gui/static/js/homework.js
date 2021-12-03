@@ -49,3 +49,17 @@ function createHomeworksTable(items, idPrefix) {
         currentContainer = $("#no-items-container");
     currentContainer.show();
 }
+
+async function runAutograder() {
+    eel.save_homeworks(HOMEWORKS)()
+        .catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+        })
+    eel.erase_grading_results();
+    location.href = "grading-results.html";
+}

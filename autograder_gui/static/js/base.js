@@ -42,3 +42,12 @@ function showContainer(currentContainer, container, alternativeContainer = null)
     currentContainer.show();
     return currentContainer;
 }
+
+function showError(error) {
+    //return '<div class="alert" id="errorMessage"><span class="closebtn" onclick="this.parentElement.style.display="none";">&times;</span>' + error + '</div>';
+    alert(JSON.stringify(error))
+}
+
+function loadHomeworks() {
+    eel.extract_homeworks()(loadHomeworksPage)
+}
