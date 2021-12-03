@@ -47,16 +47,26 @@
 <script>
     $(document).ready(async function () {
         $(".loading-text").show();
-        let results = await eel.autograder_plagiarism()();
-        if (!results) {
-            showError("No results found");
-            location.href = "plagiarism-configuration1.html";
-            return;
-        }
-        if (results.error) {
-            showError(results.error);
-            location.href = "plagiarism-configuration1.html";
-            return;
+        let results
+        let shouldReturn = false
+        eel.autograder_plagiarism()().then(r => {
+            results = r
+            if (!results) {
+                showError("No results found")
+                shouldReturn = true
+            }
+        }).catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+            shouldReturn = true
+        })
+        if (shouldReturn) {
+            location.href = "plagiarism-configuration1.html"
+            return
         }
         $(".loading-text").hide();
         console.log(results);
@@ -84,7 +94,15 @@
 </script>
 <script>
     function exportPlagiarismResults() {
-        eel.export_plagiarism_results();
+        eel.export_plagiarism_results()()
+            .catch(e => {
+                if (e && e.error) {
+                    showError(e.error)
+                }
+                if (e && e.errorText) {
+                    showError(e.errorText)
+                }
+            })
     }
 </script>
 {% endblock %}

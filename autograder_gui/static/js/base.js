@@ -44,7 +44,8 @@ function showContainer(currentContainer, container, alternativeContainer = null)
 }
 
 function showError(error) {
-    alert(JSON.stringify(error));
+    //return '<div class="alert" id="errorMessage"><span class="closebtn" onclick="this.parentElement.style.display="none";">&times;</span>' + error + '</div>';
+    alert(JSON.stringify(error))
 }
 
 function loadHomeworks() {

@@ -51,7 +51,15 @@ function createHomeworksTable(items, idPrefix) {
 }
 
 async function runAutograder() {
-    await eel.save_homeworks(HOMEWORKS)();
+    eel.save_homeworks(HOMEWORKS)()
+        .catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+        })
     eel.erase_grading_results();
     location.href = "grading-results.html";
 }

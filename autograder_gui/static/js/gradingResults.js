@@ -1,8 +1,18 @@
 $(document).ready(async function () {
     $(".loading-text").show();
-    let results = await eel.autograder_run()();
-    if (results && results.error) {
-        showError(results.error);
+    let results
+    eel.autograder_run()().then(r => {
+        results = r
+    }).catch(e => {
+        if (e && e.error) {
+            showError(e.error)
+        }
+        if (e && e.errorText) {
+            showError(e.errorText)
+        }
+    })
+    if (!results) {
+        return
     }
     $(".loading-text").hide();
     console.log(results);
@@ -24,6 +34,15 @@ $(document).ready(async function () {
 });
 
 function exportGradingResults() {
-    eel.export_grading_results()();
+    eel.export_grading_results()()
+        .catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+        })
+
 }
 

@@ -121,15 +121,27 @@ async function saveAssignment() {
     saveCurrentTestcase();
     currentAssignment.global_config = gatherConfig("global-settings-content");
     currentAssignment.formatters = FORMATTER_EDITOR.getValue();
-    await eel.save_assignment(currentAssignment)();
+    eel.save_assignment(currentAssignment)()
+        .catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+        });
 }
 
 function exportAssignment() {
-    eel.export_assignment()(r => {
-        if (r.error) {
-            showError(r.error);
-        }
-    });
+    eel.export_assignment()()
+        .catch(e => {
+            if (e && e.error) {
+                showError(e.error)
+            }
+            if (e && e.errorText) {
+                showError(e.errorText)
+            }
+        })
 }
 
 function gatherConfig(containerID) {
